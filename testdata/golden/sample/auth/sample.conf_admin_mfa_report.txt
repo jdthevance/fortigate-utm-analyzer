@@ -1,0 +1,20 @@
+FortiGate Admin MFA Audit
+================================================================================
+
+─── Scope ─────────────────────────────────────────────────────────────────────
+Audited explicit configuration; runtime and omitted settings unknown
+
+─── Limitations ───────────────────────────────────────────────────────────────
+New checks evaluate explicit settings; absent version-dependent values remain unknown. No live session or identity-provider state is tested.
+
+─── HIGH: Admin 'admin': two-factor authentication not enabled. ───────────────
+Evidence: {"two-factor": "disable", "remote-auth": "not shown"}
+Impact: Review the finding in deployment context.
+Recommendation: Review local account MFA and any documented break-glass exception. Stage token enrollment and retain tested recovery access.
+No exact CLI supplied; coordinate version-specific changes.
+
+─── HIGH: Admin 'readonly-user': two-factor authentication not enabled. ───────
+Evidence: {"two-factor": "disable", "remote-auth": "not shown"}
+Impact: Review the finding in deployment context.
+Recommendation: Review local account MFA and any documented break-glass exception. Stage token enrollment and retain tested recovery access.
+No exact CLI supplied; coordinate version-specific changes.

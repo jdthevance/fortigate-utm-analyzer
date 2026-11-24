@@ -1,0 +1,9 @@
+[*] Parsing config: sample.conf
+[*] Parsed: 3 IPv4 policies, 0 IPv6 policies, 2 SSL profiles, 1 AV profiles, 1 VPN tunnels, 2 admins, 3 interfaces, 0 DoS policies
+[+] SD-WAN report              -> <OUT_DIR>/sample.conf_sdwan_report.txt
+[+] Interface exposure report  -> <OUT_DIR>/sample.conf_interface_exposure_report.txt
+[+] Executive summary          -> <OUT_DIR>/sample.conf_SUMMARY.txt
+[+] Summary JSON               -> <OUT_DIR>/sample.conf_SUMMARY.json
+
+    Risk Rating : CRITICAL   Score : 79.0
+    CRITICAL: 5  HIGH: 5  MEDIUM: 2  INFO: 0

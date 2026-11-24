@@ -1,0 +1,98 @@
+================================================================================
+============== AI / LLM APPLICATION SECURITY AUDIT (FortiOS 8.0) ===============
+================================================================================
+
+  This module audits controls over AI/LLM traffic including:
+  ChatGPT, Google Gemini, Claude, Copilot, DeepSeek, and AI APIs.
+  Covers: LLM profiles, DLP coverage, App Control, Web Filter, Data Sovereignty.
+
++---------------------------------------------------------------+
+|                  AI Security Controls Summary                 |
++---------------------------------------------------------------+
+| LLM profiles configured    | 1                                |
+| Policies with LLM profile  | 0/3                              |
+| Policies with DLP profile  | 0/3                              |
+| Policies with CASB profile | 0/3                              |
+| App control profiles       | 1                                |
+| Web filter profiles        | 1                                |
++---------------------------------------------------------------+
+
+────────────────────────────────────────────────────────────────────────────────
+  KNOWN AI SERVICES RISK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+  AI Service             Severity     Risk
+  ────────────────────── ──────────── ──────────────────────────────────────
+  🔴 DeepSeek AI            CRITICAL     Chinese AI — data sovereignty risk for m
+  🔴 Baidu Ernie            CRITICAL     Chinese AI — data sovereignty concern
+  🔴 Alibaba Qwen           CRITICAL     Chinese AI — data sovereignty concern
+  🔴 Moonshot Kimi          CRITICAL     Chinese AI — data sovereignty concern
+  🟠 OpenAI ChatGPT         HIGH         generative AI with potential data exfilt
+  🟠 OpenAI API             HIGH         direct API access enables large-scale da
+  🟠 Google Gemini          HIGH         Google AI — potential data residency iss
+  🟠 Anthropic Claude       HIGH         AI assistant — sensitive data in prompts
+  🟠 Microsoft Copilot      HIGH         M365 Copilot — may access internal M365 
+  🟠 GitHub Copilot         HIGH         code AI — source code exfiltration risk
+  🟠 Cohere AI              HIGH         enterprise LLM API
+  🟠 Anthropic API          HIGH         direct API access to Claude models
+  🟠 Mistral AI             HIGH         open-weight LLM with API access
+  🟡 Google Bard            MEDIUM       Google AI assistant
+  🟡 Midjourney             MEDIUM       image AI — verify acceptable use policy
+  🟡 Stability AI           MEDIUM       image generation — prompt data sent exte
+  🟡 HuggingFace            MEDIUM       ML model hosting — model/data upload pos
+  🟡 Perplexity AI          MEDIUM       AI search — query data sent externally
+  🟡 Grammarly AI           MEDIUM       text AI — document content sent to cloud
+  🟡 Jasper AI              MEDIUM       marketing AI — content exfiltration poss
+  🟡 Replicate AI           MEDIUM       AI model API platform
+  🟡 Together AI            MEDIUM       LLM inference API
+  🔵 Character.AI           INFO         consumer AI chatbot
+
+────────────────────────────────────────────────────────────────────────────────
+  FINDINGS
+────────────────────────────────────────────────────────────────────────────────
+
+  🟡 [MEDIUM]
+  AI/LLM Audit: LLM profiles are defined but none are attached to any firewall policy — AI traffic inspection is configured but not enforced.
+
+  🟠 [HIGH]
+  LLM Profile 'corp-ai-policy': dlp-check disabled — sensitive corporate data in AI prompts (source code, customer PII, financial data) exits the network without inspection. Enable: set dlp-check enable
+
+  🟠 [HIGH]
+  LLM Profile 'corp-ai-policy': pii-check disabled — PII (names, SSNs, emails, credit cards) may be submitted to external AI services in violation of GDPR/HIPAA/PCI-DSS. Enable: set pii-check enable
+
+  🟡 [MEDIUM]
+  LLM Profile 'corp-ai-policy': prompt-injection-check disabled — adversarial prompts could manipulate AI systems connected through this policy.
+
+  🟡 [MEDIUM]
+  LLM Profile 'corp-ai-policy': jailbreak-check disabled — attempts to bypass AI safety controls not detected.
+
+  🟡 [MEDIUM]
+  LLM Profile 'corp-ai-policy': logging disabled — AI traffic events not recorded for forensics or compliance audits.
+
+  🟡 [MEDIUM]
+  AI/LLM Audit: only 0% of accept policies have DLP profiles — without DLP, users can freely paste source code, customer data, and internal documents into AI services like ChatGPT.
+
+────────────────────────────────────────────────────────────────────────────────
+  RECOMMENDED AI GOVERNANCE FRAMEWORK
+────────────────────────────────────────────────────────────────────────────────
+
+  1. IDENTIFY: Enable App Control with AI app signatures to see what AI
+     tools your users are already using (monitor mode first).
+
+  2. CLASSIFY: Tier AI services:
+     - Approved corporate tools (M365 Copilot, approved ChatGPT Enterprise)
+     - Conditionally permitted (with DLP + logging)
+     - Blocked (Chinese AI, consumer tools, unapproved APIs)
+
+  3. CONTROL:
+     config llm profile
+         edit Corporate-AI-Policy
+             set dlp-check enable
+             set pii-check enable
+             set prompt-injection-check enable
+             set jailbreak-check enable
+             set log enable
+         next
+     end
+
+  4. BLOCK sovereignty-risk AI via web filter URL filter:
+     deepseek.com, ernie.baidu.com, qwen.ai, kimi.moonshot.cn

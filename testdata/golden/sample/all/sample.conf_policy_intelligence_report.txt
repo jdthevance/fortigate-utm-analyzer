@@ -1,0 +1,78 @@
+================================================================================
+====================== FIREWALL POLICY INTELLIGENCE AUDIT ======================
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  POLICY COVERAGE STATISTICS
+────────────────────────────────────────────────────────────────────────────────
+
++-----------------------------------------------------------------+
+|                    Security Profile Coverage                    |
++-----------------------------------------------------------------+
+| Total policies               | 3                                |
+|   Accept                     | 3                                |
+|   Deny/Drop                  | 0                                |
+|   Disabled                   | 1                                |
+|   No comment/description     | 3                                |
+| ANY-ANY-ANY accept rules     | 3                                |
+| NAT disabled (accept)        | 2                                |
+| Packet capture enabled       | 1                                |
+| ──────────────────────────── | ──────────────────────────────   |
+| WITH IPS sensor              | 0/3 (0%)                         |
+| WITHOUT IPS sensor           | 3/3 (100%)                       |
+| WITH SSL inspection          | 0/3 (0%)                         |
+| WITHOUT SSL inspection       | 3/3 (100%)                       |
+| WITH Antivirus               | 0/3 (0%)                         |
+| WITH Web Filter              | 0/3 (0%)                         |
+| WITH DNS Filter              | 0/3 (0%)                         |
+| WITH App Control             | 0/3 (0%)                         |
+| WITH DLP Profile             | 0/3 (0%)                         |
+| WITH WAF Profile             | 0/3 (0%)                         |
+| WITH CASB Profile            | 0/3 (0%)                         |
+| WITH Virtual Patch           | 0/3 (0%)                         |
+| WITH LLM Profile             | 0/3 (0%)                         |
+| WITH Logging                 | 1/3 (33%)                        |
++-----------------------------------------------------------------+
+
+  Coverage Bars (accept policies):
+  IPS            [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  SSL Inspect    [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  Antivirus      [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  Web Filter     [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  App Control    [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  Logging        [██████░░░░░░░░░░░░░░]  33%  (1/3)
+  DLP            [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+  WAF            [░░░░░░░░░░░░░░░░░░░░]   0%  (0/3)
+
+  Coverage Findings:
+  🟠 [HIGH] Coverage: only 0% of accept policies have IPS — large portion of traffic flows uninspected.
+  🟠 [HIGH] Coverage: only 0% of accept policies have SSL inspection — large portion of traffic flows uninspected.
+  🟠 [HIGH] Coverage: only 0% of accept policies have Antivirus — large portion of traffic flows uninspected.
+  🟠 [HIGH] Coverage: only 33% of accept policies have Logging — large portion of traffic flows uninspected.
+  🔴 [CRITICAL] Coverage: 3 ANY-ANY-ANY accept policies found — these permit all traffic unrestricted.
+  🟡 [MEDIUM] Coverage: 1 policies have packet capture enabled — debug artifact, disable in production.
+
+────────────────────────────────────────────────────────────────────────────────
+  SHADOWED POLICY DETECTION
+────────────────────────────────────────────────────────────────────────────────
+
+  A policy is shadowed when an earlier rule with broader match criteria
+  will always be evaluated first, making the later policy unreachable.
+
+  ✅ No shadowed policies detected.
+
+────────────────────────────────────────────────────────────────────────────────
+  DUPLICATE POLICY DETECTION
+────────────────────────────────────────────────────────────────────────────────
+
+  Duplicate policies share the same srcintf, dstintf, srcaddr,
+  dstaddr, service, and action. The second entry is redundant.
+
+  ✅ No duplicate policies detected.
+
+────────────────────────────────────────────────────────────────────────────────
+  RECOMMENDATIONS
+────────────────────────────────────────────────────────────────────────────────
+
+  ▸ Document 3 undocumented policies:
+    config firewall policy → edit <id> → set comments '<purpose>'

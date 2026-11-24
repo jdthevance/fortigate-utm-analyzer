@@ -1,0 +1,32 @@
+================================================================================
+======================= INTERFACE EXPOSURE SCORE REPORT ========================
+================================================================================
+
+  Exposure score measures how much management/risky access is enabled
+  on each interface. Score 0=minimal exposure, 10=maximum exposure.
+
+────────────────────────────────────────────────────────────────────────────────
+  Interface            Role     IP                   Exposed Protocols              Score
+────────────────────────────────────────────────────────────────────────────────
+  wan1                 wan      203.0.113.1 255.255.255.0 telnet http snmp ssh https ping 7.0/10
+                                                     [███████░░░] HIGH EXPOSURE
+
+  dmz                  dmz      10.10.10.1 255.255.255.0 telnet http                    3.5/10
+                                                     [███░░░░░░░] LOW EXPOSURE
+
+  port1                lan      192.168.1.1 255.255.255.0 https ping                     1.1/10
+                                                     [█░░░░░░░░░] MINIMAL
+
+────────────────────────────────────────────────────────────────────────────────
+  DETAILED FINDINGS
+────────────────────────────────────────────────────────────────────────────────
+
+  🔴 [CRITICAL] Interface 'wan1' (wan): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit wan1 → set allowaccess (list without telnet)
+  🔴 [CRITICAL] Interface 'wan1' (wan): HTTP enabled — cleartext management. Replace with HTTPS only.
+  🔴 [CRITICAL] Interface 'wan1' (wan): SNMP enabled — WAN-facing SNMP is critical risk.
+  🟠 [HIGH] Interface 'wan1' (WAN): SSH exposed to internet — restrict via local-in-policy to admin IPs only.
+  🟠 [HIGH] Interface 'wan1' (WAN): HTTPS management on WAN — restrict via local-in-policy or remove from allowaccess.
+  🟡 [MEDIUM] Interface 'wan1' (WAN): ICMP ping enabled — aids attacker recon. Disable on WAN.
+  🟠 [HIGH] Interface 'wan1' exposure score 7.0/10 (HIGH EXPOSURE) — significant management attack surface. Review and restrict.
+  🔴 [CRITICAL] Interface 'dmz' (dmz): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit dmz → set allowaccess (list without telnet)
+  🟠 [HIGH] Interface 'dmz' (dmz): HTTP enabled — cleartext management. Replace with HTTPS only.

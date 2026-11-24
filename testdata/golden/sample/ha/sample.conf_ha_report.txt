@@ -1,0 +1,23 @@
+FortiGate High Availability Audit
+================================================================================
+
+─── HA Configuration ──────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Mode                   | a-p                              |
+| Password               | (not set)                        |
+| HB Device              |                                  |
+| HB Encryption          | disable                          |
+| HB Interval            |                                  |
+| Monitor Interfaces     |                                  |
+| Config Sync            | disable                          |
+| Session Pickup         |                                  |
+| Mgmt Interface         |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] HA: cluster has no password — any FortiGate can join.
+  [MEDIUM] HA: heartbeat traffic not encrypted — sync data in cleartext on heartbeat interfaces.
+  [MEDIUM] HA: heartbeat device not configured.
+  [MEDIUM] HA: interface monitoring not configured — link failures may not trigger failover.
+  [INFO] HA: config sync disabled — secondary may diverge from primary.
+  [INFO] HA: session pickup disabled — active sessions dropped on failover.
+  [INFO] HA: dedicated HA management interface not configured.

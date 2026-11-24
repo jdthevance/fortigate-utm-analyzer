@@ -1,0 +1,7 @@
+[*] Parsing config: sample.conf
+[*] Parsed: 3 IPv4 policies, 0 IPv6 policies, 2 SSL profiles, 1 AV profiles, 1 VPN tunnels, 2 admins, 3 interfaces, 0 DoS policies
+[+] BGP Security                -> <OUT_DIR>/sample.conf_bgp_security_report.txt
+[+] RADIUS                      -> <OUT_DIR>/sample.conf_radius_report.txt
+[+] LDAP                        -> <OUT_DIR>/sample.conf_ldap_report.txt
+[+] SAML                        -> <OUT_DIR>/sample.conf_saml_report.txt
+[+] Admin MFA                   -> <OUT_DIR>/sample.conf_admin_mfa_report.txt

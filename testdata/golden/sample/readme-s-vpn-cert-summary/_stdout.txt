@@ -1,0 +1,10 @@
+[*] Parsing config: sample.conf
+[*] Parsed: 3 IPv4 policies, 0 IPv6 policies, 2 SSL profiles, 1 AV profiles, 1 VPN tunnels, 2 admins, 3 interfaces, 0 DoS policies
+[+] VPN (IPsec) report         -> <OUT_DIR>/sample.conf_vpn_report.txt
+[+] System hardening report    -> <OUT_DIR>/sample.conf_system_report.txt
+[+] Certificate audit report   -> <OUT_DIR>/sample.conf_certificate_report.txt
+[+] Executive summary          -> <OUT_DIR>/sample.conf_SUMMARY.txt
+[+] Summary JSON               -> <OUT_DIR>/sample.conf_SUMMARY.json
+
+    Risk Rating : CRITICAL   Score : 241.5
+    CRITICAL: 4  HIGH: 30  MEDIUM: 21  INFO: 19

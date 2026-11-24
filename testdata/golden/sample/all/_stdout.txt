@@ -1,0 +1,32 @@
+[*] Parsing config: sample.conf
+[*] Parsed: 3 IPv4 policies, 0 IPv6 policies, 2 SSL profiles, 1 AV profiles, 1 VPN tunnels, 2 admins, 3 interfaces, 0 DoS policies
+[+] Firewall policy report     -> <OUT_DIR>/sample.conf_firewall_policy_report.txt
+[+] SSL/SSH inspection report  -> <OUT_DIR>/sample.conf_ssl_inspection_report.txt
+[+] Antivirus report           -> <OUT_DIR>/sample.conf_antivirus_report.txt
+[+] UTM profiles report        -> <OUT_DIR>/sample.conf_utm_profiles_report.txt
+[+] VPN (IPsec) report         -> <OUT_DIR>/sample.conf_vpn_report.txt
+[+] SSL-VPN report             -> <OUT_DIR>/sample.conf_sslvpn_report.txt
+[+] HA report                  -> <OUT_DIR>/sample.conf_ha_report.txt
+[+] Logging report             -> <OUT_DIR>/sample.conf_logging_report.txt
+[+] DoS policy report          -> <OUT_DIR>/sample.conf_dos_policy_report.txt
+[+] Anti-DoS full audit report -> <OUT_DIR>/sample.conf_antidos_report.txt
+    DoS Protection Score: 0.0/10 — CRITICAL — NO EFFECTIVE DoS PROTECTION
+[+] System hardening report    -> <OUT_DIR>/sample.conf_system_report.txt
+[+] Policy intelligence report -> <OUT_DIR>/sample.conf_policy_intelligence_report.txt
+[+] Unused objects report      -> <OUT_DIR>/sample.conf_unused_objects_report.txt
+[+] VIP security report        -> <OUT_DIR>/sample.conf_vip_security_report.txt
+[+] SD-WAN report              -> <OUT_DIR>/sample.conf_sdwan_report.txt
+[+] Interface exposure report  -> <OUT_DIR>/sample.conf_interface_exposure_report.txt
+[+] Certificate audit report   -> <OUT_DIR>/sample.conf_certificate_report.txt
+[+] Fabric connector report    -> <OUT_DIR>/sample.conf_fabric_connector_report.txt
+[+] AI/LLM audit report        -> <OUT_DIR>/sample.conf_ai_llm_audit_report.txt
+[+] BGP Security                -> <OUT_DIR>/sample.conf_bgp_security_report.txt
+[+] RADIUS                      -> <OUT_DIR>/sample.conf_radius_report.txt
+[+] LDAP                        -> <OUT_DIR>/sample.conf_ldap_report.txt
+[+] SAML                        -> <OUT_DIR>/sample.conf_saml_report.txt
+[+] Offline HTML dashboard     -> <OUT_DIR>/sample.conf_REPORT.html
+[+] Executive summary          -> <OUT_DIR>/sample.conf_SUMMARY.txt
+[+] Summary JSON               -> <OUT_DIR>/sample.conf_SUMMARY.json
+
+    Risk Rating : CRITICAL   Score : 876.5
+    CRITICAL: 21  HIGH: 78  MEDIUM: 114  INFO: 97

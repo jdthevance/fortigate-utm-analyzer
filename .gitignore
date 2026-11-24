@@ -43,3 +43,7 @@ ENV/
 *_SUMMARY.txt
 *_SUMMARY.json
 *_REPORT.html
+
+# Go port test data: sanitized fixtures and recorded reference outputs only.
+# Never put a real customer configuration here.
+!testdata/**

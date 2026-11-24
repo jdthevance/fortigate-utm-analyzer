@@ -1,0 +1,8 @@
+FortiGate SAML Audit
+================================================================================
+
+─── Scope ─────────────────────────────────────────────────────────────────────
+Not applicable: no configured objects in supplied scope
+
+─── Limitations ───────────────────────────────────────────────────────────────
+New checks evaluate explicit settings; absent version-dependent values remain unknown. No live session or identity-provider state is tested.

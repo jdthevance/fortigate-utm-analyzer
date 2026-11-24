@@ -1,0 +1,174 @@
+================================================================================
+======================= ANTI-DoS / DoS PROTECTION AUDIT ========================
+================================================================================
+  Overall DoS Protection Score : 0.0 / 10  — CRITICAL — NO EFFECTIVE DoS PROTECTION
+  CRITICAL: 4   HIGH: 3   MEDIUM: 7   INFO: 3
+================================================================================
+
+  [░░░░░░░░░░] 0.0/10
+
+────────────────────────────────────────────────────────────────────────────────
+  1. DoS POLICY CONFIGURATION
+────────────────────────────────────────────────────────────────────────────────
+  DoS policies found: 0
+
+  Findings:
+  🔴 [CRITICAL] DoS Policies: NO DoS policies configured — FortiGate has zero flood/anomaly protection. Any flood attack hits the kernel directly. Configure 'config firewall DoS-policy' on all WAN interfaces immediately.
+
+────────────────────────────────────────────────────────────────────────────────
+  2. IPS DoS ANOMALY PROTECTION
+────────────────────────────────────────────────────────────────────────────────
+  IPS sensors found: 1
+  Accept policies with IPS: 0 / 3
+
+  Findings:
+  🟡 [MEDIUM] IPS DoS: 3 accept policy/policies have no IPS sensor attached — DoS signature protection absent on these flows.
+  🟡 [MEDIUM] IPS Sensor 'default-ips': botnet scanning in monitor mode — C2 connections are logged but not blocked. Change to 'block'.
+  🟡 [MEDIUM] IPS Sensor 'default-ips': block-malicious-url disabled — known C2/malware URLs not blocked at IPS layer.
+
+────────────────────────────────────────────────────────────────────────────────
+  3. RELATED HARDENING
+────────────────────────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+|                Current DoS-Related Settings               |
++-----------------------------------------------------------+
+| tcp-halfopen-timer     |                                  |
+| tcp-timewait-timer     |                                  |
+| anti-replay            |                                  |
+| block-session-timer    |                                  |
+| ip-src-check-on-tx     |                                  |
+| resource-limit config  | False                            |
+| NP DoS offload         | not detected                     |
+| Local-in policies      | 1                                |
++-----------------------------------------------------------+
+
+  Findings:
+  🔵 [INFO] TCP Hardening: tcp-halfopen-timer not explicitly set — default may be too permissive.
+  🟡 [MEDIUM] TCP Hardening: anti-replay is not set to 'strict' — packet replay attacks possible at the global level. CLI: config system global → set anti-replay strict
+  🔵 [INFO] TCP Hardening: ip-src-check-on-tx not enabled — spoofed source IP packets may not be dropped on transmit. CLI: config system global → set ip-src-check-on-tx enable
+  🟡 [MEDIUM] Resource Limits: 'config system resource-limit' not configured — no per-user or global session count ceilings. Under a flood attack, the session table can be exhausted. CLI: config system resource-limit → set type ipsec → set max-user-limit 1000
+  🔵 [INFO] NP Offload: no NP7/NP6 DoS offload config detected — either this platform has no NP ASIC or offload is unconfigured. On NP-capable hardware, DoS offload dramatically reduces CPU impact.
+  🟠 [HIGH] Mgmt Exposure: HTTPS management on WAN interface 'wan1' — management plane directly reachable from internet; restrict with local-in-policy or remove from allowaccess. CLI: config system interface → edit wan1 → set allowaccess (remove https)
+  🟠 [HIGH] Mgmt Exposure: SSH on WAN interface 'wan1' — brute-force target; restrict via local-in-policy to admin IPs only.
+  🔴 [CRITICAL] Mgmt Exposure: HTTP management on WAN interface 'wan1' — cleartext management on internet-facing interface is critical risk.
+  🟡 [MEDIUM] Mgmt Exposure: ICMP/ping enabled on WAN interface 'wan1' — aids attacker reconnaissance and is an ICMP flood target. CLI: config system interface → edit wan1 → unset allowaccess ping
+  🔴 [CRITICAL] Mgmt Exposure: SNMP on WAN interface 'wan1' — community string exposed to internet; immediate risk.
+  🔴 [CRITICAL] Mgmt Exposure: Telnet on WAN interface 'wan1' — cleartext, remove immediately.
+  🟠 [HIGH] Local-in: no local-in-policies configured on WAN interfaces — FortiGate control plane (management, VPN, BGP, etc.) has no explicit source restriction. An attacker can target these services directly. CLI: config firewall local-in-policy → edit 1 → set intf wan1 → set srcaddr <admin-ip-range> → set action accept
+  🟡 [MEDIUM] Policy Exposure: 3 accept policy/policies with source 'all' and no IPS sensor — these policies have no rate-limiting layer; pair with a DoS policy on the same inbound interface.
+
+────────────────────────────────────────────────────────────────────────────────
+  4. OVERALL ASSESSMENT & RECOMMENDATIONS
+────────────────────────────────────────────────────────────────────────────────
+
+  🔴 CRITICAL ISSUES (fix immediately):
+    • DoS Policies: NO DoS policies configured — FortiGate has zero flood/anomaly protection. Any flood attack hits the kernel directly. Configure 'config firewall DoS-policy' on all WAN interfaces immediately.
+    • Mgmt Exposure: HTTP management on WAN interface 'wan1' — cleartext management on internet-facing interface is critical risk.
+    • Mgmt Exposure: SNMP on WAN interface 'wan1' — community string exposed to internet; immediate risk.
+    • Mgmt Exposure: Telnet on WAN interface 'wan1' — cleartext, remove immediately.
+
+  🟠 HIGH RISK ISSUES:
+    • Mgmt Exposure: HTTPS management on WAN interface 'wan1' — management plane directly reachable from internet; restrict with local-in-policy or remove from allowaccess. CLI: config system interface → edit wan1 → set allowaccess (remove https)
+    • Mgmt Exposure: SSH on WAN interface 'wan1' — brute-force target; restrict via local-in-policy to admin IPs only.
+    • Local-in: no local-in-policies configured on WAN interfaces — FortiGate control plane (management, VPN, BGP, etc.) has no explicit source restriction. An attacker can target these services directly. CLI: config firewall local-in-policy → edit 1 → set intf wan1 → set srcaddr <admin-ip-range> → set action accept
+
+  📋 RECOMMENDATIONS:
+
+  ▸ 1. Create DoS policies on ALL WAN interfaces
+      config firewall DoS-policy
+          edit 1
+              set interface wan1
+              set srcaddr all
+              set dstaddr all
+              set status enable
+              config anomaly
+                  edit tcp_syn_flood
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 2000
+                  next
+                  edit udp_flood
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 2000
+                  next
+                  edit icmp_flood
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 250
+                  next
+                  edit ip_src_session
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 5000
+                  next
+                  edit tcp_port_scan
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 1000
+                  next
+                  edit ip_land_attack
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 1
+                  next
+                  edit ip_bad_option
+                      set status enable
+                      set log enable
+                      set action block
+                      set threshold 1
+                  next
+              end
+          next
+      end
+
+  ▸ 2. Harden TCP timers
+      config system global
+          set tcp-halfopen-timer 10
+          set tcp-timewait-timer 1
+          set anti-replay strict
+          set block-session-timer 30
+          set ip-src-check-on-tx enable
+      end
+
+  ▸ 3. Restrict management access with local-in-policy
+      config firewall local-in-policy
+          edit 1
+              set intf wan1
+              set srcaddr <admin-mgmt-subnet>
+              set dstaddr all
+              set service HTTPS SSH
+              set action accept
+              set schedule always
+          next
+          edit 2
+              set intf wan1
+              set srcaddr all
+              set dstaddr all
+              set service ALL
+              set action deny
+              set schedule always
+          next
+      end
+
+  ▸ 4. Configure NP hardware DoS offload (NP6/NP7 platforms)
+      config system np7
+          config hpe
+              set enable-shaper enable
+              set tcpsyn-max 10000
+              set udp-max 10000
+              set icmp-max 1000
+              set sctp-max 10000
+          end
+          set fp-anomaly enable
+      end
+
+================================================================================
+  DoS Protection Score: 0.0/10  — CRITICAL — NO EFFECTIVE DoS PROTECTION
+================================================================================

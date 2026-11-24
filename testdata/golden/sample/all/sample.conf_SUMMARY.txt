@@ -1,0 +1,176 @@
+================================================================================
+================= FORTIGATE SECURITY AUDIT — EXECUTIVE SUMMARY =================
+================================================================================
+  Config file  : sample.conf
+  Risk Rating  : CRITICAL
+  Risk Score   : 876.5  (CRITICAL×10 + HIGH×5 + MEDIUM×2 + INFO×0.5)
+  Total Findings: 310
+
+  CRITICAL       21
+  HIGH           78
+  MEDIUM        114
+  INFO           97
+================================================================================
+
+  FINDINGS BY SECTION:
+  ------------------------------------------------------------------------------
+  Section                              CRIT  HIGH   MED  INFO    TOT
+  ------------------------------------------------------------------------------
+  AI/LLM Security                         0     2     5     0      7
+  Admin Accounts                          0     6     0     2      8
+  Anti-DoS Hardening                      3     3     4     3     13
+  Anti-DoS IPS                            0     0     3     0      3
+  Anti-DoS Policies                       1     0     0     0      1
+  Antivirus Profiles                      0     0    12    11     23
+  App Control                             0     0     2     2      4
+  Certificates                            0     0     1     1      2
+  DNS Filter                              0     1     2     2      5
+  DoS Policies                            0     0     1     0      1
+  Enhanced Local-in                       2     0     3     0      5
+  FIPS-CC                                 0     0     0     1      1
+  Fabric Connectors                       0     4     1     3      8
+  Firewall Policies                       3    16    16    37     72
+  FortiGuard                              0     0     1     0      1
+  Global Hardening                        1     3     4     5     13
+  HA Config                               0     1     3     3      7
+  IKE Global                              0     1     1     0      2
+  IPS Sensors                             0     0     2     1      3
+  Interface Exposure                      4     4     1     0      9
+  Interfaces                              0     7     1     3     11
+  LLM Profiles                            0     2     3     0      5
+  Local-in                                1     1     2     0      4
+  Logging                                 0     0     2     2      4
+  NTP                                     0     0     1     2      3
+  Password Policy                         0     1     0     0      1
+  Policy Intelligence                     1     4     1     0      6
+  SD-WAN                                  1     1     1     0      3
+  SSH Config                              0     0     0     1      1
+  SSL Inspection                          0     6    14     0     20
+  SSL-VPN                                 0     3     6     1     10
+  SSL-VPN Portals                         0     1     1     3      5
+  Security Fabric                         0     0     0     1      1
+  System DNS                              0     0     2     2      4
+  Unused Objects                          0     0     3     5      8
+  VIP Security                            4     0     6     3     13
+  VPN Phase1                              0     7     4     1     12
+  VPN Phase2                              0     4     1     0      5
+  Web Filter                              0     0     4     2      6
+  ------------------------------------------------------------------------------
+
+  CRITICAL & HIGH FINDINGS:
+  ------------------------------------------------------------------------------
+  [AI/LLM Security               ]  HIGH: LLM Profile 'corp-ai-policy': dlp-check disabled — sensitive corporate data in AI prompts (source code, customer PII, financial data) exits the network without inspection. Enable: set dlp-check enable
+  [AI/LLM Security               ]  HIGH: LLM Profile 'corp-ai-policy': pii-check disabled — PII (names, SSNs, emails, credit cards) may be submitted to external AI services in violation of GDPR/HIPAA/PCI-DSS. Enable: set pii-check enable
+  [Admin Accounts                ]  HIGH: Admin 'admin': no trusted-host restrictions — login from any IP permitted.
+  [Admin Accounts                ]  HIGH: Admin 'admin': super_admin profile — no least-privilege separation.
+  [Admin Accounts                ]  HIGH: Admin 'admin': two-factor authentication not enabled.
+  [Admin Accounts                ]  HIGH: Admin 'admin': session timeout 0 — sessions never expire.
+  [Admin Accounts                ]  HIGH: Admin 'readonly-user': no trusted-host restrictions — login from any IP permitted.
+  [Admin Accounts                ]  HIGH: Admin 'readonly-user': two-factor authentication not enabled.
+  [Anti-DoS Hardening            ]  HIGH: Mgmt Exposure: HTTPS management on WAN interface 'wan1' — management plane directly reachable from internet; restrict with local-in-policy or remove from allowaccess. CLI: config system interface → edit wan1 → set allowaccess (remove https)
+  [Anti-DoS Hardening            ]  HIGH: Mgmt Exposure: SSH on WAN interface 'wan1' — brute-force target; restrict via local-in-policy to admin IPs only.
+  [Anti-DoS Hardening            ]  CRITICAL: Mgmt Exposure: HTTP management on WAN interface 'wan1' — cleartext management on internet-facing interface is critical risk.
+  [Anti-DoS Hardening            ]  CRITICAL: Mgmt Exposure: SNMP on WAN interface 'wan1' — community string exposed to internet; immediate risk.
+  [Anti-DoS Hardening            ]  CRITICAL: Mgmt Exposure: Telnet on WAN interface 'wan1' — cleartext, remove immediately.
+  [Anti-DoS Hardening            ]  HIGH: Local-in: no local-in-policies configured on WAN interfaces — FortiGate control plane (management, VPN, BGP, etc.) has no explicit source restriction. An attacker can target these services directly. CLI: config firewall local-in-policy → edit 1 → set intf wan1 → set srcaddr <admin-ip-range> → set action accept
+  [Anti-DoS Policies             ]  CRITICAL: DoS Policies: NO DoS policies configured — FortiGate has zero flood/anomaly protection. Any flood attack hits the kernel directly. Configure 'config firewall DoS-policy' on all WAN interfaces immediately.
+  [DNS Filter                    ]  HIGH: DNS Filter 'default-dns': botnet domain blocking disabled — DNS C2 unblocked.
+  [Enhanced Local-in             ]  CRITICAL: Local-in CRITICAL: WAN interface 'wan1' has management access (http, https, ping, snmp, ssh, telnet) enabled AND has NO local-in-policy restricting source IPs. Any IP on the internet can attempt to reach FortiGate management. This is a CRITICAL management plane exposure. Fix:
+  config firewall local-in-policy
+      edit 1
+          set intf wan1
+          set srcaddr <your-admin-subnet>
+          set service HTTPS SSH
+          set action accept
+      next
+      edit 2
+          set intf wan1
+          set srcaddr all
+          set service ALL
+          set action deny
+      next
+  end
+  [Enhanced Local-in             ]  CRITICAL: Local-in #1 (intf:): ACCEPT from source 'all' — any host can reach FortiGate services on this interface.
+  [Fabric Connectors             ]  HIGH: Connector 'AWS-Prod' (aws): verify-certificate disabled — connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable
+  [Fabric Connectors             ]  HIGH: Connector 'AWS-Prod' (AWS): using static access-key/secret-key — long-lived credentials are high risk if config backup is exposed. Switch to IAM role with use-metadata-iam enable.
+  [Fabric Connectors             ]  HIGH: Connector 'Azure-Corp' (azure): verify-certificate disabled — connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable
+  [Fabric Connectors             ]  HIGH: Connector 'Azure-Corp' (Azure): client-secret stored in config — treat config backup as a secret. Prefer managed identity where possible.
+  [Firewall Policies             ]  HIGH: UTM disabled on accept policy — all security profiles bypassed.
+  [Firewall Policies             ]  HIGH: No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [Firewall Policies             ]  HIGH: No antivirus profile — malware passes through undetected.
+  [Firewall Policies             ]  HIGH: No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [Firewall Policies             ]  CRITICAL: ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [Firewall Policies             ]  HIGH: Traffic logging disabled — no visibility into flows matched by this policy.
+  [Firewall Policies             ]  HIGH: UTM disabled on accept policy — all security profiles bypassed.
+  [Firewall Policies             ]  HIGH: No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [Firewall Policies             ]  HIGH: No antivirus profile — malware passes through undetected.
+  [Firewall Policies             ]  HIGH: No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [Firewall Policies             ]  CRITICAL: ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [Firewall Policies             ]  HIGH: Inbound WAN-to-internal accept policy — verify this is intentional.
+  [Firewall Policies             ]  HIGH: UTM disabled on accept policy — all security profiles bypassed.
+  [Firewall Policies             ]  HIGH: No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [Firewall Policies             ]  HIGH: No antivirus profile — malware passes through undetected.
+  [Firewall Policies             ]  HIGH: No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [Firewall Policies             ]  CRITICAL: ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [Firewall Policies             ]  HIGH: Inbound WAN-to-internal accept policy — verify this is intentional.
+  [Firewall Policies             ]  HIGH: Traffic logging disabled — no visibility into flows matched by this policy.
+  [Global Hardening              ]  HIGH: Global: strong-crypto disabled — weak ciphers (RC4/DES/MD5) may be negotiated for management TLS.
+  [Global Hardening              ]  CRITICAL: Global: DH params 1024-bit — critically weak; upgrade to 4096+ immediately.
+  [Global Hardening              ]  HIGH: Global: admin lockout threshold 0 — brute-force lockout disabled.
+  [Global Hardening              ]  HIGH: Global: admin lockout duration 0 — account unlocks immediately.
+  [HA Config                     ]  HIGH: HA: cluster has no password — any FortiGate can join.
+  [IKE Global                    ]  HIGH: IKE Global: IKEv1 aggressive mode not globally disabled — PSK hash exposure risk.
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit wan1 → set allowaccess (list without telnet)
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): HTTP enabled — cleartext management. Replace with HTTPS only.
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): SNMP enabled — WAN-facing SNMP is critical risk.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' (WAN): SSH exposed to internet — restrict via local-in-policy to admin IPs only.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' (WAN): HTTPS management on WAN — restrict via local-in-policy or remove from allowaccess.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' exposure score 7.0/10 (HIGH EXPOSURE) — significant management attack surface. Review and restrict.
+  [Interface Exposure            ]  CRITICAL: Interface 'dmz' (dmz): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit dmz → set allowaccess (list without telnet)
+  [Interface Exposure            ]  HIGH: Interface 'dmz' (dmz): HTTP enabled — cleartext management. Replace with HTTPS only.
+  [Interfaces                    ]  HIGH: Interface 'wan1': HTTP management enabled — credentials in cleartext.
+  [Interfaces                    ]  HIGH: Interface 'wan1': Telnet enabled — fully unencrypted management.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): HTTPS management exposed to internet.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): SSH management exposed to internet — brute-force risk.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): SNMP accessible from internet.
+  [Interfaces                    ]  HIGH: Interface 'dmz': HTTP management enabled — credentials in cleartext.
+  [Interfaces                    ]  HIGH: Interface 'dmz': Telnet enabled — fully unencrypted management.
+  [LLM Profiles                  ]  HIGH: LLM 'corp-ai-policy': DLP check disabled — sensitive data may leak through AI API calls.
+  [LLM Profiles                  ]  HIGH: LLM 'corp-ai-policy': PII check disabled — personal data in AI prompts/responses undetected.
+  [Local-in                      ]  HIGH: Local-in: source is 'all' — FortiGate management services accessible from any host.
+  [Local-in                      ]  CRITICAL: Local-in: ACCEPT from 'all' sources — FortiGate control plane broadly exposed.
+  [Password Policy               ]  HIGH: PasswordPolicy: password policy disabled — no enforced complexity requirements.
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have IPS — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have SSL inspection — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have Antivirus — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 33% of accept policies have Logging — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  CRITICAL: Coverage: 3 ANY-ANY-ANY accept policies found — these permit all traffic unrestricted.
+  [SD-WAN                        ]  HIGH: SD-WAN member 1 ('wan1'): NOT monitored by any health-check — link failures will not trigger failover. Add a health-check and reference this member.
+  [SD-WAN                        ]  CRITICAL: SD-WAN: NO health-checks configured — link failures are UNDETECTED. SD-WAN cannot failover without health monitoring. CLI: config system sdwan → config health-check → edit MyHC → set server 8.8.8.8 → set interval 500 → set failtime 3
+  [SSL Inspection                ]  HIGH: SSL profile 'demo-ssl-profile': untrusted server certs not blocked — MITM risk.
+  [SSL Inspection                ]  HIGH: SSL profile 'demo-ssl-profile': invalid certs not blocked.
+  [SSL Inspection                ]  HIGH: SSL profile 'demo-ssl-profile': revoked certificate action is 'allow'.
+  [SSL Inspection                ]  HIGH: SSL profile 'deep-inspect-no-ca': deep inspection without CA cert — inspection fails.
+  [SSL Inspection                ]  HIGH: SSL profile 'deep-inspect-no-ca': untrusted server certs not blocked — MITM risk.
+  [SSL Inspection                ]  HIGH: SSL profile 'deep-inspect-no-ca': invalid certs not blocked.
+  [SSL-VPN                       ]  HIGH: SSL-VPN: TLS 1.0 permitted — deprecated protocol with known attacks (BEAST/POODLE).
+  [SSL-VPN                       ]  HIGH: SSL-VPN: login attempt limit 0 — brute-force protection disabled.
+  [SSL-VPN                       ]  HIGH: SSL-VPN: idle timeout 0 — sessions never timeout.
+  [SSL-VPN Portals               ]  HIGH: SSL-VPN portal 'full-access': split tunneling enabled — non-VPN traffic bypasses FortiGate entirely.
+  [VIP Security                  ]  CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  [VIP Security                  ]  CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  [VIP Security                  ]  CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+  [VIP Security                  ]  CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': IKEv1 aggressive mode — PSK hash sent in cleartext, offline cracking possible.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm 'DES' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm '3DES' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm 'MD5' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': DH group 1 is below 2048-bit.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': DH group 2 is below 2048-bit.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': PSK appears short (<20 chars) — use 32+ random characters.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'DES' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm '3DES' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'MD5' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': PFS disabled — session key compromise exposes all past sessions.
+
+================================================================================

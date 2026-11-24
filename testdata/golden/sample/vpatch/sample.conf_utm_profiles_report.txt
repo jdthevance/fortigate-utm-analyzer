@@ -1,0 +1,70 @@
+FortiGate UTM Profile Security Audit
+================================================================================
+
+─── IPS Sensor Overview ───────────────────────────────────────────────────────
+Profiles: 1
+
+─── IPS Sensor: default-ips ───────────────────────────────────────────────────
+Findings:
+  [MEDIUM] IPS 'default-ips': block-malicious-url disabled — known malicious URLs not blocked.
+  [MEDIUM] IPS 'default-ips': botnet scanning monitor-only — C2 connections logged but not blocked.
+  [INFO] IPS 'default-ips': extended signature database not enabled — reduced CVE coverage.
+
+─── Web Filter Overview ───────────────────────────────────────────────────────
+Profiles: 1
+
+─── Web Filter: default-wf ────────────────────────────────────────────────────
+Findings:
+  [MEDIUM] WebFilter 'default-wf': log-all-url disabled — browsing not fully logged.
+  [INFO] WebFilter 'default-wf': safe search not enforced.
+  [MEDIUM] WebFilter 'default-wf': user override enabled — blocked categories bypassable by end users.
+  [INFO] WebFilter 'default-wf': web-content-log disabled — limited forensic trail.
+  [MEDIUM] WebFilter 'default-wf': anti-phishing not enabled — credential phishing undetected.
+  [MEDIUM] WebFilter 'default-wf': FortiGuard category filter (ftgd-wf) not configured.
+
+─── App Control Overview ──────────────────────────────────────────────────────
+Profiles: 1
+
+─── App Control: default-app ──────────────────────────────────────────────────
+Findings:
+  [MEDIUM] AppControl 'default-app': logging disabled — application usage not tracked.
+  [MEDIUM] AppControl 'default-app': unknown applications permitted — unclassified traffic flows freely.
+  [INFO] AppControl 'default-app': P2P block list not explicitly configured.
+  [INFO] AppControl 'default-app': default network service control not enabled.
+
+─── DNS Filter Overview ───────────────────────────────────────────────────────
+Profiles: 1
+
+─── DNS Filter: default-dns ───────────────────────────────────────────────────
+Findings:
+  [HIGH] DNS Filter 'default-dns': botnet domain blocking disabled — DNS C2 unblocked.
+  [MEDIUM] DNS Filter 'default-dns': log-all-domain disabled — DNS query log incomplete.
+  [INFO] DNS Filter 'default-dns': safe search DNS enforcement not enabled.
+  [MEDIUM] DNS Filter 'default-dns': FortiGuard DNS rating not enabled — DNS category filtering inactive.
+  [INFO] DNS Filter 'default-dns': external IP blocklist not linked — threat intel feeds not applied to DNS.
+
+─── WAF Profile Overview ──────────────────────────────────────────────────────
+Profiles: 0
+
+─── Email Filter Overview ─────────────────────────────────────────────────────
+Profiles: 0
+
+─── Video Filter Overview ─────────────────────────────────────────────────────
+Profiles: 0
+
+─── File Filter Overview ──────────────────────────────────────────────────────
+Profiles: 0
+
+─── Virtual Patch Overview ────────────────────────────────────────────────────
+Profiles: 0
+
+─── LLM Profile Overview ──────────────────────────────────────────────────────
+Profiles: 1
+
+─── LLM Profile: corp-ai-policy ───────────────────────────────────────────────
+Findings:
+  [MEDIUM] LLM 'corp-ai-policy': logging disabled — AI traffic not logged.
+  [HIGH] LLM 'corp-ai-policy': DLP check disabled — sensitive data may leak through AI API calls.
+  [HIGH] LLM 'corp-ai-policy': PII check disabled — personal data in AI prompts/responses undetected.
+  [MEDIUM] LLM 'corp-ai-policy': prompt injection check disabled — adversarial prompt attacks possible.
+  [MEDIUM] LLM 'corp-ai-policy': jailbreak check disabled — model safety bypass attempts undetected.

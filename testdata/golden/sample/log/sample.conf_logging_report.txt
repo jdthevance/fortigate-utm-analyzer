@@ -1,0 +1,32 @@
+FortiGate Logging & SIEM Audit
+================================================================================
+
+─── Logging Configuration ─────────────────────────────────────────────────────
++-------------------------------------------------------------+
+| FortiAnalyzer 1 Status   | disable                          |
+| FortiAnalyzer 1 Server   |                                  |
+| FortiAnalyzer 1 Encrypt  |                                  |
+| FortiAnalyzer 1 Reliable |                                  |
+| FortiAnalyzer 2 Status   |                                  |
+| FortiAnalyzer 3 Status   |                                  |
+| Syslogd 1 Status         | enable                           |
+| Syslogd 1 Server         | 192.168.1.200                    |
+| Syslogd 1 Mode           | udp                              |
+| Syslogd 1 Encrypt        | disable                          |
+| Syslogd 2 Status         |                                  |
+| Syslogd 3 Status         |                                  |
+| Syslogd 4 Status         |                                  |
+| Log Invalid Packet       | disable                          |
+| Event Filter: Admin      |                                  |
+| Event Filter: System     |                                  |
+| Event Filter: VPN        |                                  |
+| Event Filter: Endpoint   |                                  |
+| Disk Logging Status      |                                  |
+| Disk Full Action         |                                  |
+| Disk Roll Day            |                                  |
++-------------------------------------------------------------+
+Findings:
+  [MEDIUM] Logging: FortiAnalyzer (FA1) not enabled — no centralized log management.
+  [MEDIUM] Logging: syslogd1 using UDP — logs may be lost under load; use TCP or TLS.
+  [INFO] Logging: syslogd1 not using TLS — log data in cleartext.
+  [INFO] Logging: log-invalid-packet not enabled — malformed/invalid packets not logged.
