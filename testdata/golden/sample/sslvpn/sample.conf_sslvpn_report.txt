@@ -1,0 +1,46 @@
+FortiGate SSL-VPN Security Audit
+================================================================================
+
+─── SSL-VPN Global Settings ───────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Status                 | enable                           |
+| Port                   | 443                              |
+| Server Certificate     | self-sign                        |
+| TLS 1.0                | enable                           |
+| TLS 1.1                |                                  |
+| TLS 1.2                |                                  |
+| Login Attempt Limit    | 0                                |
+| Login Block Time       | 10                               |
+| Idle Timeout           | 0                                |
+| Auth Timeout           | 86400                            |
+| Client Certificate     |                                  |
+| Source Address         | all                              |
+| DTLS Tunnel            |                                  |
++-----------------------------------------------------------+
+Findings:
+  [INFO] SSL-VPN: running on default port 443 — easily discoverable; consider non-standard port.
+  [MEDIUM] SSL-VPN: self-signed certificate — clients cannot properly validate server identity.
+  [HIGH] SSL-VPN: TLS 1.0 permitted — deprecated protocol with known attacks (BEAST/POODLE).
+  [MEDIUM] SSL-VPN: TLS 1.2 not explicitly enabled — verify TLS version support.
+  [HIGH] SSL-VPN: login attempt limit 0 — brute-force protection disabled.
+  [MEDIUM] SSL-VPN: login block time 10s — recommend 300s to deter brute-force.
+  [HIGH] SSL-VPN: idle timeout 0 — sessions never timeout.
+  [MEDIUM] SSL-VPN: auth timeout 86400s exceeds 8h — force re-authentication more frequently.
+  [MEDIUM] SSL-VPN: source-address not restricted — any internet IP can attempt authentication.
+  [MEDIUM] SSL-VPN: client certificate not required — password-only auth is weaker.
+
+─── Portal: full-access ───────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Portal Name            | full-access                      |
+| Split Tunneling        | enable                           |
+| FTP Proxy              | enable                           |
+| SMB Proxy              | enable                           |
+| OS Check               |                                  |
+| Limit User Logins      |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] SSL-VPN portal 'full-access': split tunneling enabled — non-VPN traffic bypasses FortiGate entirely.
+  [INFO] SSL-VPN portal 'full-access': FTP proxy enabled — verify if required.
+  [INFO] SSL-VPN portal 'full-access': SMB proxy enabled — file share access via web portal.
+  [MEDIUM] SSL-VPN portal 'full-access': OS check not enabled — non-compliant endpoints can connect.
+  [INFO] SSL-VPN portal 'full-access': concurrent login limit not enabled — account sharing undetected.

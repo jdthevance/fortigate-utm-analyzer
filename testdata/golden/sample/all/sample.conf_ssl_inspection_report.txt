@@ -1,0 +1,61 @@
+FortiGate SSL/SSH Inspection Profile Audit
+================================================================================
+
+─── Overview ──────────────────────────────────────────────────────────────────
+Profiles found: 2
+
+─── SSL/SSH Profile: demo-ssl-profile ─────────────────────────────────────────
++-----------------------------------------------------------+
+| Profile Name           | demo-ssl-profile                 |
+| Config Format          | FortiOS 6.x flat                 |
+| CA Name                |                                  |
+| Anomaly Log            | disable                          |
+| Block Blacklisted      | disable                          |
+| ECH Handling           |                                  |
+| Comments               |                                  |
+| Inspection Method      | certificate-inspection           |
+| SNI Check              | disable                          |
+| Untrusted Cert         | allow                            |
+| Expired Cert           | allow                            |
+| Invalid Cert           | allow                            |
+| Min TLS Version        |                                  |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] SSL profile 'demo-ssl-profile': certificate-only inspection — TLS payload not decrypted.
+  [HIGH] SSL profile 'demo-ssl-profile': untrusted server certs not blocked — MITM risk.
+  [HIGH] SSL profile 'demo-ssl-profile': invalid certs not blocked.
+  [MEDIUM] SSL profile 'demo-ssl-profile': expired certs not blocked.
+  [HIGH] SSL profile 'demo-ssl-profile': revoked certificate action is 'allow'.
+  [MEDIUM] SSL profile 'demo-ssl-profile': blacklisted certificate blocking disabled.
+  [MEDIUM] SSL profile 'demo-ssl-profile': SNI checking disabled.
+  [MEDIUM] SSL profile 'demo-ssl-profile': SSL anomaly logging disabled.
+  [MEDIUM] SSL profile 'demo-ssl-profile': ECH not handled — SNI hidden from inspection.
+  [MEDIUM] SSL profile 'demo-ssl-profile': DNS-over-TLS not blocked/inspected.
+  [MEDIUM] SSL profile 'demo-ssl-profile': minimum TLS version not set — downgrade possible.
+
+─── SSL/SSH Profile: deep-inspect-no-ca ───────────────────────────────────────
++-----------------------------------------------------------+
+| Profile Name           | deep-inspect-no-ca               |
+| Config Format          | FortiOS 6.x flat                 |
+| CA Name                |                                  |
+| Anomaly Log            | disable                          |
+| Block Blacklisted      |                                  |
+| ECH Handling           |                                  |
+| Comments               |                                  |
+| Inspection Method      | deep-inspection                  |
+| SNI Check              |                                  |
+| Untrusted Cert         | allow                            |
+| Expired Cert           |                                  |
+| Invalid Cert           | allow                            |
+| Min TLS Version        |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] SSL profile 'deep-inspect-no-ca': deep inspection without CA cert — inspection fails.
+  [HIGH] SSL profile 'deep-inspect-no-ca': untrusted server certs not blocked — MITM risk.
+  [HIGH] SSL profile 'deep-inspect-no-ca': invalid certs not blocked.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': blacklisted certificate blocking disabled.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': SNI checking disabled.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': SSL anomaly logging disabled.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': ECH not handled — SNI hidden from inspection.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': DNS-over-TLS not blocked/inspected.
+  [MEDIUM] SSL profile 'deep-inspect-no-ca': minimum TLS version not set — downgrade possible.

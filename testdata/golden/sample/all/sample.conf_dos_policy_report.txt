@@ -1,0 +1,9 @@
+FortiGate DoS Policy Audit
+================================================================================
+
+─── Overview ──────────────────────────────────────────────────────────────────
+DoS policies found: 0
+
+─── Warning ───────────────────────────────────────────────────────────────────
+MEDIUM: No DoS policies configured — FortiGate has no DoS/anomaly-based protection rules.
+  Consider configuring 'config firewall DoS-policy' to protect against flood attacks.

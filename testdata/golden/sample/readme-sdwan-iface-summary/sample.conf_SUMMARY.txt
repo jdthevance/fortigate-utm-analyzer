@@ -1,0 +1,36 @@
+================================================================================
+================= FORTIGATE SECURITY AUDIT — EXECUTIVE SUMMARY =================
+================================================================================
+  Config file  : sample.conf
+  Risk Rating  : CRITICAL
+  Risk Score   : 79.0  (CRITICAL×10 + HIGH×5 + MEDIUM×2 + INFO×0.5)
+  Total Findings: 12
+
+  CRITICAL        5
+  HIGH            5
+  MEDIUM          2
+  INFO            0
+================================================================================
+
+  FINDINGS BY SECTION:
+  ------------------------------------------------------------------------------
+  Section                              CRIT  HIGH   MED  INFO    TOT
+  ------------------------------------------------------------------------------
+  Interface Exposure                      4     4     1     0      9
+  SD-WAN                                  1     1     1     0      3
+  ------------------------------------------------------------------------------
+
+  CRITICAL & HIGH FINDINGS:
+  ------------------------------------------------------------------------------
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit wan1 → set allowaccess (list without telnet)
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): HTTP enabled — cleartext management. Replace with HTTPS only.
+  [Interface Exposure            ]  CRITICAL: Interface 'wan1' (wan): SNMP enabled — WAN-facing SNMP is critical risk.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' (WAN): SSH exposed to internet — restrict via local-in-policy to admin IPs only.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' (WAN): HTTPS management on WAN — restrict via local-in-policy or remove from allowaccess.
+  [Interface Exposure            ]  HIGH: Interface 'wan1' exposure score 7.0/10 (HIGH EXPOSURE) — significant management attack surface. Review and restrict.
+  [Interface Exposure            ]  CRITICAL: Interface 'dmz' (dmz): Telnet enabled — cleartext management. Remove immediately. CLI: config system interface → edit dmz → set allowaccess (list without telnet)
+  [Interface Exposure            ]  HIGH: Interface 'dmz' (dmz): HTTP enabled — cleartext management. Replace with HTTPS only.
+  [SD-WAN                        ]  HIGH: SD-WAN member 1 ('wan1'): NOT monitored by any health-check — link failures will not trigger failover. Add a health-check and reference this member.
+  [SD-WAN                        ]  CRITICAL: SD-WAN: NO health-checks configured — link failures are UNDETECTED. SD-WAN cannot failover without health monitoring. CLI: config system sdwan → config health-check → edit MyHC → set server 8.8.8.8 → set interval 500 → set failtime 3
+
+================================================================================

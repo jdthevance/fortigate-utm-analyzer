@@ -1,0 +1,226 @@
+{
+  "summary": {
+    "counts": {
+      "CRITICAL": 4,
+      "HIGH": 30,
+      "MEDIUM": 21,
+      "INFO": 19
+    },
+    "total": 74,
+    "score": 241.5,
+    "risk": "CRITICAL",
+    "by_section": {
+      "VPN Phase1": {
+        "CRITICAL": 0,
+        "HIGH": 7,
+        "MEDIUM": 4,
+        "INFO": 1
+      },
+      "VPN Phase2": {
+        "CRITICAL": 0,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Admin Accounts": {
+        "CRITICAL": 0,
+        "HIGH": 6,
+        "MEDIUM": 0,
+        "INFO": 2
+      },
+      "Interfaces": {
+        "CRITICAL": 0,
+        "HIGH": 7,
+        "MEDIUM": 1,
+        "INFO": 3
+      },
+      "Global Hardening": {
+        "CRITICAL": 1,
+        "HIGH": 3,
+        "MEDIUM": 4,
+        "INFO": 5
+      },
+      "Password Policy": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "SSH Config": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "NTP": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 2
+      },
+      "Local-in": {
+        "CRITICAL": 1,
+        "HIGH": 1,
+        "MEDIUM": 2,
+        "INFO": 0
+      },
+      "SNMP": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "System DNS": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "INFO": 2
+      },
+      "IKE Global": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Security Fabric": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "FIPS-CC": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "FortiGuard": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Certificates": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 1
+      },
+      "Enhanced Local-in": {
+        "CRITICAL": 2,
+        "HIGH": 0,
+        "MEDIUM": 3,
+        "INFO": 0
+      }
+    }
+  },
+  "findings": {
+    "VPN Phase1": [
+      "MEDIUM: VPN 'vpn-to-branch': IKEv1 \u2014 upgrade to IKEv2 (RFC 7296) for improved security.",
+      "HIGH: VPN 'vpn-to-branch': IKEv1 aggressive mode \u2014 PSK hash sent in cleartext, offline cracking possible.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm 'DES' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm '3DES' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm 'MD5' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': DH group 1 is below 2048-bit.",
+      "HIGH: VPN 'vpn-to-branch': DH group 2 is below 2048-bit.",
+      "MEDIUM: VPN 'vpn-to-branch': PSK authentication \u2014 certificate-based auth is stronger.",
+      "HIGH: VPN 'vpn-to-branch': PSK appears short (<20 chars) \u2014 use 32+ random characters.",
+      "INFO: VPN 'vpn-to-branch': Dead Peer Detection disabled \u2014 stale tunnels persist.",
+      "MEDIUM: VPN 'vpn-to-branch': rekey disabled \u2014 long-lived session keys reduce forward secrecy.",
+      "MEDIUM: VPN 'vpn-to-branch': IKE key lifetime 172800s exceeds 24h \u2014 reduce to 8h or less."
+    ],
+    "VPN Phase2": [
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'DES' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm '3DES' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'MD5' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': PFS disabled \u2014 session key compromise exposes all past sessions.",
+      "MEDIUM: Phase2 'vpn-to-branch-p2': key lifetime 172800s exceeds 8h \u2014 shorter rekey recommended."
+    ],
+    "Admin Accounts": [
+      "HIGH: Admin 'admin': no trusted-host restrictions \u2014 login from any IP permitted.",
+      "HIGH: Admin 'admin': super_admin profile \u2014 no least-privilege separation.",
+      "HIGH: Admin 'admin': two-factor authentication not enabled.",
+      "HIGH: Admin 'admin': session timeout 0 \u2014 sessions never expire.",
+      "INFO: Admin 'admin': force-password-change not set \u2014 no mandatory rotation enforced.",
+      "HIGH: Admin 'readonly-user': no trusted-host restrictions \u2014 login from any IP permitted.",
+      "HIGH: Admin 'readonly-user': two-factor authentication not enabled.",
+      "INFO: Admin 'readonly-user': force-password-change not set \u2014 no mandatory rotation enforced."
+    ],
+    "Interfaces": [
+      "HIGH: Interface 'wan1': HTTP management enabled \u2014 credentials in cleartext.",
+      "HIGH: Interface 'wan1': Telnet enabled \u2014 fully unencrypted management.",
+      "HIGH: Interface 'wan1' (WAN): HTTPS management exposed to internet.",
+      "HIGH: Interface 'wan1' (WAN): SSH management exposed to internet \u2014 brute-force risk.",
+      "MEDIUM: Interface 'wan1' (WAN): ping/ICMP enabled \u2014 device fingerprinting risk.",
+      "HIGH: Interface 'wan1' (WAN): SNMP accessible from internet.",
+      "INFO: Interface 'wan1': no description \u2014 undocumented interfaces are an audit risk.",
+      "INFO: Interface 'port1': no description \u2014 undocumented interfaces are an audit risk.",
+      "HIGH: Interface 'dmz': HTTP management enabled \u2014 credentials in cleartext.",
+      "HIGH: Interface 'dmz': Telnet enabled \u2014 fully unencrypted management.",
+      "INFO: Interface 'dmz': no description \u2014 undocumented interfaces are an audit risk."
+    ],
+    "Global Hardening": [
+      "HIGH: Global: strong-crypto disabled \u2014 weak ciphers (RC4/DES/MD5) may be negotiated for management TLS.",
+      "MEDIUM: Global: ssl-static-key-ciphers not disabled \u2014 forward secrecy not enforced.",
+      "CRITICAL: Global: DH params 1024-bit \u2014 critically weak; upgrade to 4096+ immediately.",
+      "HIGH: Global: admin lockout threshold 0 \u2014 brute-force lockout disabled.",
+      "HIGH: Global: admin lockout duration 0 \u2014 account unlocks immediately.",
+      "MEDIUM: Global: admin timeout 480 min \u2014 reduce to 15-30 min.",
+      "INFO: Global: pre-login-banner disabled \u2014 no legal warning before authentication.",
+      "INFO: Global: post-login-banner disabled \u2014 no acceptable-use notice after login.",
+      "MEDIUM: Global: admin-https-redirect not enabled \u2014 HTTP management not auto-redirected to HTTPS.",
+      "INFO: Global: management GUI using self-signed certificate.",
+      "INFO: Global: default hostname 'FortiGate' \u2014 change to naming convention to reduce fingerprinting.",
+      "INFO: Global: revision-image-auto-backup disabled \u2014 config versioning not automated.",
+      "MEDIUM: Global: admin-password-policy not enabled \u2014 no complexity requirements enforced."
+    ],
+    "Password Policy": [
+      "HIGH: PasswordPolicy: password policy disabled \u2014 no enforced complexity requirements."
+    ],
+    "SSH Config": [
+      "INFO: SSH: cipher/MAC restrictions not configured \u2014 system defaults may include weak algorithms."
+    ],
+    "NTP": [
+      "INFO: NTP: single server \u2014 no redundancy.",
+      "MEDIUM: NTP: authentication disabled \u2014 NTP spoofing possible (RFC 8633 recommends auth).",
+      "INFO: NTP: source-ip not configured \u2014 NTP sourced from outgoing interface IP."
+    ],
+    "Local-in": [
+      "MEDIUM: Local-in: policy without specific interface binding \u2014 applies to all interfaces.",
+      "HIGH: Local-in: source is 'all' \u2014 FortiGate management services accessible from any host.",
+      "MEDIUM: Local-in: service ALL \u2014 restrict to required management protocols only.",
+      "CRITICAL: Local-in: ACCEPT from 'all' sources \u2014 FortiGate control plane broadly exposed."
+    ],
+    "SNMP": [],
+    "System DNS": [
+      "MEDIUM: SystemDNS: no primary DNS server configured.",
+      "INFO: SystemDNS: no secondary DNS server \u2014 single point of failure for DNS resolution.",
+      "MEDIUM: SystemDNS: DNSSEC validation disabled \u2014 DNS response spoofing/poisoning possible.",
+      "INFO: SystemDNS: DNS-over-TLS not configured for system DNS \u2014 FortiGate's own DNS queries unencrypted."
+    ],
+    "IKE Global": [
+      "MEDIUM: IKE Global: IKEv1 not globally disabled \u2014 consider disabling if all peers support IKEv2.",
+      "HIGH: IKE Global: IKEv1 aggressive mode not globally disabled \u2014 PSK hash exposure risk."
+    ],
+    "Security Fabric": [
+      "INFO: CSF: Security Fabric disabled \u2014 centralized policy management and visibility unavailable."
+    ],
+    "FIPS-CC": [
+      "INFO: FIPS-CC: FIPS 140-2 / Common Criteria mode not enabled \u2014 relevant for regulated environments."
+    ],
+    "FortiGuard": [
+      "MEDIUM: FortiGuard: scheduled signature updates not enabled \u2014 signatures may fall behind."
+    ],
+    "Certificates": [
+      "MEDIUM: Certificate 'gui-cert': self-signed \u2014 clients cannot properly validate this certificate without manually trusting the CA. Use a publicly trusted CA for external-facing services.",
+      "INFO: Certificate 'gui-cert': key size not readable from config \u2014 verify manually with 'get vpn certificate local'."
+    ],
+    "Enhanced Local-in": [
+      "CRITICAL: Local-in CRITICAL: WAN interface 'wan1' has management access (http, https, ping, snmp, ssh, telnet) enabled AND has NO local-in-policy restricting source IPs. Any IP on the internet can attempt to reach FortiGate management. This is a CRITICAL management plane exposure. Fix:\n  config firewall local-in-policy\n      edit 1\n          set intf wan1\n          set srcaddr <your-admin-subnet>\n          set service HTTPS SSH\n          set action accept\n      next\n      edit 2\n          set intf wan1\n          set srcaddr all\n          set service ALL\n          set action deny\n      next\n  end",
+      "MEDIUM: Local-in: IPv4 local-in-policies exist but no IPv6 local-in-policy6 configured \u2014 if IPv6 is present on any interface, the management plane has no IPv6 source restriction. CLI: config firewall local-in-policy6",
+      "MEDIUM: Local-in #1: no interface bound \u2014 applies to ALL interfaces including WAN. Bind to specific interface for better control.",
+      "CRITICAL: Local-in #1 (intf:): ACCEPT from source 'all' \u2014 any host can reach FortiGate services on this interface.",
+      "MEDIUM: Local-in #1 (intf:): ACCEPT for service ALL \u2014 restrict to only required management protocols (HTTPS, SSH)."
+    ]
+  }
+}

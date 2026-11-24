@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;sha256-h1hZzf1UFceYmPcgWQ5LLLE1QMgA7kCMYv2aC69Gz5I=&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data:; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;; connect-src &#x27;none&#x27;">
+<title>FortiGate • Security assessment</title>
+<style>
+:root{color-scheme:dark;--bg:#0b101b;--panel:#121b2a;--raised:#192437;--line:#28354a;--text:#eaf0fa;--muted:#a5b4cb;--accent:#66e3c4;--critical:#ff7b89;--high:#ffb16b;--medium:#f5d46c;--info:#83baff;--shadow:0 16px 40px #0002}
+
+:root[data-theme=light]{color-scheme:light;--bg:#f3f6fb;--panel:#fff;--raised:#edf2f8;--line:#d8e1ec;--text:#17243a;--muted:#51627a;--accent:#087e69;--critical:#b51e37;--high:#a34c08;--medium:#806000;--info:#1c60ad;--shadow:0 8px 30px #23395008}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button,select{cursor:pointer}
+button,input,select{color:var(--text);background:var(--raised);border:1px solid var(--line);border-radius:9px;padding:10px 13px}
+button:hover{border-color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a{color:var(--accent);text-decoration:none}
+p{margin:8px 0}
+h1,h2,h3{line-height:1.25;margin:0 0 12px}
+h1{font-size:clamp(27px,4vw,42px);letter-spacing:-1.5px}
+h2{font-size:18px;letter-spacing:-.3px}
+h3{font-size:14px}
+small,.muted{color:var(--muted)}
+.shell{max-width:1600px;margin:auto;display:grid;grid-template-columns:220px minmax(0,1fr)}
+aside{position:sticky;top:0;height:100vh;padding:32px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:28px}
+.brand{font-size:18px;font-weight:750;letter-spacing:-.4px}
+.logo{display:inline-grid;place-items:center;width:32px;height:35px;background:var(--accent);color:var(--bg);border-radius:9px 9px 14px 14px;margin-right:9px}
+nav a{display:block;color:var(--muted);padding:11px 12px;border-radius:8px;margin-bottom:6px}
+nav a:first-child{color:var(--accent);background:var(--raised)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--accent)}
+.aside-foot{margin-top:auto;font-size:12px;color:var(--muted)}
+main{padding:28px 36px 50px;min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:34px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:26px}
+.hero p{max-width:630px;color:var(--muted)}
+.hero .tag{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:11px;letter-spacing:1px;border:1px solid var(--line);padding:5px 9px;border-radius:6px;white-space:nowrap}
+.cards{display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:16px;margin-bottom:22px}
+.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+.card{padding:21px;min-width:0}
+.card .number{font-size:36px;font-weight:740;line-height:1.25;letter-spacing:-1px}
+.card.risk{border-top:3px solid var(--critical)}
+.stat-label{font-size:12px;color:var(--muted);margin-bottom:12px}
+.mini-counts{display:flex;gap:13px;font-size:12px;margin-top:10px;flex-wrap:wrap}
+.critical{color:var(--critical)}
+.high{color:var(--high)}
+.medium{color:var(--medium)}
+.info{color:var(--info)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);gap:20px;margin-bottom:22px}
+.panel{padding:23px;min-width:0}
+.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.donut-box{display:flex;align-items:center;gap:24px;justify-content:center;flex-wrap:wrap}
+.donut{width:168px;height:168px;flex-shrink:0}
+.legend{flex:1;min-width:130px}
+.legend-row{display:flex;justify-content:space-between;gap:25px;margin:10px 0}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+.bars{max-height:284px;overflow:auto;padding-right:7px}
+.bar-row{margin:11px 0}
+.bar-title{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:5px}
+.bar-track{height:7px;background:var(--raised);display:flex;border-radius:5px;overflow:hidden}
+.bar-segment{height:100%;min-width:1px}
+.rank-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.rank-score{font-size:24px;font-weight:700;margin-bottom:8px}
+.section{margin:26px 0 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.filters{display:grid;grid-template-columns:minmax(180px,2fr) repeat(4,minmax(100px,1fr));gap:10px;margin:18px 0 14px}
+.filters label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--muted)}
+.filters input,.filters select{width:100%;min-width:0}
+.resultbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0;color:var(--muted);font-size:12px}
+.finding{border:1px solid var(--line);background:var(--panel);border-radius:11px;margin:9px 0;overflow:hidden}
+.finding>summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:13px;padding:17px}
+.finding>summary::-webkit-details-marker{display:none}
+.finding>summary:before{content:'+';font-size:18px;line-height:1.4;color:var(--muted)}
+.finding[open]>summary:before{content:'−'}
+.badge{font-size:10px;font-weight:800;letter-spacing:.5px;border:1px solid currentColor;padding:3px 7px;border-radius:5px;flex-shrink:0;margin-top:2px}
+.finding-title{font-weight:600;overflow-wrap:anywhere}
+.finding-meta{font-size:11px;color:var(--muted);margin-top:5px}
+.finding-body{padding:4px 22px 23px 47px;border-top:1px solid var(--line)}
+.finding-body h3{margin:18px 0 6px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.finding-body p{overflow-wrap:anywhere}
+.finding-body pre,pre.reference{background:var(--bg);border:1px solid var(--line);padding:15px;border-radius:8px;overflow:auto;max-width:100%;font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.cli pre{white-space:pre;overflow-wrap:normal}
+.cli button{font-size:11px;padding:5px 10px}
+.empty{padding:50px 20px;text-align:center;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.coverage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.coverage-item{border:1px solid var(--line);padding:12px;border-radius:8px;overflow-wrap:anywhere}
+.coverage-item small{display:block}
+.metadata{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.metadata dt{font-size:11px;color:var(--muted)}
+.metadata dd{margin:3px 0 0;overflow-wrap:anywhere}
+.notice{border-left:2px solid var(--accent);padding:10px 15px;background:var(--raised);border-radius:0 7px 7px 0;font-size:12px;margin-top:18px}
+.ref>summary{padding:13px;cursor:pointer}
+.footer{font-size:11px;color:var(--muted);display:flex;justify-content:space-between;margin-top:30px;border-top:1px solid var(--line);padding-top:16px}
+.hidden{display:none!important}
+#more{display:block;margin:18px auto}
+#status{font-size:12px;color:var(--accent)}
+
+@media(max-width:1150px){.shell{grid-template-columns:170px minmax(0,1fr)}
+main{padding:25px}
+.cards{grid-template-columns:repeat(2,1fr)}
+.filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rank-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:780px){.shell{display:block}
+aside{height:auto;position:static;border-right:0;border-bottom:1px solid var(--line);padding:15px 20px;display:flex;flex-direction:row;align-items:center;justify-content:space-between}
+nav{display:none}
+.aside-foot{margin:0}
+main{padding:20px 15px}
+.grid{grid-template-columns:1fr}
+.hero{display:block}
+.hero .tag{margin-top:10px}
+.cards{gap:10px}
+.card{padding:17px}
+.card .number{font-size:29px}
+.coverage,.metadata{grid-template-columns:repeat(2,minmax(0,1fr))}
+.filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+.rank-grid{grid-template-columns:repeat(2,1fr)}
+.finding>summary{gap:9px;padding:12px}
+.finding-body{padding:0 15px 16px}
+.top{margin-bottom:24px;flex-wrap:wrap}
+.footer{display:block}
+.panel{padding:18px}
+}
+
+@media print{ :root,:root[data-theme=dark]{--bg:#fff;--panel:#fff;--raised:#f0f2f5;--line:#ccc;--text:#111;--muted:#444;--accent:#087e69;--critical:#a1132c;--high:#984500;--medium:#705000;--info:#155c9b}
+body{font-size:10pt}
+.shell{display:block}
+aside,.actions,.filters,.resultbar,#more,button{display:none!important}
+main{padding:0}
+.card,.panel{box-shadow:none}
+.bars{max-height:none;overflow:visible}
+.finding,.card{break-inside:avoid}
+.finding-body pre{white-space:pre-wrap}
+.finding-body{display:block!important}
+details>summary{display:block}
+.coverage{grid-template-columns:repeat(3,1fr)}
+.grid{grid-template-columns:1fr 1fr}
+a{color:inherit}
+.panel{margin-bottom:15px}
+}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+}
+
+</style></head><body>
+<div class="shell"><aside><div class="brand"><span class="logo">F</span>FortiGate<small style="display:block;margin:8px 0 0 42px;font-size:10px;letter-spacing:1.5px">SECURITY ANALYZER</small></div><nav aria-label="Report navigation"><a href="#overview">◈ &nbsp; Overview</a><a href="#findings">☷ &nbsp; Findings</a><a href="#coverage">◎ &nbsp; Audit coverage</a><a href="#references">⌘ &nbsp; Technical references</a><a href="#details">ⓘ &nbsp; Assessment details</a></nav><div class="aside-foot"><span class="eyebrow">Offline assessment</span><p>Local analysis.<br>No data uploaded.</p><span id="version"></span></div></aside>
+<main><header class="top"><span class="muted">REPORT / CONFIGURATION SECURITY</span><div class="actions"><button id="theme" type="button" aria-label="Toggle dark and light theme">◐ &nbsp; Theme</button><button id="print" type="button">Print / PDF</button></div></header>
+<section id="overview"><div class="hero"><div><div class="eyebrow">FortiGate configuration audit</div><h1>Security assessment</h1><p>Understand configuration exposure. Prioritize the changes that matter.</p></div><span class="tag" id="file"></span></div>
+<div class="cards"><div class="card risk"><div class="stat-label">OVERALL RISK</div><div class="number critical" id="risk"></div><p class="muted" id="score"></p><small>Weighted findings, not a security percentage.</small></div><div class="card"><div class="stat-label">TOTAL FINDINGS</div><div class="number" id="total"></div><div id="counts" class="mini-counts"></div></div><div class="card"><div class="stat-label">AUDIT COVERAGE</div><div class="number" id="executed"></div><p class="muted">domains executed</p><small id="not-selected"></small></div><div class="card"><div class="stat-label">PRIORITY FINDINGS</div><div class="number" id="priority"></div><p class="muted">critical + high severity</p><small>Review deployment context before changes.</small></div></div>
+<div class="grid"><section class="panel"><div class="chart-head"><h2>Severity distribution</h2><small>All findings</small></div><div class="donut-box"><svg id="donut" class="donut" viewBox="0 0 180 180" role="img" aria-labelledby="donut-title"><title id="donut-title">Severity distribution</title></svg><div id="legend" class="legend"></div></div></section><section class="panel"><div class="chart-head"><h2>Findings by domain</h2><small>Severity composition</small></div><div id="bars" class="bars"></div></section></div>
+<section class="panel"><div class="chart-head"><h2>Highest-risk domains</h2><small>C × 10 · H × 5 · M × 2 · I × 0.5</small></div><div id="ranks" class="rank-grid"></div></section></section>
+<section id="findings"><div class="section"><h2>Findings explorer</h2><span class="tag">CONFIGURATION EVIDENCE</span></div><div class="filters"><label>Search findings<input id="search" type="search" placeholder="Policy, object, keyword…"></label><label>Severity<select id="severity"><option value="">All severities</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>INFO</option></select></label><label>Audit domain<select id="domain"><option value="">All audited domains</option></select></label><label>VDOM / scope<select id="vdom"><option value="">All scopes</option></select></label><label>Sort by<select id="sort"><option value="highest">Highest severity</option><option value="lowest">Lowest severity</option><option value="domain">Audit domain</option><option value="title">Finding title</option><option value="original">Original order</option></select></label></div><div class="resultbar"><span id="result-count" role="status" aria-live="polite"></span><button id="reset" type="button">Reset filters</button></div><div id="list"></div><button id="more" type="button">Load more findings</button><div id="empty" class="empty hidden">No findings match these filters. Try another keyword or reset filters.</div><div id="status" role="status" aria-live="polite"></div></section>
+<section id="coverage"><div class="section"><h2>Audit coverage</h2><small>No findings does not establish a passing check.</small></div><div id="coverage-list" class="coverage"></div></section>
+<section id="references"><div class="section"><h2>Technical references &amp; existing CLI guidance</h2></div><p class="muted">Original domain report content, retained in memory during this run. Examples may contain placeholders or require adaptation. Confirm syntax for the installed FortiOS release and review operational impact.</p><div id="reference-list"></div></section>
+<section id="details" class="panel" style="margin-top:25px"><h2>Assessment details</h2><dl id="metadata" class="metadata"></dl><div class="notice" id="notes"><p>Static configuration analysis cannot validate live reachability, effective identity-provider MFA, peer behavior, certificate trust chains, or operational state. Unselected domains are not assessed.</p><p>Risk is CRITICAL with any critical finding or score ≥ 50; HIGH ≥ 25; MEDIUM ≥ 10; otherwise LOW. LOW is a score classification, not a security guarantee.</p><p>Reports include sensitive network context. Protect them as confidential audit artifacts. Configured credential values are redacted from HTML; legacy TXT/JSON keep their existing confidentiality behavior.</p></div></section><footer class="footer"><span>FortiGate UTM Security Analyzer · Jafar Tavana</span><span>Local. Self-contained. Entirely offline.</span></footer>
+<noscript><div class="notice">Enable JavaScript to explore this self-contained report. Existing TXT reports remain available without JavaScript.</div></noscript></main></div>
+<script id="report-data" type="application/json">{"schema_version": 1, "metadata": {"filename": "sample.conf", "generated_at": "<TIMESTAMP>", "fortios": "Unknown", "hostname": "FortiGate", "tool_version": "4.1.0"}, "summary": {"counts": {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "INFO": 0}, "total": 0, "score": 0.0, "risk": "LOW", "by_section": {}}, "findings": [], "domains": [{"name": "Firewall Policies", "counts": null, "status": "Not selected"}, {"name": "SSL Inspection", "counts": null, "status": "Not selected"}, {"name": "Antivirus Profiles", "counts": null, "status": "Not selected"}, {"name": "IPS Sensors", "counts": null, "status": "Not selected"}, {"name": "Web Filter", "counts": null, "status": "Not selected"}, {"name": "App Control", "counts": null, "status": "Not selected"}, {"name": "DNS Filter", "counts": null, "status": "Not selected"}, {"name": "WAF Profiles", "counts": null, "status": "Not selected"}, {"name": "Email Filter", "counts": null, "status": "Not selected"}, {"name": "Video Filter", "counts": null, "status": "Not selected"}, {"name": "File Filter", "counts": null, "status": "Not selected"}, {"name": "Virtual Patch", "counts": null, "status": "Not selected"}, {"name": "LLM Profiles", "counts": null, "status": "Not selected"}, {"name": "VPN Phase1", "counts": null, "status": "Not selected"}, {"name": "VPN Phase2", "counts": null, "status": "Not selected"}, {"name": "SSL-VPN", "counts": null, "status": "Not selected"}, {"name": "SSL-VPN Portals", "counts": null, "status": "Not selected"}, {"name": "HA Config", "counts": null, "status": "Not selected"}, {"name": "Logging", "counts": null, "status": "Not selected"}, {"name": "DoS Policies", "counts": null, "status": "Not selected"}, {"name": "Anti-DoS Policies", "counts": null, "status": "Not selected"}, {"name": "Anti-DoS IPS", "counts": null, "status": "Not selected"}, {"name": "Anti-DoS Hardening", "counts": null, "status": "Not selected"}, {"name": "Admin Accounts", "counts": null, "status": "Not selected"}, {"name": "Interfaces", "counts": null, "status": "Not selected"}, {"name": "Global Hardening", "counts": null, "status": "Not selected"}, {"name": "Password Policy", "counts": null, "status": "Not selected"}, {"name": "SSH Config", "counts": null, "status": "Not selected"}, {"name": "NTP", "counts": null, "status": "Not selected"}, {"name": "Local-in", "counts": null, "status": "Not selected"}, {"name": "SNMP", "counts": null, "status": "Not selected"}, {"name": "System DNS", "counts": null, "status": "Not selected"}, {"name": "IKE Global", "counts": null, "status": "Not selected"}, {"name": "Security Fabric", "counts": null, "status": "Not selected"}, {"name": "FIPS-CC", "counts": null, "status": "Not selected"}, {"name": "FortiGuard", "counts": null, "status": "Not selected"}, {"name": "Policy Intelligence", "counts": null, "status": "Not selected"}, {"name": "Unused Objects", "counts": null, "status": "Not selected"}, {"name": "VIP Security", "counts": null, "status": "Not selected"}, {"name": "SD-WAN", "counts": null, "status": "Not selected"}, {"name": "Interface Exposure", "counts": null, "status": "Not selected"}, {"name": "Certificates", "counts": null, "status": "Not selected"}, {"name": "Fabric Connectors", "counts": null, "status": "Not selected"}, {"name": "AI/LLM Security", "counts": null, "status": "Not selected"}, {"name": "Enhanced Local-in", "counts": null, "status": "Not selected"}, {"name": "BGP Security", "counts": null, "status": "Not selected"}, {"name": "RADIUS", "counts": null, "status": "Not selected"}, {"name": "LDAP", "counts": null, "status": "Not selected"}, {"name": "SAML", "counts": null, "status": "Not selected"}, {"name": "Admin MFA", "counts": null, "status": "Not selected"}], "references": {}, "notes": []}</script><script>"use strict";
+(() => {
+  const report=JSON.parse(document.getElementById('report-data').textContent);
+  const $=id=>document.getElementById(id), severities=['CRITICAL','HIGH','MEDIUM','INFO'], weights=[10,5,2,.5];
+  const el=(tag,cls,text)=>{
+    const n=document.createElement(tag);
+    if(cls)n.className=cls;
+    if(text!==undefined)n.textContent=String(text);
+    return n;
+  };
+  const svg=(tag,attrs)=>{
+    const n=document.createElementNS('http://www.w3.org/2000/svg',tag);
+    Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,String(v)));
+    return n;
+  };
+  const colors=()=>severities.map(s=>getComputedStyle(document.documentElement).getPropertyValue('--'+s.toLowerCase()).trim());
+  function theme(value){
+    document.documentElement.dataset.theme=value;
+    try{
+      localStorage.setItem('fortigate-report-theme',value);
+    }catch(_){
+    }drawDonut();
+  } let preferred='dark';
+  try{
+    preferred=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+    const saved=localStorage.getItem('fortigate-report-theme');
+    if(['light','dark'].includes(saved))preferred=saved;
+  }catch(_){
+  } $('theme').addEventListener('click',()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+  const summary=report.summary, counts=summary.counts;
+  $('risk').textContent=summary.risk;
+  $('risk').className='number '+(summary.risk==='LOW'?'info':summary.risk.toLowerCase());
+  $('score').textContent='Risk score '+summary.score;
+  $('total').textContent=summary.total;
+  $('priority').textContent=counts.CRITICAL+counts.HIGH;
+  $('executed').textContent=Object.keys(summary.by_section).length;
+  $('not-selected').textContent=report.domains.filter(d=>d.status==='Not selected').length+' domains not selected';
+  $('file').textContent=report.metadata.filename;
+  $('version').textContent='v'+report.metadata.tool_version;
+  severities.forEach(s=>{
+    $('counts').append(el('span',s.toLowerCase(),counts[s]+' '+s));
+    const row=el('div','legend-row');
+    const name=el('span',s.toLowerCase());
+    name.append(el('span','dot'));
+    name.firstChild.style.background='var(--'+s.toLowerCase()+')';
+    name.append(document.createTextNode(s));
+    row.append(name,el('strong','',counts[s]));
+    $('legend').append(row);
+  });
+  function drawDonut(){
+    const d=$('donut');
+    d.replaceChildren(svg('title',{
+      id:'donut-title'
+    }));
+    d.firstChild.textContent=severities.map(s=>s+': '+counts[s]).join(', ');
+    d.append(svg('circle',{
+      cx:90,cy:90,r:67,fill:'none',stroke:'var(--raised)','stroke-width':20
+    }));
+    let offset=0;
+    const circumference=2*Math.PI*67;
+    severities.forEach((s,i)=>{
+      const length=summary.total?counts[s]/summary.total*circumference:0;
+      if(length)d.append(svg('circle',{
+        cx:90,cy:90,r:67,fill:'none',stroke:colors()[i],'stroke-width':20,'stroke-dasharray':length+' '+circumference,'stroke-dashoffset':-offset,transform:'rotate(-90 90 90)'
+      }));
+      offset+=length;
+    });
+    const n=svg('text',{
+      x:90,y:92,'text-anchor':'middle',fill:'var(--text)','font-size':30,'font-weight':700
+    });
+    n.textContent=summary.total;
+    const l=svg('text',{
+      x:90,y:114,'text-anchor':'middle',fill:'var(--muted)','font-size':10
+    });
+    l.textContent='FINDINGS';
+    d.append(n,l);
+  } theme(preferred);
+  const domains=Object.entries(summary.by_section).map(([name,c])=>({
+    name,counts:c,total:severities.reduce((a,s)=>a+c[s],0),score:severities.reduce((a,s,i)=>a+c[s]*weights[i],0)
+  }));
+  const max=Math.max(1,...domains.map(d=>d.total));
+  domains.filter(d=>d.total).sort((a,b)=>b.total-a.total).forEach(d=>{
+    const row=el('div','bar-row');
+    const label=el('div','bar-title');
+    label.append(el('span','',d.name),el('span','',d.total));
+    const track=el('div','bar-track');
+    track.setAttribute('role','img');
+    track.setAttribute('aria-label',d.name+': '+severities.map(s=>s+' '+d.counts[s]).join(', '));
+    severities.forEach(s=>{
+      if(!d.counts[s])return;
+      const b=el('span','bar-segment');
+      b.style.width=(d.counts[s]/max*100)+'%';
+      b.style.background='var(--'+s.toLowerCase()+')';
+      track.append(b);
+    });
+    row.append(label,track);
+    $('bars').append(row);
+  });
+  if(!summary.total)$('bars').append(el('p','muted','No findings in executed domains.'));
+  domains.filter(d=>d.total).sort((a,b)=>b.score-a.score).slice(0,5).forEach((d,i)=>{
+    const n=el('div','');
+    n.append(el('small','',String(i+1).padStart(2,'0')+' / '+d.name),el('div','rank-score',d.score));
+    const t=el('div','bar-track'), b=el('span','bar-segment');
+    b.style.width=(100*d.score/Math.max(1,...domains.map(x=>x.score)))+'%';
+    b.style.background='var(--accent)';
+    t.append(b);
+    n.append(t);
+    $('ranks').append(n);
+  });
+  if(!summary.total)$('ranks').append(el('p','muted','No ranked domains.'));
+  Object.keys(summary.by_section).sort().forEach(d=>{
+    const o=el('option','',d);
+    o.value=d;
+    $('domain').append(o);
+  });
+  [...new Set(report.findings.map(f=>f.vdom))].sort().forEach(v=>{
+    const o=el('option','',v);
+    o.value=v;
+    $('vdom').append(o);
+  });
+  report.domains.forEach(d=>{
+    const n=el('div','coverage-item');
+    n.append(el('strong','',d.name),el('small','',d.status));
+    $('coverage-list').append(n);
+  });
+  Object.entries(report.metadata).forEach(([k,v])=>{
+    const n=el('div','');
+    n.append(el('dt','',k.replaceAll('_',' ').toUpperCase()),el('dd','',v));
+    $('metadata').append(n);
+  });
+  report.notes.forEach(n=>$('notes').append(el('p','',n)));
+  async function copy(text,button){
+    try{
+      if(!navigator.clipboard)throw Error();
+      await navigator.clipboard.writeText(text);
+      button.textContent='Copied';
+    }catch(_){
+      const t=el('textarea','');
+      t.value=text;
+      t.setAttribute('readonly','');
+      document.body.append(t);
+      t.select();
+      let ok=false;
+      try{
+        ok=document.execCommand('copy');
+      }catch(_){
+      }t.remove();
+      button.textContent=ok?'Copied':'Select and copy below';
+      if(!ok){
+        const pre=button.parentElement.querySelector('pre');
+        if(pre){
+          const range=document.createRange();
+          range.selectNodeContents(pre);
+          const selection=window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }$('status').textContent='Clipboard unavailable. Commands selected for manual copying.';
+      }
+    }
+  } Object.entries(report.references).forEach(([name,text])=>{
+    const ref=el('details','ref panel'), head=el('summary','',name);
+    ref.append(head);
+    ref.addEventListener('toggle',()=>{
+      if(ref.open&&!ref.dataset.loaded){
+        ref.dataset.loaded='1';
+        const pre=el('pre','reference',text);
+        ref.append(pre);
+      }
+    }, {
+      once:false
+    });
+    $('reference-list').append(ref);
+  });
+  const indexed=report.findings.map((f,index)=>({
+    f,index,search:JSON.stringify(f).toLowerCase()
+  }));
+  let matches=[],limit=80;
+  function detail(f){
+    const d=el('details','finding');
+    d.id='finding-'+f.id;
+    const head=el('summary','');
+    const title=el('div','');
+    title.append(el('div','finding-title',f.title),el('div','finding-meta',[f.domain,f.object,f.vdom].filter(Boolean).join(' · ')));
+    head.append(el('span','badge '+f.severity.toLowerCase(),f.severity),title);
+    d.append(head);
+    function load(){
+      if(d.dataset.loaded)return;
+      d.dataset.loaded='1';
+      const body=el('div','finding-body');
+      [['Finding details',f.description],['Security impact',f.impact],['Configuration evidence',typeof f.evidence==='string'?f.evidence:JSON.stringify(f.evidence,null,2)],['Recommended remediation',f.recommendation]].forEach(([name,text])=>{
+        body.append(el('h3','',name),el(name==='Configuration evidence'?'pre':'p','',text));
+      });
+      body.append(el('h3','','FortiGate CLI remediation'));
+      if(f.cli||f.guidance){
+        const content=f.cli||f.guidance,block=el('div','cli'),button=el('button','',f.cli?'Copy commands':'Copy original guidance');
+        button.type='button';
+        button.addEventListener('click',()=>copy(content,button));
+        block.append(button,el('pre','',content));
+        if(!f.cli)block.append(el('p','muted','Original audit guidance; may be incomplete and require placeholders.'));
+        body.append(block);
+      }else{
+        body.append(el('p','muted',f.guidance||'No exact command is supplied for this finding. Review the technical references for existing guidance.'));
+      }body.append(el('p','muted',f.operational_note||'Review FortiOS compatibility, replace placeholders, and validate impact on management access, routing and production traffic before applying changes.'));
+      d.append(body);
+    } d.addEventListener('toggle',()=>{
+      if(d.open)load();
+    });
+    d.loadDetails=load;
+    return d;
+  } function render(){
+    const frag=document.createDocumentFragment();
+    matches.slice(0,limit).forEach(x=>frag.append(detail(x.f)));
+    $('list').replaceChildren(frag);
+    $('result-count').textContent=matches.length+' of '+report.findings.length+' findings · '+Math.min(limit,matches.length)+' displayed';
+    $('more').classList.toggle('hidden',limit>=matches.length);
+    $('empty').classList.toggle('hidden',matches.length!==0);
+  } function filter(){
+    const q=$('search').value.toLowerCase().trim(),s=$('severity').value,d=$('domain').value,v=$('vdom').value,sort=$('sort').value;
+    matches=indexed.filter(x=>(!q||x.search.includes(q))&&(!s||x.f.severity===s)&&(!d||x.f.domain===d)&&(!v||x.f.vdom===v));
+    const rank=s=>severities.indexOf(s);
+    matches.sort((a,b)=>{
+      if(sort==='highest')return rank(a.f.severity)-rank(b.f.severity)||a.index-b.index;
+      if(sort==='lowest')return rank(b.f.severity)-rank(a.f.severity)||a.index-b.index;
+      if(sort==='domain'||sort==='title')return a.f[sort].localeCompare(b.f[sort])||a.index-b.index;
+      return a.index-b.index;
+    });
+    limit=80;
+    render();
+  } let timer;
+  $('search').addEventListener('input',()=>{
+    clearTimeout(timer);
+    timer=setTimeout(filter,100);
+  });
+  ['severity','domain','vdom','sort'].forEach(id=>$(id).addEventListener('change',filter));
+  $('reset').addEventListener('click',()=>{
+    $('search').value='';
+    ['severity','domain','vdom'].forEach(id=>$(id).value='');
+    $('sort').value='highest';
+    filter();
+  });
+  $('more').addEventListener('click',()=>{
+    limit+=80;
+    render();
+  });
+  let printState=null;
+  function preparePrint(){
+    if(printState)return;
+    printState={
+      limit,open:[...document.querySelectorAll('#list details[open]')].map(d=>d.id)
+    };
+    limit=matches.length;
+    render();
+    document.querySelectorAll('#list details').forEach(d=>{
+      d.loadDetails();
+      d.open=true;
+    });
+    document.querySelectorAll('#reference-list details').forEach(d=>{
+      d.dataset.wasOpen=d.open?'1':'0';
+      d.open=true;
+      if(!d.dataset.loaded){
+        d.dataset.loaded='1';
+        d.append(el('pre','reference',report.references[d.firstChild.textContent]));
+      }
+    });
+  } window.addEventListener('beforeprint',preparePrint);
+  window.addEventListener('afterprint',()=>{
+    if(!printState)return;
+    limit=printState.limit;
+    const opened=printState.open;
+    printState=null;
+    render();
+    opened.forEach(id=>{
+      if($(id))$(id).open=true;
+    });
+    document.querySelectorAll('#reference-list details').forEach(d=>d.open=d.dataset.wasOpen==='1');
+  });
+  $('print').addEventListener('click',()=>{
+    preparePrint();
+    window.print();
+  });
+  filter();
+})();
+</script></body></html>

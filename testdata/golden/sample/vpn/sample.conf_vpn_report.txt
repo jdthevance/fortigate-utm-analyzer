@@ -1,0 +1,49 @@
+FortiGate IPsec VPN Security Audit
+================================================================================
+
+─── Overview ──────────────────────────────────────────────────────────────────
+Phase1 tunnels: 1  Phase2 SAs: 1
+
+─── Phase1: vpn-to-branch ─────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Tunnel Name            | vpn-to-branch                    |
+| IKE Version            | 1                                |
+| Mode                   | aggressive                       |
+| Auth Method            | psk                              |
+| Proposal               | 3des-md5                         |
+| DH Groups              | 1 2                              |
+| DPD                    | disable                          |
+| Rekey                  | disable                          |
+| Key Lifetime           | 172800                           |
+| NAT Traversal          |                                  |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] VPN 'vpn-to-branch': IKEv1 — upgrade to IKEv2 (RFC 7296) for improved security.
+  [HIGH] VPN 'vpn-to-branch': IKEv1 aggressive mode — PSK hash sent in cleartext, offline cracking possible.
+  [HIGH] VPN 'vpn-to-branch': weak algorithm 'DES' in IKE proposal — use AES256/SHA256+.
+  [HIGH] VPN 'vpn-to-branch': weak algorithm '3DES' in IKE proposal — use AES256/SHA256+.
+  [HIGH] VPN 'vpn-to-branch': weak algorithm 'MD5' in IKE proposal — use AES256/SHA256+.
+  [HIGH] VPN 'vpn-to-branch': DH group 1 is below 2048-bit.
+  [HIGH] VPN 'vpn-to-branch': DH group 2 is below 2048-bit.
+  [MEDIUM] VPN 'vpn-to-branch': PSK authentication — certificate-based auth is stronger.
+  [HIGH] VPN 'vpn-to-branch': PSK appears short (<20 chars) — use 32+ random characters.
+  [INFO] VPN 'vpn-to-branch': Dead Peer Detection disabled — stale tunnels persist.
+  [MEDIUM] VPN 'vpn-to-branch': rekey disabled — long-lived session keys reduce forward secrecy.
+  [MEDIUM] VPN 'vpn-to-branch': IKE key lifetime 172800s exceeds 24h — reduce to 8h or less.
+
+─── Phase2: vpn-to-branch-p2 ──────────────────────────────────────────────────
++-----------------------------------------------------------+
+| SA Name                | vpn-to-branch-p2                 |
+| Phase1                 | vpn-to-branch                    |
+| Proposal               | 3des-md5                         |
+| PFS                    | disable                          |
+| DH Group               |                                  |
+| Key Lifetime           | 172800                           |
+| Anti-Replay            |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Phase2 'vpn-to-branch-p2': weak algorithm 'DES' in ESP proposal.
+  [HIGH] Phase2 'vpn-to-branch-p2': weak algorithm '3DES' in ESP proposal.
+  [HIGH] Phase2 'vpn-to-branch-p2': weak algorithm 'MD5' in ESP proposal.
+  [HIGH] Phase2 'vpn-to-branch-p2': PFS disabled — session key compromise exposes all past sessions.
+  [MEDIUM] Phase2 'vpn-to-branch-p2': key lifetime 172800s exceeds 8h — shorter rekey recommended.

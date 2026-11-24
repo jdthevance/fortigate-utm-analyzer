@@ -1,0 +1,3 @@
+[*] Parsing config: sample.conf
+[*] Parsed: 3 IPv4 policies, 0 IPv6 policies, 2 SSL profiles, 1 AV profiles, 1 VPN tunnels, 2 admins, 3 interfaces, 0 DoS policies
+[+] Unused objects report      -> <OUT_DIR>/sample.conf_unused_objects_report.txt

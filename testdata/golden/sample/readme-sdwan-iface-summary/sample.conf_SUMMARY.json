@@ -1,0 +1,45 @@
+{
+  "summary": {
+    "counts": {
+      "CRITICAL": 5,
+      "HIGH": 5,
+      "MEDIUM": 2,
+      "INFO": 0
+    },
+    "total": 12,
+    "score": 79.0,
+    "risk": "CRITICAL",
+    "by_section": {
+      "SD-WAN": {
+        "CRITICAL": 1,
+        "HIGH": 1,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Interface Exposure": {
+        "CRITICAL": 4,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 0
+      }
+    }
+  },
+  "findings": {
+    "SD-WAN": [
+      "HIGH: SD-WAN member 1 ('wan1'): NOT monitored by any health-check \u2014 link failures will not trigger failover. Add a health-check and reference this member.",
+      "CRITICAL: SD-WAN: NO health-checks configured \u2014 link failures are UNDETECTED. SD-WAN cannot failover without health monitoring. CLI: config system sdwan \u2192 config health-check \u2192 edit MyHC \u2192 set server 8.8.8.8 \u2192 set interval 500 \u2192 set failtime 3",
+      "MEDIUM: SD-WAN: no traffic steering rules (service rules) configured \u2014 all traffic uses default load-balance mode without application-aware routing."
+    ],
+    "Interface Exposure": [
+      "CRITICAL: Interface 'wan1' (wan): Telnet enabled \u2014 cleartext management. Remove immediately. CLI: config system interface \u2192 edit wan1 \u2192 set allowaccess (list without telnet)",
+      "CRITICAL: Interface 'wan1' (wan): HTTP enabled \u2014 cleartext management. Replace with HTTPS only.",
+      "CRITICAL: Interface 'wan1' (wan): SNMP enabled \u2014 WAN-facing SNMP is critical risk.",
+      "HIGH: Interface 'wan1' (WAN): SSH exposed to internet \u2014 restrict via local-in-policy to admin IPs only.",
+      "HIGH: Interface 'wan1' (WAN): HTTPS management on WAN \u2014 restrict via local-in-policy or remove from allowaccess.",
+      "MEDIUM: Interface 'wan1' (WAN): ICMP ping enabled \u2014 aids attacker recon. Disable on WAN.",
+      "HIGH: Interface 'wan1' exposure score 7.0/10 (HIGH EXPOSURE) \u2014 significant management attack surface. Review and restrict.",
+      "CRITICAL: Interface 'dmz' (dmz): Telnet enabled \u2014 cleartext management. Remove immediately. CLI: config system interface \u2192 edit dmz \u2192 set allowaccess (list without telnet)",
+      "HIGH: Interface 'dmz' (dmz): HTTP enabled \u2014 cleartext management. Replace with HTTPS only."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+================================================================================
+================= FORTIGATE SECURITY AUDIT — EXECUTIVE SUMMARY =================
+================================================================================
+  Config file  : sample.conf
+  Risk Rating  : CRITICAL
+  Risk Score   : 94.0  (CRITICAL×10 + HIGH×5 + MEDIUM×2 + INFO×0.5)
+  Total Findings: 27
+
+  CRITICAL        5
+  HIGH            4
+  MEDIUM         10
+  INFO            8
+================================================================================
+
+  FINDINGS BY SECTION:
+  ------------------------------------------------------------------------------
+  Section                              CRIT  HIGH   MED  INFO    TOT
+  ------------------------------------------------------------------------------
+  Policy Intelligence                     1     4     1     0      6
+  Unused Objects                          0     0     3     5      8
+  VIP Security                            4     0     6     3     13
+  ------------------------------------------------------------------------------
+
+  CRITICAL & HIGH FINDINGS:
+  ------------------------------------------------------------------------------
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have IPS — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have SSL inspection — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 0% of accept policies have Antivirus — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  HIGH: Coverage: only 33% of accept policies have Logging — large portion of traffic flows uninspected.
+  [Policy Intelligence           ]  CRITICAL: Coverage: 3 ANY-ANY-ANY accept policies found — these permit all traffic unrestricted.
+  [VIP Security                  ]  CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  [VIP Security                  ]  CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  [VIP Security                  ]  CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+  [VIP Security                  ]  CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+
+================================================================================

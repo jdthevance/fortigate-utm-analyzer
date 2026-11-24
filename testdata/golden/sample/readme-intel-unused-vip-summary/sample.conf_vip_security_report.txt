@@ -1,0 +1,82 @@
+================================================================================
+====================== VIP / PORT-FORWARD SECURITY AUDIT =======================
+================================================================================
+
+  VIP objects: 3   VIP groups: 0
+
+────────────────────────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+|                      VIP: RDP-Server                      |
++-----------------------------------------------------------+
+| VIP Name               | RDP-Server                       |
+| Type                   | static-nat                       |
+| External IP            | 203.0.113.1                      |
+| External Port          | 3389                             |
+| Mapped IP              | 192.168.1.100                    |
+| Mapped Port            | 3389                             |
+| Interface              | wan1                             |
+| Protocol               | tcp                              |
+| Source Filter          | (none — any source)              |
+| Comment                | (none)                           |
++-----------------------------------------------------------+
+  Findings:
+  🟡 [MEDIUM] VIP 'RDP-Server': not referenced in any firewall policy — port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.
+  🟡 [MEDIUM] VIP 'RDP-Server': no src-filter configured — ALL internet IPs can attempt to reach the mapped destination (192.168.1.100). Add src-filter to restrict to known source IPs where possible. CLI: edit vip → set src-filter <ip-range>
+  🔵 [INFO] VIP 'RDP-Server': no comment — document the purpose of this port-forward.
+  🔴 [CRITICAL] VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  🔴 [CRITICAL] VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+
+────────────────────────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+|                      VIP: SMB-Server                      |
++-----------------------------------------------------------+
+| VIP Name               | SMB-Server                       |
+| Type                   | static-nat                       |
+| External IP            | 203.0.113.1                      |
+| External Port          | 445                              |
+| Mapped IP              | 192.168.1.101                    |
+| Mapped Port            | 445                              |
+| Interface              | wan1                             |
+| Protocol               | tcp                              |
+| Source Filter          | (none — any source)              |
+| Comment                | (none)                           |
++-----------------------------------------------------------+
+  Findings:
+  🟡 [MEDIUM] VIP 'SMB-Server': not referenced in any firewall policy — port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.
+  🟡 [MEDIUM] VIP 'SMB-Server': no src-filter configured — ALL internet IPs can attempt to reach the mapped destination (192.168.1.101). Add src-filter to restrict to known source IPs where possible. CLI: edit vip → set src-filter <ip-range>
+  🔵 [INFO] VIP 'SMB-Server': no comment — document the purpose of this port-forward.
+  🔴 [CRITICAL] VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+  🔴 [CRITICAL] VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+
+────────────────────────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+|                      VIP: Unused-VIP                      |
++-----------------------------------------------------------+
+| VIP Name               | Unused-VIP                       |
+| Type                   | static-nat                       |
+| External IP            | 203.0.113.2                      |
+| External Port          | (all)                            |
+| Mapped IP              | 192.168.1.200                    |
+| Mapped Port            | (same)                           |
+| Interface              | wan1                             |
+| Protocol               | tcp                              |
+| Source Filter          | (none — any source)              |
+| Comment                | (none)                           |
++-----------------------------------------------------------+
+  Findings:
+  🟡 [MEDIUM] VIP 'Unused-VIP': not referenced in any firewall policy — port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.
+  🟡 [MEDIUM] VIP 'Unused-VIP': no src-filter configured — ALL internet IPs can attempt to reach the mapped destination (192.168.1.200). Add src-filter to restrict to known source IPs where possible. CLI: edit vip → set src-filter <ip-range>
+  🔵 [INFO] VIP 'Unused-VIP': no comment — document the purpose of this port-forward.
+
+────────────────────────────────────────────────────────────────────────────────
+  🔴 CRITICAL VIP EXPOSURES (remediate immediately):
+  • VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  • VIP 'RDP-Server': exposes RDP (port 3389) from internet → 192.168.1.100. RDP exposed to internet — BlueKeep/credential brute-force. Use VPN instead.
+  • VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+  • VIP 'SMB-Server': exposes SMB (port 445) from internet → 192.168.1.101. SMB/CIFS exposed to internet — EternalBlue/ransomware risk. Remove immediately.
+
+  For each critical VIP, consider:
+  1. Remove the VIP entirely and use VPN instead (RDP, SMB, DB)
+  2. Add src-filter to restrict to known IPs
+  3. Move service behind SSL-VPN or Zero Trust proxy
+  CLI: config firewall vip → edit <name> → set src-filter <allowed-ip>

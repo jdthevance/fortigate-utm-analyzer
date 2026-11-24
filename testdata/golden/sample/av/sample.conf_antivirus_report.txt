@@ -1,0 +1,56 @@
+FortiGate AntiVirus Profile Audit (FortiOS 8.0)
+================================================================================
+
+─── Overview ──────────────────────────────────────────────────────────────────
+Profiles found: 1
+
+─── AV Profile: demo-av-profile ───────────────────────────────────────────────
++---------------------------------------------------------------------+
+| Profile Name                     | demo-av-profile                  |
+| Feature Set                      | flow                             |
+| Config Format                    | FortiOS 6.x flat                 |
+| AV Virus Log                     | enable                           |
+| Extended Log                     | disable                          |
+| FortiSandbox Mode                |                                  |
+| FortiSandbox Error Action        |                                  |
+| Outbreak Prevention Archive Scan | enable                           |
+| EMS Threat Feed                  | disable                          |
+| Mobile Malware DB                | enable                           |
+| Analytics DB                     | disable                          |
+| CDR Office Macro                 |                                  |
+| CDR PDF JavaScript               |                                  |
+| CDR Error Action                 |                                  |
+| HTTP av-scan                     |                                  |
+| HTTP Outbreak Prevention         |                                  |
+| HTTP FortiSandbox                |                                  |
+| HTTP Quarantine                  |                                  |
+| HTTP Malware Stream              |                                  |
+| SMTP av-scan                     |                                  |
+| CIFS av-scan                     |                                  |
+| SSH av-scan                      |                                  |
+| WebSocket av-scan                |                                  |
++---------------------------------------------------------------------+
+Findings:
+  [INFO] AV 'demo-av-profile': flow-based mode — proxy mode provides deeper inspection when HW allows.
+  [INFO] AV 'demo-av-profile': extended-log disabled — limited forensic detail in AV logs.
+  [MEDIUM] AV 'demo-av-profile': HTTP not inspected.
+  [MEDIUM] AV 'demo-av-profile': HTTPS not inspected.
+  [MEDIUM] AV 'demo-av-profile': SMTP not inspected.
+  [INFO] AV 'demo-av-profile': POP3 not inspected.
+  [INFO] AV 'demo-av-profile': IMAP not inspected.
+  [INFO] AV 'demo-av-profile': FTP not inspected.
+  [MEDIUM] AV 'demo-av-profile': CIFS/SMB not inspected.
+  [INFO] AV 'demo-av-profile': SSH/SFTP not inspected.
+  [INFO] AV 'demo-av-profile': WebSocket not inspected.
+  [MEDIUM] AV 'demo-av-profile': HTTP outbreak prevention disabled.
+  [MEDIUM] AV 'demo-av-profile': HTTPS outbreak prevention disabled.
+  [MEDIUM] AV 'demo-av-profile': SMTP outbreak prevention disabled.
+  [MEDIUM] AV 'demo-av-profile': FortiSandbox mode not configured — zero-day protection missing.
+  [MEDIUM] AV 'demo-av-profile': FortiSandbox submission disabled for HTTP — zero-day files not submitted.
+  [INFO] AV 'demo-av-profile': FortiNDR scanning not enabled for HTTP.
+  [MEDIUM] AV 'demo-av-profile': malware-stream (0-day stream) scanning disabled for HTTP.
+  [MEDIUM] AV 'demo-av-profile': quarantine not enabled — infected files not isolated.
+  [MEDIUM] AV 'demo-av-profile': CDR error action is log-only — CDR engine errors allow files through.
+  [INFO] AV 'demo-av-profile': analytics-db (FortiSandbox signature database) not enabled.
+  [INFO] AV 'demo-av-profile': EMS threat feed not enabled — endpoint threat intel not used.
+  [INFO] AV 'demo-av-profile': external blocklist not fully enabled.

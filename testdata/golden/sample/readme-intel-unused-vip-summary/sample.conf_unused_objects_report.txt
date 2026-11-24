@@ -1,0 +1,74 @@
+================================================================================
+============================= UNUSED OBJECTS AUDIT =============================
+================================================================================
+
++-----------------------------------------------------------+
+|                    Object Usage Summary                   |
++-----------------------------------------------------------+
+| Address objects total  | 3                                |
+|   Unused               | 3                                |
+| Address groups total   | 0                                |
+|   Unused               | 0                                |
+| Custom services total  | 2                                |
+|   Unused               | 2                                |
+| Service groups total   | 0                                |
+|   Unused               | 0                                |
+| VIP objects total      | 3                                |
+|   Unused               | 3                                |
+| IP Pools total         | 0                                |
+|   Unused               | 0                                |
+| Schedules total        | 0                                |
+|   Unused               | 0                                |
++-----------------------------------------------------------+
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED VIPs (verify these are not forgotten port-forwards)
+────────────────────────────────────────────────────────────────────────────────
+  • Unused VIP: 'RDP-Server' (extip:203.0.113.1 → mappedip:192.168.1.100 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards — verify they are intentionally disabled or remove them.
+  • Unused VIP: 'SMB-Server' (extip:203.0.113.1 → mappedip:192.168.1.101 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards — verify they are intentionally disabled or remove them.
+  • Unused VIP: 'Unused-VIP' (extip:203.0.113.2 → mappedip:192.168.1.200 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards — verify they are intentionally disabled or remove them.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED ADDRESS OBJECTS
+────────────────────────────────────────────────────────────────────────────────
+  • Unused Address: 'TEST-HOST' (ipmask 10.0.0.1 255.255.255.255) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.
+  • Unused Address: 'OLD-SERVER' (ipmask 192.168.50.10 255.255.255.255) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.
+  • Unused Address: 'DMZ-SUBNET' (ipmask 10.10.10.0 255.255.255.0) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED ADDRESS GROUPS
+────────────────────────────────────────────────────────────────────────────────
+  ✅ None found.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED CUSTOM SERVICES
+────────────────────────────────────────────────────────────────────────────────
+  • Unused Service: 'CUSTOM-APP-8080' (TCP) not referenced by any policy or group.
+  • Unused Service: 'OLD-MGMT-PORT' (TCP) not referenced by any policy or group.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED SERVICE GROUPS
+────────────────────────────────────────────────────────────────────────────────
+  ✅ None found.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED IP POOLS
+────────────────────────────────────────────────────────────────────────────────
+  ✅ None found.
+
+────────────────────────────────────────────────────────────────────────────────
+  UNUSED SCHEDULES
+────────────────────────────────────────────────────────────────────────────────
+  ✅ None found.
+
+────────────────────────────────────────────────────────────────────────────────
+  CLEANUP NOTES
+────────────────────────────────────────────────────────────────────────────────
+  • Unused VIPs are Medium severity — verify before deletion.
+    An 'unused' VIP may be referenced by an external load balancer.
+  • Unused address/service objects are Info — safe to clean up
+    but do a final text search in the full config before deleting.
+  • FortiGate CLI cleanup:
+    config firewall address → delete <name>
+    config firewall service custom → delete <name>
+    config firewall vip → delete <name>

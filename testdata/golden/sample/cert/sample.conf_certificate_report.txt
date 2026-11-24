@@ -1,0 +1,34 @@
+================================================================================
+============================== CERTIFICATE AUDIT ===============================
+================================================================================
+
+  Local certs: 1   CA certs: 0   Remote certs: 0
+
+────────────────────────────────────────────────────────────────────────────────
+  LOCAL CERTIFICATES (used for VPN, GUI, etc.)
+────────────────────────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Name                   | gui-cert                         |
+| Source                 | factory                          |
+| Issuer                 | (unknown)                        |
+| Subject                | (unknown)                        |
+| Expires                | (unknown — check device)         |
+| Key Size               | (unknown)                        |
++-----------------------------------------------------------+
+  🟡 [MEDIUM] Certificate 'gui-cert': self-signed — clients cannot properly validate this certificate without manually trusting the CA. Use a publicly trusted CA for external-facing services.
+  🔵 [INFO] Certificate 'gui-cert': key size not readable from config — verify manually with 'get vpn certificate local'.
+
+────────────────────────────────────────────────────────────────────────────────
+  CA CERTIFICATES (trusted CAs)
+────────────────────────────────────────────────────────────────────────────────
+  (none configured)
+────────────────────────────────────────────────────────────────────────────────
+  REMOTE CERTIFICATES
+────────────────────────────────────────────────────────────────────────────────
+  (none configured)
+────────────────────────────────────────────────────────────────────────────────
+  NOTE: FortiGate config backups contain certificate metadata but not full
+  certificate content. For complete expiry audit, run on the device:
+    diagnose vpn certificate local list
+    diagnose vpn certificate ca list
+    execute ssl-cert show all

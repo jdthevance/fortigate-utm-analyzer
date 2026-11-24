@@ -1,0 +1,55 @@
+================================================================================
+================== FABRIC CONNECTOR / CLOUD INTEGRATION AUDIT ==================
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+  SDN / CLOUD CONNECTORS  (2 found)
+────────────────────────────────────────────────────────────────────────────────
+
++-----------------------------------------------------------+
+|               SDN Connector: AWS-Prod (aws)               |
++-----------------------------------------------------------+
+| Connector Name         | AWS-Prod                         |
+| Type                   | aws                              |
+| Status                 | enable                           |
+| Server/Endpoint        | (cloud metadata)                 |
+| Update Interval        | 7200s                            |
+| Verify Cert            | disable                          |
+| Use Metadata IAM       |                                  |
++-----------------------------------------------------------+
+  🟠 [HIGH] Connector 'AWS-Prod' (aws): verify-certificate disabled — connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable
+  🟠 [HIGH] Connector 'AWS-Prod' (AWS): using static access-key/secret-key — long-lived credentials are high risk if config backup is exposed. Switch to IAM role with use-metadata-iam enable.
+  🟡 [MEDIUM] Connector 'AWS-Prod' (aws): update-interval 7200s (120min) — stale dynamic address objects; consider ≤ 60s for cloud environments.
+
++-----------------------------------------------------------+
+|             SDN Connector: Azure-Corp (azure)             |
++-----------------------------------------------------------+
+| Connector Name         | Azure-Corp                       |
+| Type                   | azure                            |
+| Status                 | enable                           |
+| Server/Endpoint        | (cloud metadata)                 |
+| Update Interval        | (default)                        |
+| Verify Cert            | disable                          |
+| Use Metadata IAM       |                                  |
++-----------------------------------------------------------+
+  🟠 [HIGH] Connector 'Azure-Corp' (azure): verify-certificate disabled — connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable
+  🟠 [HIGH] Connector 'Azure-Corp' (Azure): client-secret stored in config — treat config backup as a secret. Prefer managed identity where possible.
+
+────────────────────────────────────────────────────────────────────────────────
+  EXTERNAL RESOURCES  (0 found)
+────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────
+  EMS (ENDPOINT MANAGEMENT SERVER) INTEGRATION
+────────────────────────────────────────────────────────────────────────────────
+  🔵 [INFO] EMS: no EMS server configured — endpoint posture check and ZTNA tag-based policies require EMS integration.
+
+────────────────────────────────────────────────────────────────────────────────
+  ZTNA (ZERO TRUST NETWORK ACCESS)
+────────────────────────────────────────────────────────────────────────────────
+  Policies with ZTNA enabled: 0
+  🔵 [INFO] ZTNA: no policies have ztna-status enabled — Zero Trust Network Access not enforced on any traffic flow. Consider enabling ZTNA on internet-facing access policies.
+
+────────────────────────────────────────────────────────────────────────────────
+  FORTISASE CONNECTOR
+────────────────────────────────────────────────────────────────────────────────
+  🔵 [INFO] SASE: FortiSASE connector not configured — cloud-delivered security service not integrated.

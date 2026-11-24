@@ -1,0 +1,88 @@
+================================================================================
+================= FORTIGATE SECURITY AUDIT — EXECUTIVE SUMMARY =================
+================================================================================
+  Config file  : sample.conf
+  Risk Rating  : CRITICAL
+  Risk Score   : 241.5  (CRITICAL×10 + HIGH×5 + MEDIUM×2 + INFO×0.5)
+  Total Findings: 74
+
+  CRITICAL        4
+  HIGH           30
+  MEDIUM         21
+  INFO           19
+================================================================================
+
+  FINDINGS BY SECTION:
+  ------------------------------------------------------------------------------
+  Section                              CRIT  HIGH   MED  INFO    TOT
+  ------------------------------------------------------------------------------
+  Admin Accounts                          0     6     0     2      8
+  Certificates                            0     0     1     1      2
+  Enhanced Local-in                       2     0     3     0      5
+  FIPS-CC                                 0     0     0     1      1
+  FortiGuard                              0     0     1     0      1
+  Global Hardening                        1     3     4     5     13
+  IKE Global                              0     1     1     0      2
+  Interfaces                              0     7     1     3     11
+  Local-in                                1     1     2     0      4
+  NTP                                     0     0     1     2      3
+  Password Policy                         0     1     0     0      1
+  SSH Config                              0     0     0     1      1
+  Security Fabric                         0     0     0     1      1
+  System DNS                              0     0     2     2      4
+  VPN Phase1                              0     7     4     1     12
+  VPN Phase2                              0     4     1     0      5
+  ------------------------------------------------------------------------------
+
+  CRITICAL & HIGH FINDINGS:
+  ------------------------------------------------------------------------------
+  [Admin Accounts                ]  HIGH: Admin 'admin': no trusted-host restrictions — login from any IP permitted.
+  [Admin Accounts                ]  HIGH: Admin 'admin': super_admin profile — no least-privilege separation.
+  [Admin Accounts                ]  HIGH: Admin 'admin': two-factor authentication not enabled.
+  [Admin Accounts                ]  HIGH: Admin 'admin': session timeout 0 — sessions never expire.
+  [Admin Accounts                ]  HIGH: Admin 'readonly-user': no trusted-host restrictions — login from any IP permitted.
+  [Admin Accounts                ]  HIGH: Admin 'readonly-user': two-factor authentication not enabled.
+  [Enhanced Local-in             ]  CRITICAL: Local-in CRITICAL: WAN interface 'wan1' has management access (http, https, ping, snmp, ssh, telnet) enabled AND has NO local-in-policy restricting source IPs. Any IP on the internet can attempt to reach FortiGate management. This is a CRITICAL management plane exposure. Fix:
+  config firewall local-in-policy
+      edit 1
+          set intf wan1
+          set srcaddr <your-admin-subnet>
+          set service HTTPS SSH
+          set action accept
+      next
+      edit 2
+          set intf wan1
+          set srcaddr all
+          set service ALL
+          set action deny
+      next
+  end
+  [Enhanced Local-in             ]  CRITICAL: Local-in #1 (intf:): ACCEPT from source 'all' — any host can reach FortiGate services on this interface.
+  [Global Hardening              ]  HIGH: Global: strong-crypto disabled — weak ciphers (RC4/DES/MD5) may be negotiated for management TLS.
+  [Global Hardening              ]  CRITICAL: Global: DH params 1024-bit — critically weak; upgrade to 4096+ immediately.
+  [Global Hardening              ]  HIGH: Global: admin lockout threshold 0 — brute-force lockout disabled.
+  [Global Hardening              ]  HIGH: Global: admin lockout duration 0 — account unlocks immediately.
+  [IKE Global                    ]  HIGH: IKE Global: IKEv1 aggressive mode not globally disabled — PSK hash exposure risk.
+  [Interfaces                    ]  HIGH: Interface 'wan1': HTTP management enabled — credentials in cleartext.
+  [Interfaces                    ]  HIGH: Interface 'wan1': Telnet enabled — fully unencrypted management.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): HTTPS management exposed to internet.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): SSH management exposed to internet — brute-force risk.
+  [Interfaces                    ]  HIGH: Interface 'wan1' (WAN): SNMP accessible from internet.
+  [Interfaces                    ]  HIGH: Interface 'dmz': HTTP management enabled — credentials in cleartext.
+  [Interfaces                    ]  HIGH: Interface 'dmz': Telnet enabled — fully unencrypted management.
+  [Local-in                      ]  HIGH: Local-in: source is 'all' — FortiGate management services accessible from any host.
+  [Local-in                      ]  CRITICAL: Local-in: ACCEPT from 'all' sources — FortiGate control plane broadly exposed.
+  [Password Policy               ]  HIGH: PasswordPolicy: password policy disabled — no enforced complexity requirements.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': IKEv1 aggressive mode — PSK hash sent in cleartext, offline cracking possible.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm 'DES' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm '3DES' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': weak algorithm 'MD5' in IKE proposal — use AES256/SHA256+.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': DH group 1 is below 2048-bit.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': DH group 2 is below 2048-bit.
+  [VPN Phase1                    ]  HIGH: VPN 'vpn-to-branch': PSK appears short (<20 chars) — use 32+ random characters.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'DES' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm '3DES' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'MD5' in ESP proposal.
+  [VPN Phase2                    ]  HIGH: Phase2 'vpn-to-branch-p2': PFS disabled — session key compromise exposes all past sessions.
+
+================================================================================

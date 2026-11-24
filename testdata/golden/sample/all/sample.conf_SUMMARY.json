@@ -1,0 +1,709 @@
+{
+  "summary": {
+    "counts": {
+      "CRITICAL": 21,
+      "HIGH": 78,
+      "MEDIUM": 114,
+      "INFO": 97
+    },
+    "total": 310,
+    "score": 876.5,
+    "risk": "CRITICAL",
+    "by_section": {
+      "Firewall Policies": {
+        "CRITICAL": 3,
+        "HIGH": 16,
+        "MEDIUM": 16,
+        "INFO": 37
+      },
+      "SSL Inspection": {
+        "CRITICAL": 0,
+        "HIGH": 6,
+        "MEDIUM": 14,
+        "INFO": 0
+      },
+      "Antivirus Profiles": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 12,
+        "INFO": 11
+      },
+      "IPS Sensors": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "INFO": 1
+      },
+      "Web Filter": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 4,
+        "INFO": 2
+      },
+      "App Control": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "INFO": 2
+      },
+      "DNS Filter": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 2,
+        "INFO": 2
+      },
+      "WAF Profiles": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "Email Filter": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "Video Filter": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "File Filter": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "Virtual Patch": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "LLM Profiles": {
+        "CRITICAL": 0,
+        "HIGH": 2,
+        "MEDIUM": 3,
+        "INFO": 0
+      },
+      "VPN Phase1": {
+        "CRITICAL": 0,
+        "HIGH": 7,
+        "MEDIUM": 4,
+        "INFO": 1
+      },
+      "VPN Phase2": {
+        "CRITICAL": 0,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "SSL-VPN": {
+        "CRITICAL": 0,
+        "HIGH": 3,
+        "MEDIUM": 6,
+        "INFO": 1
+      },
+      "SSL-VPN Portals": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 1,
+        "INFO": 3
+      },
+      "HA Config": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 3,
+        "INFO": 3
+      },
+      "Logging": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "INFO": 2
+      },
+      "DoS Policies": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Anti-DoS Policies": {
+        "CRITICAL": 1,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "Anti-DoS IPS": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 3,
+        "INFO": 0
+      },
+      "Anti-DoS Hardening": {
+        "CRITICAL": 3,
+        "HIGH": 3,
+        "MEDIUM": 4,
+        "INFO": 3
+      },
+      "Admin Accounts": {
+        "CRITICAL": 0,
+        "HIGH": 6,
+        "MEDIUM": 0,
+        "INFO": 2
+      },
+      "Interfaces": {
+        "CRITICAL": 0,
+        "HIGH": 7,
+        "MEDIUM": 1,
+        "INFO": 3
+      },
+      "Global Hardening": {
+        "CRITICAL": 1,
+        "HIGH": 3,
+        "MEDIUM": 4,
+        "INFO": 5
+      },
+      "Password Policy": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "SSH Config": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "NTP": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 2
+      },
+      "Local-in": {
+        "CRITICAL": 1,
+        "HIGH": 1,
+        "MEDIUM": 2,
+        "INFO": 0
+      },
+      "SNMP": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "System DNS": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 2,
+        "INFO": 2
+      },
+      "IKE Global": {
+        "CRITICAL": 0,
+        "HIGH": 1,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Security Fabric": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "FIPS-CC": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 1
+      },
+      "FortiGuard": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Policy Intelligence": {
+        "CRITICAL": 1,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Unused Objects": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 3,
+        "INFO": 5
+      },
+      "VIP Security": {
+        "CRITICAL": 4,
+        "HIGH": 0,
+        "MEDIUM": 6,
+        "INFO": 3
+      },
+      "SD-WAN": {
+        "CRITICAL": 1,
+        "HIGH": 1,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Interface Exposure": {
+        "CRITICAL": 4,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 0
+      },
+      "Certificates": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 1,
+        "INFO": 1
+      },
+      "Fabric Connectors": {
+        "CRITICAL": 0,
+        "HIGH": 4,
+        "MEDIUM": 1,
+        "INFO": 3
+      },
+      "AI/LLM Security": {
+        "CRITICAL": 0,
+        "HIGH": 2,
+        "MEDIUM": 5,
+        "INFO": 0
+      },
+      "Enhanced Local-in": {
+        "CRITICAL": 2,
+        "HIGH": 0,
+        "MEDIUM": 3,
+        "INFO": 0
+      },
+      "BGP Security": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "RADIUS": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "LDAP": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      },
+      "SAML": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "INFO": 0
+      }
+    }
+  },
+  "findings": {
+    "Firewall Policies": [
+      "HIGH: UTM disabled on accept policy \u2014 all security profiles bypassed.",
+      "HIGH: No IPS sensor or virtual-patch profile \u2014 exploit traffic uninspected.",
+      "HIGH: No antivirus profile \u2014 malware passes through undetected.",
+      "HIGH: No SSL/SSH inspection profile \u2014 encrypted threats bypass all UTM.",
+      "MEDIUM: No web filter profile \u2014 malicious/uncategorized URLs allowed.",
+      "MEDIUM: No DNS filter \u2014 DNS-based C2, tunnelling, malware domains unblocked.",
+      "MEDIUM: No application control \u2014 risky/shadow-IT apps may run freely.",
+      "MEDIUM: No DLP profile \u2014 data exfiltration risk unaddressed.",
+      "INFO: No CASB profile \u2014 unsanctioned cloud service usage not monitored.",
+      "INFO: No WAF profile \u2014 web application layer attacks not inspected.",
+      "INFO: No email filter profile \u2014 if email flows through this policy, spam/phishing uninspected.",
+      "INFO: No file-filter profile \u2014 dangerous file types (executables, scripts) not blocked by policy.",
+      "INFO: No virtual-patch profile \u2014 newly disclosed CVEs not virtually patched.",
+      "INFO: No LLM profile (FortiOS 8.0) \u2014 AI/LLM traffic not inspected for data leakage.",
+      "CRITICAL: ANY-ANY-ANY accept policy \u2014 maximally permissive; full security review required.",
+      "MEDIUM: Service is ALL \u2014 restrict to required protocols only.",
+      "INFO: ZTNA not enabled on this policy \u2014 consider Zero Trust enforcement.",
+      "INFO: reputation-minimum not set \u2014 FortiGuard IP reputation not enforced.",
+      "HIGH: Traffic logging disabled \u2014 no visibility into flows matched by this policy.",
+      "INFO: logtraffic-start disabled \u2014 session start events not recorded.",
+      "INFO: log-http-transaction disabled \u2014 HTTP request details not captured.",
+      "INFO: No policy comment \u2014 undocumented rules are an audit and compliance risk.",
+      "MEDIUM: Packet capture enabled \u2014 likely a debug artifact; disable in production.",
+      "HIGH: UTM disabled on accept policy \u2014 all security profiles bypassed.",
+      "HIGH: No IPS sensor or virtual-patch profile \u2014 exploit traffic uninspected.",
+      "HIGH: No antivirus profile \u2014 malware passes through undetected.",
+      "HIGH: No SSL/SSH inspection profile \u2014 encrypted threats bypass all UTM.",
+      "MEDIUM: No web filter profile \u2014 malicious/uncategorized URLs allowed.",
+      "MEDIUM: No DNS filter \u2014 DNS-based C2, tunnelling, malware domains unblocked.",
+      "MEDIUM: No application control \u2014 risky/shadow-IT apps may run freely.",
+      "MEDIUM: No DLP profile \u2014 data exfiltration risk unaddressed.",
+      "INFO: No CASB profile \u2014 unsanctioned cloud service usage not monitored.",
+      "INFO: No WAF profile \u2014 web application layer attacks not inspected.",
+      "INFO: No email filter profile \u2014 if email flows through this policy, spam/phishing uninspected.",
+      "INFO: No file-filter profile \u2014 dangerous file types (executables, scripts) not blocked by policy.",
+      "INFO: No virtual-patch profile \u2014 newly disclosed CVEs not virtually patched.",
+      "INFO: No LLM profile (FortiOS 8.0) \u2014 AI/LLM traffic not inspected for data leakage.",
+      "CRITICAL: ANY-ANY-ANY accept policy \u2014 maximally permissive; full security review required.",
+      "HIGH: Inbound WAN-to-internal accept policy \u2014 verify this is intentional.",
+      "MEDIUM: Service is ALL \u2014 restrict to required protocols only.",
+      "INFO: ZTNA not enabled on this policy \u2014 consider Zero Trust enforcement.",
+      "INFO: reputation-minimum not set \u2014 FortiGuard IP reputation not enforced.",
+      "INFO: Logging 'utm' only \u2014 consider 'all' for full flow visibility.",
+      "INFO: logtraffic-start disabled \u2014 session start events not recorded.",
+      "INFO: log-http-transaction disabled \u2014 HTTP request details not captured.",
+      "INFO: No policy comment \u2014 undocumented rules are an audit and compliance risk.",
+      "INFO: NAT disabled \u2014 verify internal IPs are not exposed.",
+      "HIGH: UTM disabled on accept policy \u2014 all security profiles bypassed.",
+      "HIGH: No IPS sensor or virtual-patch profile \u2014 exploit traffic uninspected.",
+      "HIGH: No antivirus profile \u2014 malware passes through undetected.",
+      "HIGH: No SSL/SSH inspection profile \u2014 encrypted threats bypass all UTM.",
+      "MEDIUM: No web filter profile \u2014 malicious/uncategorized URLs allowed.",
+      "MEDIUM: No DNS filter \u2014 DNS-based C2, tunnelling, malware domains unblocked.",
+      "MEDIUM: No application control \u2014 risky/shadow-IT apps may run freely.",
+      "MEDIUM: No DLP profile \u2014 data exfiltration risk unaddressed.",
+      "INFO: No CASB profile \u2014 unsanctioned cloud service usage not monitored.",
+      "INFO: No WAF profile \u2014 web application layer attacks not inspected.",
+      "INFO: No email filter profile \u2014 if email flows through this policy, spam/phishing uninspected.",
+      "INFO: No file-filter profile \u2014 dangerous file types (executables, scripts) not blocked by policy.",
+      "INFO: No virtual-patch profile \u2014 newly disclosed CVEs not virtually patched.",
+      "INFO: No LLM profile (FortiOS 8.0) \u2014 AI/LLM traffic not inspected for data leakage.",
+      "CRITICAL: ANY-ANY-ANY accept policy \u2014 maximally permissive; full security review required.",
+      "HIGH: Inbound WAN-to-internal accept policy \u2014 verify this is intentional.",
+      "MEDIUM: Service is ALL \u2014 restrict to required protocols only.",
+      "INFO: ZTNA not enabled on this policy \u2014 consider Zero Trust enforcement.",
+      "INFO: reputation-minimum not set \u2014 FortiGuard IP reputation not enforced.",
+      "HIGH: Traffic logging disabled \u2014 no visibility into flows matched by this policy.",
+      "INFO: logtraffic-start disabled \u2014 session start events not recorded.",
+      "INFO: log-http-transaction disabled \u2014 HTTP request details not captured.",
+      "INFO: No policy comment \u2014 undocumented rules are an audit and compliance risk.",
+      "INFO: Policy disabled \u2014 remove if no longer needed to reduce ruleset complexity.",
+      "INFO: NAT disabled \u2014 verify internal IPs are not exposed."
+    ],
+    "SSL Inspection": [
+      "MEDIUM: SSL profile 'demo-ssl-profile': certificate-only inspection \u2014 TLS payload not decrypted.",
+      "HIGH: SSL profile 'demo-ssl-profile': untrusted server certs not blocked \u2014 MITM risk.",
+      "HIGH: SSL profile 'demo-ssl-profile': invalid certs not blocked.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': expired certs not blocked.",
+      "HIGH: SSL profile 'demo-ssl-profile': revoked certificate action is 'allow'.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': blacklisted certificate blocking disabled.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': SNI checking disabled.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': SSL anomaly logging disabled.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': ECH not handled \u2014 SNI hidden from inspection.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': DNS-over-TLS not blocked/inspected.",
+      "MEDIUM: SSL profile 'demo-ssl-profile': minimum TLS version not set \u2014 downgrade possible.",
+      "HIGH: SSL profile 'deep-inspect-no-ca': deep inspection without CA cert \u2014 inspection fails.",
+      "HIGH: SSL profile 'deep-inspect-no-ca': untrusted server certs not blocked \u2014 MITM risk.",
+      "HIGH: SSL profile 'deep-inspect-no-ca': invalid certs not blocked.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': blacklisted certificate blocking disabled.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': SNI checking disabled.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': SSL anomaly logging disabled.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': ECH not handled \u2014 SNI hidden from inspection.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': DNS-over-TLS not blocked/inspected.",
+      "MEDIUM: SSL profile 'deep-inspect-no-ca': minimum TLS version not set \u2014 downgrade possible."
+    ],
+    "Antivirus Profiles": [
+      "INFO: AV 'demo-av-profile': flow-based mode \u2014 proxy mode provides deeper inspection when HW allows.",
+      "INFO: AV 'demo-av-profile': extended-log disabled \u2014 limited forensic detail in AV logs.",
+      "MEDIUM: AV 'demo-av-profile': HTTP not inspected.",
+      "MEDIUM: AV 'demo-av-profile': HTTPS not inspected.",
+      "MEDIUM: AV 'demo-av-profile': SMTP not inspected.",
+      "INFO: AV 'demo-av-profile': POP3 not inspected.",
+      "INFO: AV 'demo-av-profile': IMAP not inspected.",
+      "INFO: AV 'demo-av-profile': FTP not inspected.",
+      "MEDIUM: AV 'demo-av-profile': CIFS/SMB not inspected.",
+      "INFO: AV 'demo-av-profile': SSH/SFTP not inspected.",
+      "INFO: AV 'demo-av-profile': WebSocket not inspected.",
+      "MEDIUM: AV 'demo-av-profile': HTTP outbreak prevention disabled.",
+      "MEDIUM: AV 'demo-av-profile': HTTPS outbreak prevention disabled.",
+      "MEDIUM: AV 'demo-av-profile': SMTP outbreak prevention disabled.",
+      "MEDIUM: AV 'demo-av-profile': FortiSandbox mode not configured \u2014 zero-day protection missing.",
+      "MEDIUM: AV 'demo-av-profile': FortiSandbox submission disabled for HTTP \u2014 zero-day files not submitted.",
+      "INFO: AV 'demo-av-profile': FortiNDR scanning not enabled for HTTP.",
+      "MEDIUM: AV 'demo-av-profile': malware-stream (0-day stream) scanning disabled for HTTP.",
+      "MEDIUM: AV 'demo-av-profile': quarantine not enabled \u2014 infected files not isolated.",
+      "MEDIUM: AV 'demo-av-profile': CDR error action is log-only \u2014 CDR engine errors allow files through.",
+      "INFO: AV 'demo-av-profile': analytics-db (FortiSandbox signature database) not enabled.",
+      "INFO: AV 'demo-av-profile': EMS threat feed not enabled \u2014 endpoint threat intel not used.",
+      "INFO: AV 'demo-av-profile': external blocklist not fully enabled."
+    ],
+    "IPS Sensors": [
+      "MEDIUM: IPS 'default-ips': block-malicious-url disabled \u2014 known malicious URLs not blocked.",
+      "MEDIUM: IPS 'default-ips': botnet scanning monitor-only \u2014 C2 connections logged but not blocked.",
+      "INFO: IPS 'default-ips': extended signature database not enabled \u2014 reduced CVE coverage."
+    ],
+    "Web Filter": [
+      "MEDIUM: WebFilter 'default-wf': log-all-url disabled \u2014 browsing not fully logged.",
+      "INFO: WebFilter 'default-wf': safe search not enforced.",
+      "MEDIUM: WebFilter 'default-wf': user override enabled \u2014 blocked categories bypassable by end users.",
+      "INFO: WebFilter 'default-wf': web-content-log disabled \u2014 limited forensic trail.",
+      "MEDIUM: WebFilter 'default-wf': anti-phishing not enabled \u2014 credential phishing undetected.",
+      "MEDIUM: WebFilter 'default-wf': FortiGuard category filter (ftgd-wf) not configured."
+    ],
+    "App Control": [
+      "MEDIUM: AppControl 'default-app': logging disabled \u2014 application usage not tracked.",
+      "MEDIUM: AppControl 'default-app': unknown applications permitted \u2014 unclassified traffic flows freely.",
+      "INFO: AppControl 'default-app': P2P block list not explicitly configured.",
+      "INFO: AppControl 'default-app': default network service control not enabled."
+    ],
+    "DNS Filter": [
+      "HIGH: DNS Filter 'default-dns': botnet domain blocking disabled \u2014 DNS C2 unblocked.",
+      "MEDIUM: DNS Filter 'default-dns': log-all-domain disabled \u2014 DNS query log incomplete.",
+      "INFO: DNS Filter 'default-dns': safe search DNS enforcement not enabled.",
+      "MEDIUM: DNS Filter 'default-dns': FortiGuard DNS rating not enabled \u2014 DNS category filtering inactive.",
+      "INFO: DNS Filter 'default-dns': external IP blocklist not linked \u2014 threat intel feeds not applied to DNS."
+    ],
+    "WAF Profiles": [],
+    "Email Filter": [],
+    "Video Filter": [],
+    "File Filter": [],
+    "Virtual Patch": [],
+    "LLM Profiles": [
+      "MEDIUM: LLM 'corp-ai-policy': logging disabled \u2014 AI traffic not logged.",
+      "HIGH: LLM 'corp-ai-policy': DLP check disabled \u2014 sensitive data may leak through AI API calls.",
+      "HIGH: LLM 'corp-ai-policy': PII check disabled \u2014 personal data in AI prompts/responses undetected.",
+      "MEDIUM: LLM 'corp-ai-policy': prompt injection check disabled \u2014 adversarial prompt attacks possible.",
+      "MEDIUM: LLM 'corp-ai-policy': jailbreak check disabled \u2014 model safety bypass attempts undetected."
+    ],
+    "VPN Phase1": [
+      "MEDIUM: VPN 'vpn-to-branch': IKEv1 \u2014 upgrade to IKEv2 (RFC 7296) for improved security.",
+      "HIGH: VPN 'vpn-to-branch': IKEv1 aggressive mode \u2014 PSK hash sent in cleartext, offline cracking possible.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm 'DES' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm '3DES' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': weak algorithm 'MD5' in IKE proposal \u2014 use AES256/SHA256+.",
+      "HIGH: VPN 'vpn-to-branch': DH group 1 is below 2048-bit.",
+      "HIGH: VPN 'vpn-to-branch': DH group 2 is below 2048-bit.",
+      "MEDIUM: VPN 'vpn-to-branch': PSK authentication \u2014 certificate-based auth is stronger.",
+      "HIGH: VPN 'vpn-to-branch': PSK appears short (<20 chars) \u2014 use 32+ random characters.",
+      "INFO: VPN 'vpn-to-branch': Dead Peer Detection disabled \u2014 stale tunnels persist.",
+      "MEDIUM: VPN 'vpn-to-branch': rekey disabled \u2014 long-lived session keys reduce forward secrecy.",
+      "MEDIUM: VPN 'vpn-to-branch': IKE key lifetime 172800s exceeds 24h \u2014 reduce to 8h or less."
+    ],
+    "VPN Phase2": [
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'DES' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm '3DES' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': weak algorithm 'MD5' in ESP proposal.",
+      "HIGH: Phase2 'vpn-to-branch-p2': PFS disabled \u2014 session key compromise exposes all past sessions.",
+      "MEDIUM: Phase2 'vpn-to-branch-p2': key lifetime 172800s exceeds 8h \u2014 shorter rekey recommended."
+    ],
+    "SSL-VPN": [
+      "INFO: SSL-VPN: running on default port 443 \u2014 easily discoverable; consider non-standard port.",
+      "MEDIUM: SSL-VPN: self-signed certificate \u2014 clients cannot properly validate server identity.",
+      "HIGH: SSL-VPN: TLS 1.0 permitted \u2014 deprecated protocol with known attacks (BEAST/POODLE).",
+      "MEDIUM: SSL-VPN: TLS 1.2 not explicitly enabled \u2014 verify TLS version support.",
+      "HIGH: SSL-VPN: login attempt limit 0 \u2014 brute-force protection disabled.",
+      "MEDIUM: SSL-VPN: login block time 10s \u2014 recommend 300s to deter brute-force.",
+      "HIGH: SSL-VPN: idle timeout 0 \u2014 sessions never timeout.",
+      "MEDIUM: SSL-VPN: auth timeout 86400s exceeds 8h \u2014 force re-authentication more frequently.",
+      "MEDIUM: SSL-VPN: source-address not restricted \u2014 any internet IP can attempt authentication.",
+      "MEDIUM: SSL-VPN: client certificate not required \u2014 password-only auth is weaker."
+    ],
+    "SSL-VPN Portals": [
+      "HIGH: SSL-VPN portal 'full-access': split tunneling enabled \u2014 non-VPN traffic bypasses FortiGate entirely.",
+      "INFO: SSL-VPN portal 'full-access': FTP proxy enabled \u2014 verify if required.",
+      "INFO: SSL-VPN portal 'full-access': SMB proxy enabled \u2014 file share access via web portal.",
+      "MEDIUM: SSL-VPN portal 'full-access': OS check not enabled \u2014 non-compliant endpoints can connect.",
+      "INFO: SSL-VPN portal 'full-access': concurrent login limit not enabled \u2014 account sharing undetected."
+    ],
+    "HA Config": [
+      "HIGH: HA: cluster has no password \u2014 any FortiGate can join.",
+      "MEDIUM: HA: heartbeat traffic not encrypted \u2014 sync data in cleartext on heartbeat interfaces.",
+      "MEDIUM: HA: heartbeat device not configured.",
+      "MEDIUM: HA: interface monitoring not configured \u2014 link failures may not trigger failover.",
+      "INFO: HA: config sync disabled \u2014 secondary may diverge from primary.",
+      "INFO: HA: session pickup disabled \u2014 active sessions dropped on failover.",
+      "INFO: HA: dedicated HA management interface not configured."
+    ],
+    "Logging": [
+      "MEDIUM: Logging: FortiAnalyzer (FA1) not enabled \u2014 no centralized log management.",
+      "MEDIUM: Logging: syslogd1 using UDP \u2014 logs may be lost under load; use TCP or TLS.",
+      "INFO: Logging: syslogd1 not using TLS \u2014 log data in cleartext.",
+      "INFO: Logging: log-invalid-packet not enabled \u2014 malformed/invalid packets not logged."
+    ],
+    "DoS Policies": [
+      "MEDIUM: No DoS policies configured \u2014 no flood/anomaly protection rules active."
+    ],
+    "Anti-DoS Policies": [
+      "CRITICAL: DoS Policies: NO DoS policies configured \u2014 FortiGate has zero flood/anomaly protection. Any flood attack hits the kernel directly. Configure 'config firewall DoS-policy' on all WAN interfaces immediately."
+    ],
+    "Anti-DoS IPS": [
+      "MEDIUM: IPS DoS: 3 accept policy/policies have no IPS sensor attached \u2014 DoS signature protection absent on these flows.",
+      "MEDIUM: IPS Sensor 'default-ips': botnet scanning in monitor mode \u2014 C2 connections are logged but not blocked. Change to 'block'.",
+      "MEDIUM: IPS Sensor 'default-ips': block-malicious-url disabled \u2014 known C2/malware URLs not blocked at IPS layer."
+    ],
+    "Anti-DoS Hardening": [
+      "INFO: TCP Hardening: tcp-halfopen-timer not explicitly set \u2014 default may be too permissive.",
+      "MEDIUM: TCP Hardening: anti-replay is not set to 'strict' \u2014 packet replay attacks possible at the global level. CLI: config system global \u2192 set anti-replay strict",
+      "INFO: TCP Hardening: ip-src-check-on-tx not enabled \u2014 spoofed source IP packets may not be dropped on transmit. CLI: config system global \u2192 set ip-src-check-on-tx enable",
+      "MEDIUM: Resource Limits: 'config system resource-limit' not configured \u2014 no per-user or global session count ceilings. Under a flood attack, the session table can be exhausted. CLI: config system resource-limit \u2192 set type ipsec \u2192 set max-user-limit 1000",
+      "INFO: NP Offload: no NP7/NP6 DoS offload config detected \u2014 either this platform has no NP ASIC or offload is unconfigured. On NP-capable hardware, DoS offload dramatically reduces CPU impact.",
+      "HIGH: Mgmt Exposure: HTTPS management on WAN interface 'wan1' \u2014 management plane directly reachable from internet; restrict with local-in-policy or remove from allowaccess. CLI: config system interface \u2192 edit wan1 \u2192 set allowaccess (remove https)",
+      "HIGH: Mgmt Exposure: SSH on WAN interface 'wan1' \u2014 brute-force target; restrict via local-in-policy to admin IPs only.",
+      "CRITICAL: Mgmt Exposure: HTTP management on WAN interface 'wan1' \u2014 cleartext management on internet-facing interface is critical risk.",
+      "MEDIUM: Mgmt Exposure: ICMP/ping enabled on WAN interface 'wan1' \u2014 aids attacker reconnaissance and is an ICMP flood target. CLI: config system interface \u2192 edit wan1 \u2192 unset allowaccess ping",
+      "CRITICAL: Mgmt Exposure: SNMP on WAN interface 'wan1' \u2014 community string exposed to internet; immediate risk.",
+      "CRITICAL: Mgmt Exposure: Telnet on WAN interface 'wan1' \u2014 cleartext, remove immediately.",
+      "HIGH: Local-in: no local-in-policies configured on WAN interfaces \u2014 FortiGate control plane (management, VPN, BGP, etc.) has no explicit source restriction. An attacker can target these services directly. CLI: config firewall local-in-policy \u2192 edit 1 \u2192 set intf wan1 \u2192 set srcaddr <admin-ip-range> \u2192 set action accept",
+      "MEDIUM: Policy Exposure: 3 accept policy/policies with source 'all' and no IPS sensor \u2014 these policies have no rate-limiting layer; pair with a DoS policy on the same inbound interface."
+    ],
+    "Admin Accounts": [
+      "HIGH: Admin 'admin': no trusted-host restrictions \u2014 login from any IP permitted.",
+      "HIGH: Admin 'admin': super_admin profile \u2014 no least-privilege separation.",
+      "HIGH: Admin 'admin': two-factor authentication not enabled.",
+      "HIGH: Admin 'admin': session timeout 0 \u2014 sessions never expire.",
+      "INFO: Admin 'admin': force-password-change not set \u2014 no mandatory rotation enforced.",
+      "HIGH: Admin 'readonly-user': no trusted-host restrictions \u2014 login from any IP permitted.",
+      "HIGH: Admin 'readonly-user': two-factor authentication not enabled.",
+      "INFO: Admin 'readonly-user': force-password-change not set \u2014 no mandatory rotation enforced."
+    ],
+    "Interfaces": [
+      "HIGH: Interface 'wan1': HTTP management enabled \u2014 credentials in cleartext.",
+      "HIGH: Interface 'wan1': Telnet enabled \u2014 fully unencrypted management.",
+      "HIGH: Interface 'wan1' (WAN): HTTPS management exposed to internet.",
+      "HIGH: Interface 'wan1' (WAN): SSH management exposed to internet \u2014 brute-force risk.",
+      "MEDIUM: Interface 'wan1' (WAN): ping/ICMP enabled \u2014 device fingerprinting risk.",
+      "HIGH: Interface 'wan1' (WAN): SNMP accessible from internet.",
+      "INFO: Interface 'wan1': no description \u2014 undocumented interfaces are an audit risk.",
+      "INFO: Interface 'port1': no description \u2014 undocumented interfaces are an audit risk.",
+      "HIGH: Interface 'dmz': HTTP management enabled \u2014 credentials in cleartext.",
+      "HIGH: Interface 'dmz': Telnet enabled \u2014 fully unencrypted management.",
+      "INFO: Interface 'dmz': no description \u2014 undocumented interfaces are an audit risk."
+    ],
+    "Global Hardening": [
+      "HIGH: Global: strong-crypto disabled \u2014 weak ciphers (RC4/DES/MD5) may be negotiated for management TLS.",
+      "MEDIUM: Global: ssl-static-key-ciphers not disabled \u2014 forward secrecy not enforced.",
+      "CRITICAL: Global: DH params 1024-bit \u2014 critically weak; upgrade to 4096+ immediately.",
+      "HIGH: Global: admin lockout threshold 0 \u2014 brute-force lockout disabled.",
+      "HIGH: Global: admin lockout duration 0 \u2014 account unlocks immediately.",
+      "MEDIUM: Global: admin timeout 480 min \u2014 reduce to 15-30 min.",
+      "INFO: Global: pre-login-banner disabled \u2014 no legal warning before authentication.",
+      "INFO: Global: post-login-banner disabled \u2014 no acceptable-use notice after login.",
+      "MEDIUM: Global: admin-https-redirect not enabled \u2014 HTTP management not auto-redirected to HTTPS.",
+      "INFO: Global: management GUI using self-signed certificate.",
+      "INFO: Global: default hostname 'FortiGate' \u2014 change to naming convention to reduce fingerprinting.",
+      "INFO: Global: revision-image-auto-backup disabled \u2014 config versioning not automated.",
+      "MEDIUM: Global: admin-password-policy not enabled \u2014 no complexity requirements enforced."
+    ],
+    "Password Policy": [
+      "HIGH: PasswordPolicy: password policy disabled \u2014 no enforced complexity requirements."
+    ],
+    "SSH Config": [
+      "INFO: SSH: cipher/MAC restrictions not configured \u2014 system defaults may include weak algorithms."
+    ],
+    "NTP": [
+      "INFO: NTP: single server \u2014 no redundancy.",
+      "MEDIUM: NTP: authentication disabled \u2014 NTP spoofing possible (RFC 8633 recommends auth).",
+      "INFO: NTP: source-ip not configured \u2014 NTP sourced from outgoing interface IP."
+    ],
+    "Local-in": [
+      "MEDIUM: Local-in: policy without specific interface binding \u2014 applies to all interfaces.",
+      "HIGH: Local-in: source is 'all' \u2014 FortiGate management services accessible from any host.",
+      "MEDIUM: Local-in: service ALL \u2014 restrict to required management protocols only.",
+      "CRITICAL: Local-in: ACCEPT from 'all' sources \u2014 FortiGate control plane broadly exposed."
+    ],
+    "SNMP": [],
+    "System DNS": [
+      "MEDIUM: SystemDNS: no primary DNS server configured.",
+      "INFO: SystemDNS: no secondary DNS server \u2014 single point of failure for DNS resolution.",
+      "MEDIUM: SystemDNS: DNSSEC validation disabled \u2014 DNS response spoofing/poisoning possible.",
+      "INFO: SystemDNS: DNS-over-TLS not configured for system DNS \u2014 FortiGate's own DNS queries unencrypted."
+    ],
+    "IKE Global": [
+      "MEDIUM: IKE Global: IKEv1 not globally disabled \u2014 consider disabling if all peers support IKEv2.",
+      "HIGH: IKE Global: IKEv1 aggressive mode not globally disabled \u2014 PSK hash exposure risk."
+    ],
+    "Security Fabric": [
+      "INFO: CSF: Security Fabric disabled \u2014 centralized policy management and visibility unavailable."
+    ],
+    "FIPS-CC": [
+      "INFO: FIPS-CC: FIPS 140-2 / Common Criteria mode not enabled \u2014 relevant for regulated environments."
+    ],
+    "FortiGuard": [
+      "MEDIUM: FortiGuard: scheduled signature updates not enabled \u2014 signatures may fall behind."
+    ],
+    "Policy Intelligence": [
+      "HIGH: Coverage: only 0% of accept policies have IPS \u2014 large portion of traffic flows uninspected.",
+      "HIGH: Coverage: only 0% of accept policies have SSL inspection \u2014 large portion of traffic flows uninspected.",
+      "HIGH: Coverage: only 0% of accept policies have Antivirus \u2014 large portion of traffic flows uninspected.",
+      "HIGH: Coverage: only 33% of accept policies have Logging \u2014 large portion of traffic flows uninspected.",
+      "CRITICAL: Coverage: 3 ANY-ANY-ANY accept policies found \u2014 these permit all traffic unrestricted.",
+      "MEDIUM: Coverage: 1 policies have packet capture enabled \u2014 debug artifact, disable in production."
+    ],
+    "Unused Objects": [
+      "INFO: Unused Address: 'TEST-HOST' (ipmask 10.0.0.1 255.255.255.255) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.",
+      "INFO: Unused Address: 'OLD-SERVER' (ipmask 192.168.50.10 255.255.255.255) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.",
+      "INFO: Unused Address: 'DMZ-SUBNET' (ipmask 10.10.10.0 255.255.255.0) is not referenced by any policy, group, or VIP. Consider removing to keep the object table clean.",
+      "INFO: Unused Service: 'CUSTOM-APP-8080' (TCP) not referenced by any policy or group.",
+      "INFO: Unused Service: 'OLD-MGMT-PORT' (TCP) not referenced by any policy or group.",
+      "MEDIUM: Unused VIP: 'RDP-Server' (extip:203.0.113.1 \u2192 mappedip:192.168.1.100 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards \u2014 verify they are intentionally disabled or remove them.",
+      "MEDIUM: Unused VIP: 'SMB-Server' (extip:203.0.113.1 \u2192 mappedip:192.168.1.101 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards \u2014 verify they are intentionally disabled or remove them.",
+      "MEDIUM: Unused VIP: 'Unused-VIP' (extip:203.0.113.2 \u2192 mappedip:192.168.1.200 on wan1) is not used in any policy. Unused VIPs may represent forgotten port-forwards \u2014 verify they are intentionally disabled or remove them."
+    ],
+    "VIP Security": [
+      "MEDIUM: VIP 'RDP-Server': not referenced in any firewall policy \u2014 port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.",
+      "MEDIUM: VIP 'RDP-Server': no src-filter configured \u2014 ALL internet IPs can attempt to reach the mapped destination (192.168.1.100). Add src-filter to restrict to known source IPs where possible. CLI: edit vip \u2192 set src-filter <ip-range>",
+      "INFO: VIP 'RDP-Server': no comment \u2014 document the purpose of this port-forward.",
+      "CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet \u2192 192.168.1.100. RDP exposed to internet \u2014 BlueKeep/credential brute-force. Use VPN instead.",
+      "CRITICAL: VIP 'RDP-Server': exposes RDP (port 3389) from internet \u2192 192.168.1.100. RDP exposed to internet \u2014 BlueKeep/credential brute-force. Use VPN instead.",
+      "MEDIUM: VIP 'SMB-Server': not referenced in any firewall policy \u2014 port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.",
+      "MEDIUM: VIP 'SMB-Server': no src-filter configured \u2014 ALL internet IPs can attempt to reach the mapped destination (192.168.1.101). Add src-filter to restrict to known source IPs where possible. CLI: edit vip \u2192 set src-filter <ip-range>",
+      "INFO: VIP 'SMB-Server': no comment \u2014 document the purpose of this port-forward.",
+      "CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet \u2192 192.168.1.101. SMB/CIFS exposed to internet \u2014 EternalBlue/ransomware risk. Remove immediately.",
+      "CRITICAL: VIP 'SMB-Server': exposes SMB (port 445) from internet \u2192 192.168.1.101. SMB/CIFS exposed to internet \u2014 EternalBlue/ransomware risk. Remove immediately.",
+      "MEDIUM: VIP 'Unused-VIP': not referenced in any firewall policy \u2014 port-forward is defined but no policy permits traffic to it. Verify if this VIP is intentionally inactive or is an orphan.",
+      "MEDIUM: VIP 'Unused-VIP': no src-filter configured \u2014 ALL internet IPs can attempt to reach the mapped destination (192.168.1.200). Add src-filter to restrict to known source IPs where possible. CLI: edit vip \u2192 set src-filter <ip-range>",
+      "INFO: VIP 'Unused-VIP': no comment \u2014 document the purpose of this port-forward."
+    ],
+    "SD-WAN": [
+      "HIGH: SD-WAN member 1 ('wan1'): NOT monitored by any health-check \u2014 link failures will not trigger failover. Add a health-check and reference this member.",
+      "CRITICAL: SD-WAN: NO health-checks configured \u2014 link failures are UNDETECTED. SD-WAN cannot failover without health monitoring. CLI: config system sdwan \u2192 config health-check \u2192 edit MyHC \u2192 set server 8.8.8.8 \u2192 set interval 500 \u2192 set failtime 3",
+      "MEDIUM: SD-WAN: no traffic steering rules (service rules) configured \u2014 all traffic uses default load-balance mode without application-aware routing."
+    ],
+    "Interface Exposure": [
+      "CRITICAL: Interface 'wan1' (wan): Telnet enabled \u2014 cleartext management. Remove immediately. CLI: config system interface \u2192 edit wan1 \u2192 set allowaccess (list without telnet)",
+      "CRITICAL: Interface 'wan1' (wan): HTTP enabled \u2014 cleartext management. Replace with HTTPS only.",
+      "CRITICAL: Interface 'wan1' (wan): SNMP enabled \u2014 WAN-facing SNMP is critical risk.",
+      "HIGH: Interface 'wan1' (WAN): SSH exposed to internet \u2014 restrict via local-in-policy to admin IPs only.",
+      "HIGH: Interface 'wan1' (WAN): HTTPS management on WAN \u2014 restrict via local-in-policy or remove from allowaccess.",
+      "MEDIUM: Interface 'wan1' (WAN): ICMP ping enabled \u2014 aids attacker recon. Disable on WAN.",
+      "HIGH: Interface 'wan1' exposure score 7.0/10 (HIGH EXPOSURE) \u2014 significant management attack surface. Review and restrict.",
+      "CRITICAL: Interface 'dmz' (dmz): Telnet enabled \u2014 cleartext management. Remove immediately. CLI: config system interface \u2192 edit dmz \u2192 set allowaccess (list without telnet)",
+      "HIGH: Interface 'dmz' (dmz): HTTP enabled \u2014 cleartext management. Replace with HTTPS only."
+    ],
+    "Certificates": [
+      "MEDIUM: Certificate 'gui-cert': self-signed \u2014 clients cannot properly validate this certificate without manually trusting the CA. Use a publicly trusted CA for external-facing services.",
+      "INFO: Certificate 'gui-cert': key size not readable from config \u2014 verify manually with 'get vpn certificate local'."
+    ],
+    "Fabric Connectors": [
+      "HIGH: Connector 'AWS-Prod' (aws): verify-certificate disabled \u2014 connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable",
+      "HIGH: Connector 'AWS-Prod' (AWS): using static access-key/secret-key \u2014 long-lived credentials are high risk if config backup is exposed. Switch to IAM role with use-metadata-iam enable.",
+      "MEDIUM: Connector 'AWS-Prod' (aws): update-interval 7200s (120min) \u2014 stale dynamic address objects; consider \u2264 60s for cloud environments.",
+      "HIGH: Connector 'Azure-Corp' (azure): verify-certificate disabled \u2014 connector will accept ANY TLS certificate from the cloud provider API. MITM possible if DNS is poisoned. CLI: set verify-certificate enable",
+      "HIGH: Connector 'Azure-Corp' (Azure): client-secret stored in config \u2014 treat config backup as a secret. Prefer managed identity where possible.",
+      "INFO: EMS: no EMS server configured \u2014 endpoint posture check and ZTNA tag-based policies require EMS integration.",
+      "INFO: ZTNA: no policies have ztna-status enabled \u2014 Zero Trust Network Access not enforced on any traffic flow. Consider enabling ZTNA on internet-facing access policies.",
+      "INFO: SASE: FortiSASE connector not configured \u2014 cloud-delivered security service not integrated."
+    ],
+    "AI/LLM Security": [
+      "MEDIUM: AI/LLM Audit: LLM profiles are defined but none are attached to any firewall policy \u2014 AI traffic inspection is configured but not enforced.",
+      "HIGH: LLM Profile 'corp-ai-policy': dlp-check disabled \u2014 sensitive corporate data in AI prompts (source code, customer PII, financial data) exits the network without inspection. Enable: set dlp-check enable",
+      "HIGH: LLM Profile 'corp-ai-policy': pii-check disabled \u2014 PII (names, SSNs, emails, credit cards) may be submitted to external AI services in violation of GDPR/HIPAA/PCI-DSS. Enable: set pii-check enable",
+      "MEDIUM: LLM Profile 'corp-ai-policy': prompt-injection-check disabled \u2014 adversarial prompts could manipulate AI systems connected through this policy.",
+      "MEDIUM: LLM Profile 'corp-ai-policy': jailbreak-check disabled \u2014 attempts to bypass AI safety controls not detected.",
+      "MEDIUM: LLM Profile 'corp-ai-policy': logging disabled \u2014 AI traffic events not recorded for forensics or compliance audits.",
+      "MEDIUM: AI/LLM Audit: only 0% of accept policies have DLP profiles \u2014 without DLP, users can freely paste source code, customer data, and internal documents into AI services like ChatGPT."
+    ],
+    "Enhanced Local-in": [
+      "CRITICAL: Local-in CRITICAL: WAN interface 'wan1' has management access (http, https, ping, snmp, ssh, telnet) enabled AND has NO local-in-policy restricting source IPs. Any IP on the internet can attempt to reach FortiGate management. This is a CRITICAL management plane exposure. Fix:\n  config firewall local-in-policy\n      edit 1\n          set intf wan1\n          set srcaddr <your-admin-subnet>\n          set service HTTPS SSH\n          set action accept\n      next\n      edit 2\n          set intf wan1\n          set srcaddr all\n          set service ALL\n          set action deny\n      next\n  end",
+      "MEDIUM: Local-in: IPv4 local-in-policies exist but no IPv6 local-in-policy6 configured \u2014 if IPv6 is present on any interface, the management plane has no IPv6 source restriction. CLI: config firewall local-in-policy6",
+      "MEDIUM: Local-in #1: no interface bound \u2014 applies to ALL interfaces including WAN. Bind to specific interface for better control.",
+      "CRITICAL: Local-in #1 (intf:): ACCEPT from source 'all' \u2014 any host can reach FortiGate services on this interface.",
+      "MEDIUM: Local-in #1 (intf:): ACCEPT for service ALL \u2014 restrict to only required management protocols (HTTPS, SSH)."
+    ],
+    "BGP Security": [],
+    "RADIUS": [],
+    "LDAP": [],
+    "SAML": []
+  }
+}

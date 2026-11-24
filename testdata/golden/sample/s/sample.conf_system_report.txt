@@ -1,0 +1,238 @@
+FortiGate System & Management Plane Security Audit
+================================================================================
+
+─── Administrator Accounts ────────────────────────────────────────────────────
+Accounts found: 2
++-----------------------------------------------------------+
+| Admin Name             | admin                            |
+| Accprofile             | super_admin                      |
+| Two-Factor             | disable                          |
+| Wildcard               |                                  |
+| Force PW Chg           | disable                          |
+| Trusthost1             |                                  |
+| Trusthost2             |                                  |
+| Trusthost3             |                                  |
+| Trusthost4             |                                  |
+| Trusthost5             |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Admin 'admin': no trusted-host restrictions — login from any IP permitted.
+  [HIGH] Admin 'admin': super_admin profile — no least-privilege separation.
+  [HIGH] Admin 'admin': two-factor authentication not enabled.
+  [HIGH] Admin 'admin': session timeout 0 — sessions never expire.
+  [INFO] Admin 'admin': force-password-change not set — no mandatory rotation enforced.
++-----------------------------------------------------------+
+| Admin Name             | readonly-user                    |
+| Accprofile             | prof_admin                       |
+| Two-Factor             | disable                          |
+| Wildcard               |                                  |
+| Force PW Chg           |                                  |
+| Trusthost1             | 0.0.0.0 0.0.0.0                  |
+| Trusthost2             |                                  |
+| Trusthost3             |                                  |
+| Trusthost4             |                                  |
+| Trusthost5             |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Admin 'readonly-user': no trusted-host restrictions — login from any IP permitted.
+  [HIGH] Admin 'readonly-user': two-factor authentication not enabled.
+  [INFO] Admin 'readonly-user': force-password-change not set — no mandatory rotation enforced.
+
+
+─── Network Interfaces ────────────────────────────────────────────────────────
+Interfaces found: 3
++-----------------------------------------------------------+
+| Name                   | wan1                             |
+| IP/Mask                | 203.0.113.1 255.255.255.0        |
+| Role                   | wan                              |
+| Type                   |                                  |
+| Allowaccess            | ping https ssh http telnet snmp  |
+| Description            |                                  |
+| Proxy ARP              |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Interface 'wan1': HTTP management enabled — credentials in cleartext.
+  [HIGH] Interface 'wan1': Telnet enabled — fully unencrypted management.
+  [HIGH] Interface 'wan1' (WAN): HTTPS management exposed to internet.
+  [HIGH] Interface 'wan1' (WAN): SSH management exposed to internet — brute-force risk.
+  [MEDIUM] Interface 'wan1' (WAN): ping/ICMP enabled — device fingerprinting risk.
+  [HIGH] Interface 'wan1' (WAN): SNMP accessible from internet.
+  [INFO] Interface 'wan1': no description — undocumented interfaces are an audit risk.
++-----------------------------------------------------------+
+| Name                   | port1                            |
+| IP/Mask                | 192.168.1.1 255.255.255.0        |
+| Role                   | lan                              |
+| Type                   |                                  |
+| Allowaccess            | ping https                       |
+| Description            |                                  |
+| Proxy ARP              |                                  |
++-----------------------------------------------------------+
+Findings:
+  [INFO] Interface 'port1': no description — undocumented interfaces are an audit risk.
++-----------------------------------------------------------+
+| Name                   | dmz                              |
+| IP/Mask                | 10.10.10.1 255.255.255.0         |
+| Role                   | dmz                              |
+| Type                   |                                  |
+| Allowaccess            | http telnet                      |
+| Description            |                                  |
+| Proxy ARP              |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Interface 'dmz': HTTP management enabled — credentials in cleartext.
+  [HIGH] Interface 'dmz': Telnet enabled — fully unencrypted management.
+  [INFO] Interface 'dmz': no description — undocumented interfaces are an audit risk.
+
+
+─── Global Hardening ──────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Hostname               | FortiGate                        |
+| Strong Crypto          | disable                          |
+| Static Key Ciphers     | enable                           |
+| DH Params              | 1024                             |
+| Admin Timeout          | 480                              |
+| Lockout Threshold      | 0                                |
+| Lockout Duration       | 0                                |
+| Pre-Login Banner       | disable                          |
+| Post-Login Banner      | disable                          |
+| HTTPS Redirect         | disable                          |
+| GUI Certificate        | self-sign                        |
+| Password Policy        | disable                          |
+| Revision Backup        | disable                          |
+| REST API Admin         |                                  |
+| Unnamed Policy GUI     |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] Global: strong-crypto disabled — weak ciphers (RC4/DES/MD5) may be negotiated for management TLS.
+  [MEDIUM] Global: ssl-static-key-ciphers not disabled — forward secrecy not enforced.
+  [CRITICAL] Global: DH params 1024-bit — critically weak; upgrade to 4096+ immediately.
+  [HIGH] Global: admin lockout threshold 0 — brute-force lockout disabled.
+  [HIGH] Global: admin lockout duration 0 — account unlocks immediately.
+  [MEDIUM] Global: admin timeout 480 min — reduce to 15-30 min.
+  [INFO] Global: pre-login-banner disabled — no legal warning before authentication.
+  [INFO] Global: post-login-banner disabled — no acceptable-use notice after login.
+  [MEDIUM] Global: admin-https-redirect not enabled — HTTP management not auto-redirected to HTTPS.
+  [INFO] Global: management GUI using self-signed certificate.
+  [INFO] Global: default hostname 'FortiGate' — change to naming convention to reduce fingerprinting.
+  [INFO] Global: revision-image-auto-backup disabled — config versioning not automated.
+  [MEDIUM] Global: admin-password-policy not enabled — no complexity requirements enforced.
+
+─── Password Policy ───────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Status                 |                                  |
+| Min Length             |                                  |
+| Must Contain           |                                  |
+| Expire Status          |                                  |
+| Expire Days            |                                  |
+| Reuse Password         |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] PasswordPolicy: password policy disabled — no enforced complexity requirements.
+
+─── SSH Configuration Hardening ───────────────────────────────────────────────
++-----------------------------------------------------------+
+| Encryption Algos       |                                  |
+| MAC Algos              |                                  |
+| Key Exchange           |                                  |
+| Host Key Algo          |                                  |
++-----------------------------------------------------------+
+Findings:
+  [INFO] SSH: cipher/MAC restrictions not configured — system defaults may include weak algorithms.
+
+─── SNMP Hardening ────────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| SNMP Status            |                                  |
+| Description            |                                  |
+| Contact                |                                  |
+| Location               |                                  |
+| Communities            | 0                                |
+| SNMPv3 Users           | 0                                |
++-----------------------------------------------------------+
+Findings:
+  - None detected.
+
+
+─── NTP Configuration ─────────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| NTP Sync               | enable                           |
+| Type                   | custom                           |
+| Sync Interval          |                                  |
+| Source IP              |                                  |
+| Server Mode            |                                  |
+| Auth                   | disable                          |
+| NTPv3                  |                                  |
+| Servers                | 1                                |
++-----------------------------------------------------------+
+Findings:
+  [INFO] NTP: single server — no redundancy.
+  [MEDIUM] NTP: authentication disabled — NTP spoofing possible (RFC 8633 recommends auth).
+  [INFO] NTP: source-ip not configured — NTP sourced from outgoing interface IP.
+
+─── Local-in Policies (Management Plane Control) ──────────────────────────────
+IPv4 local-in: 1   IPv6 local-in: 0
++-----------------------------------------------------------+
+| Interface              |                                  |
+| Src Addr               | all                              |
+| Dst Addr               | all                              |
+| Service                | ALL                              |
+| Action                 | accept                           |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] Local-in: policy without specific interface binding — applies to all interfaces.
+  [HIGH] Local-in: source is 'all' — FortiGate management services accessible from any host.
+  [MEDIUM] Local-in: service ALL — restrict to required management protocols only.
+  [CRITICAL] Local-in: ACCEPT from 'all' sources — FortiGate control plane broadly exposed.
+
+
+─── System DNS Security ───────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Primary DNS            |                                  |
+| Secondary DNS          |                                  |
+| DNSSEC                 |                                  |
+| DNS-over-TLS           |                                  |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] SystemDNS: no primary DNS server configured.
+  [INFO] SystemDNS: no secondary DNS server — single point of failure for DNS resolution.
+  [MEDIUM] SystemDNS: DNSSEC validation disabled — DNS response spoofing/poisoning possible.
+  [INFO] SystemDNS: DNS-over-TLS not configured for system DNS — FortiGate's own DNS queries unencrypted.
+
+─── IKE Global Settings (VPN Hardening) ───────────────────────────────────────
++-----------------------------------------------------------+
+| IKEv1 Disable          |                                  |
+| Aggressive Mode        |                                  |
+| DH Groups              |                                  |
+| Hash Algorithm         |                                  |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] IKE Global: IKEv1 not globally disabled — consider disabling if all peers support IKEv2.
+  [HIGH] IKE Global: IKEv1 aggressive mode not globally disabled — PSK hash exposure risk.
+
+─── Security Fabric (CSF) ─────────────────────────────────────────────────────
++-----------------------------------------------------------+
+| Status                 |                                  |
+| Group Password         | (not set)                        |
+| Device Detection       |                                  |
+| Auth by Cert           |                                  |
+| SAML Sync              |                                  |
++-----------------------------------------------------------+
+Findings:
+  [INFO] CSF: Security Fabric disabled — centralized policy management and visibility unavailable.
+
+─── FIPS-CC Compliance Mode ───────────────────────────────────────────────────
++-----------------------------------------------------------+
+| FIPS-CC Status         |                                  |
++-----------------------------------------------------------+
+Findings:
+  [INFO] FIPS-CC: FIPS 140-2 / Common Criteria mode not enabled — relevant for regulated environments.
+
+─── FortiGuard Service Configuration ──────────────────────────────────────────
++-----------------------------------------------------------+
+| AV Fail-Open           |                                  |
+| IPS Fail-Open          |                                  |
+| WebFilter Fail-Open    |                                  |
+| Scheduled Update       |                                  |
+| Auto Firmware Upgrade  |                                  |
++-----------------------------------------------------------+
+Findings:
+  [MEDIUM] FortiGuard: scheduled signature updates not enabled — signatures may fall behind.

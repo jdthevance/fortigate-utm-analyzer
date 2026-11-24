@@ -1,0 +1,200 @@
+FortiGate Firewall Policy Security Audit
+================================================================================
+
+─── Overview ──────────────────────────────────────────────────────────────────
+Total policies: IPv4=3, IPv6=0
+
+─── Policy 1: LAN_to_Internet (IPv4) ──────────────────────────────────────────
++-----------------------------------------------------------+
+| Policy ID              | 1                                |
+| Name                   | LAN_to_Internet                  |
+| Version                | IPv4                             |
+| Status                 | enable                           |
+| Action                 | accept                           |
+| Src Interface          | port1                            |
+| Dst Interface          | wan1                             |
+| Src Address            | all                              |
+| Dst Address            | all                              |
+| Service                | ALL                              |
+| Schedule               | always                           |
+| NAT                    | enable                           |
+| Anti-Replay            | enable                           |
+| Inspection Mode        | flow                             |
+| UTM Status             |                                  |
+| IPS Sensor             |                                  |
+| AV Profile             |                                  |
+| Web Filter             |                                  |
+| DNS Filter             |                                  |
+| App Control            |                                  |
+| SSL/SSH Profile        |                                  |
+| DLP Profile            |                                  |
+| CASB Profile           |                                  |
+| WAF Profile            |                                  |
+| Email Filter           |                                  |
+| File Filter            |                                  |
+| Virtual Patch          |                                  |
+| LLM Profile            |                                  |
+| SSH Filter             |                                  |
+| Log Traffic            | disable                          |
+| Log Start              |                                  |
+| Log HTTP Txn           |                                  |
+| Policy Expiry          |                                  |
+| ZTNA Status            |                                  |
+| Reputation Min         |                                  |
+| Comments               |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] UTM disabled on accept policy — all security profiles bypassed.
+  [HIGH] No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [HIGH] No antivirus profile — malware passes through undetected.
+  [HIGH] No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [MEDIUM] No web filter profile — malicious/uncategorized URLs allowed.
+  [MEDIUM] No DNS filter — DNS-based C2, tunnelling, malware domains unblocked.
+  [MEDIUM] No application control — risky/shadow-IT apps may run freely.
+  [MEDIUM] No DLP profile — data exfiltration risk unaddressed.
+  [INFO] No CASB profile — unsanctioned cloud service usage not monitored.
+  [INFO] No WAF profile — web application layer attacks not inspected.
+  [INFO] No email filter profile — if email flows through this policy, spam/phishing uninspected.
+  [INFO] No file-filter profile — dangerous file types (executables, scripts) not blocked by policy.
+  [INFO] No virtual-patch profile — newly disclosed CVEs not virtually patched.
+  [INFO] No LLM profile (FortiOS 8.0) — AI/LLM traffic not inspected for data leakage.
+  [CRITICAL] ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [MEDIUM] Service is ALL — restrict to required protocols only.
+  [INFO] ZTNA not enabled on this policy — consider Zero Trust enforcement.
+  [INFO] reputation-minimum not set — FortiGuard IP reputation not enforced.
+  [HIGH] Traffic logging disabled — no visibility into flows matched by this policy.
+  [INFO] logtraffic-start disabled — session start events not recorded.
+  [INFO] log-http-transaction disabled — HTTP request details not captured.
+  [INFO] No policy comment — undocumented rules are an audit and compliance risk.
+  [MEDIUM] Packet capture enabled — likely a debug artifact; disable in production.
+
+─── Policy 2: Internet_to_DMZ (IPv4) ──────────────────────────────────────────
++-----------------------------------------------------------+
+| Policy ID              | 2                                |
+| Name                   | Internet_to_DMZ                  |
+| Version                | IPv4                             |
+| Status                 | enable                           |
+| Action                 | accept                           |
+| Src Interface          | wan1                             |
+| Dst Interface          | dmz                              |
+| Src Address            | all                              |
+| Dst Address            | all                              |
+| Service                | ALL                              |
+| Schedule               | always                           |
+| NAT                    |                                  |
+| Anti-Replay            | enable                           |
+| Inspection Mode        | flow                             |
+| UTM Status             |                                  |
+| IPS Sensor             |                                  |
+| AV Profile             |                                  |
+| Web Filter             |                                  |
+| DNS Filter             |                                  |
+| App Control            |                                  |
+| SSL/SSH Profile        |                                  |
+| DLP Profile            |                                  |
+| CASB Profile           |                                  |
+| WAF Profile            |                                  |
+| Email Filter           |                                  |
+| File Filter            |                                  |
+| Virtual Patch          |                                  |
+| LLM Profile            |                                  |
+| SSH Filter             |                                  |
+| Log Traffic            | utm                              |
+| Log Start              |                                  |
+| Log HTTP Txn           |                                  |
+| Policy Expiry          |                                  |
+| ZTNA Status            |                                  |
+| Reputation Min         |                                  |
+| Comments               |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] UTM disabled on accept policy — all security profiles bypassed.
+  [HIGH] No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [HIGH] No antivirus profile — malware passes through undetected.
+  [HIGH] No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [MEDIUM] No web filter profile — malicious/uncategorized URLs allowed.
+  [MEDIUM] No DNS filter — DNS-based C2, tunnelling, malware domains unblocked.
+  [MEDIUM] No application control — risky/shadow-IT apps may run freely.
+  [MEDIUM] No DLP profile — data exfiltration risk unaddressed.
+  [INFO] No CASB profile — unsanctioned cloud service usage not monitored.
+  [INFO] No WAF profile — web application layer attacks not inspected.
+  [INFO] No email filter profile — if email flows through this policy, spam/phishing uninspected.
+  [INFO] No file-filter profile — dangerous file types (executables, scripts) not blocked by policy.
+  [INFO] No virtual-patch profile — newly disclosed CVEs not virtually patched.
+  [INFO] No LLM profile (FortiOS 8.0) — AI/LLM traffic not inspected for data leakage.
+  [CRITICAL] ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [HIGH] Inbound WAN-to-internal accept policy — verify this is intentional.
+  [MEDIUM] Service is ALL — restrict to required protocols only.
+  [INFO] ZTNA not enabled on this policy — consider Zero Trust enforcement.
+  [INFO] reputation-minimum not set — FortiGuard IP reputation not enforced.
+  [INFO] Logging 'utm' only — consider 'all' for full flow visibility.
+  [INFO] logtraffic-start disabled — session start events not recorded.
+  [INFO] log-http-transaction disabled — HTTP request details not captured.
+  [INFO] No policy comment — undocumented rules are an audit and compliance risk.
+  [INFO] NAT disabled — verify internal IPs are not exposed.
+
+─── Policy 3: Management_Access (IPv4) ────────────────────────────────────────
++-----------------------------------------------------------+
+| Policy ID              | 3                                |
+| Name                   | Management_Access                |
+| Version                | IPv4                             |
+| Status                 | disable                          |
+| Action                 | accept                           |
+| Src Interface          | wan1                             |
+| Dst Interface          | port1                            |
+| Src Address            | all                              |
+| Dst Address            | all                              |
+| Service                | ALL                              |
+| Schedule               | always                           |
+| NAT                    |                                  |
+| Anti-Replay            | enable                           |
+| Inspection Mode        | flow                             |
+| UTM Status             |                                  |
+| IPS Sensor             |                                  |
+| AV Profile             |                                  |
+| Web Filter             |                                  |
+| DNS Filter             |                                  |
+| App Control            |                                  |
+| SSL/SSH Profile        |                                  |
+| DLP Profile            |                                  |
+| CASB Profile           |                                  |
+| WAF Profile            |                                  |
+| Email Filter           |                                  |
+| File Filter            |                                  |
+| Virtual Patch          |                                  |
+| LLM Profile            |                                  |
+| SSH Filter             |                                  |
+| Log Traffic            | disable                          |
+| Log Start              |                                  |
+| Log HTTP Txn           |                                  |
+| Policy Expiry          |                                  |
+| ZTNA Status            |                                  |
+| Reputation Min         |                                  |
+| Comments               |                                  |
++-----------------------------------------------------------+
+Findings:
+  [HIGH] UTM disabled on accept policy — all security profiles bypassed.
+  [HIGH] No IPS sensor or virtual-patch profile — exploit traffic uninspected.
+  [HIGH] No antivirus profile — malware passes through undetected.
+  [HIGH] No SSL/SSH inspection profile — encrypted threats bypass all UTM.
+  [MEDIUM] No web filter profile — malicious/uncategorized URLs allowed.
+  [MEDIUM] No DNS filter — DNS-based C2, tunnelling, malware domains unblocked.
+  [MEDIUM] No application control — risky/shadow-IT apps may run freely.
+  [MEDIUM] No DLP profile — data exfiltration risk unaddressed.
+  [INFO] No CASB profile — unsanctioned cloud service usage not monitored.
+  [INFO] No WAF profile — web application layer attacks not inspected.
+  [INFO] No email filter profile — if email flows through this policy, spam/phishing uninspected.
+  [INFO] No file-filter profile — dangerous file types (executables, scripts) not blocked by policy.
+  [INFO] No virtual-patch profile — newly disclosed CVEs not virtually patched.
+  [INFO] No LLM profile (FortiOS 8.0) — AI/LLM traffic not inspected for data leakage.
+  [CRITICAL] ANY-ANY-ANY accept policy — maximally permissive; full security review required.
+  [HIGH] Inbound WAN-to-internal accept policy — verify this is intentional.
+  [MEDIUM] Service is ALL — restrict to required protocols only.
+  [INFO] ZTNA not enabled on this policy — consider Zero Trust enforcement.
+  [INFO] reputation-minimum not set — FortiGuard IP reputation not enforced.
+  [HIGH] Traffic logging disabled — no visibility into flows matched by this policy.
+  [INFO] logtraffic-start disabled — session start events not recorded.
+  [INFO] log-http-transaction disabled — HTTP request details not captured.
+  [INFO] No policy comment — undocumented rules are an audit and compliance risk.
+  [INFO] Policy disabled — remove if no longer needed to reduce ruleset complexity.
+  [INFO] NAT disabled — verify internal IPs are not exposed.

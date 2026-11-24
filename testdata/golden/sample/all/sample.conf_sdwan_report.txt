@@ -1,0 +1,25 @@
+================================================================================
+========================== SD-WAN CONFIGURATION AUDIT ==========================
+================================================================================
+
++-----------------------------------------------------------+
+|                      SD-WAN Overview                      |
++-----------------------------------------------------------+
+| SD-WAN Status          | enable                           |
+| Load Balance Mode      | source-ip-based                  |
+| Members                | 1                                |
+| Health Checks          | 0                                |
+| Traffic Rules          | 0                                |
++-----------------------------------------------------------+
+
+────────────────────────────────────────────────────────────────────────────────
+  WAN MEMBERS
+────────────────────────────────────────────────────────────────────────────────
+  Member 1: intf=wan1  gw=203.0.113.254  priority=1  cost=0  status=enable
+
+────────────────────────────────────────────────────────────────────────────────
+  FINDINGS
+────────────────────────────────────────────────────────────────────────────────
+  🟠 [HIGH] SD-WAN member 1 ('wan1'): NOT monitored by any health-check — link failures will not trigger failover. Add a health-check and reference this member.
+  🔴 [CRITICAL] SD-WAN: NO health-checks configured — link failures are UNDETECTED. SD-WAN cannot failover without health monitoring. CLI: config system sdwan → config health-check → edit MyHC → set server 8.8.8.8 → set interval 500 → set failtime 3
+  🟡 [MEDIUM] SD-WAN: no traffic steering rules (service rules) configured — all traffic uses default load-balance mode without application-aware routing.
