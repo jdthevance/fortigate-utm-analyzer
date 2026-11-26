@@ -18,4 +18,5 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: python -m py_compile utm.py
       - run: python utm.py --help
+      - run: python -m policyaudit --help
       - run: python -m unittest discover -s tests -v

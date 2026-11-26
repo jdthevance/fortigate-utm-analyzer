@@ -43,3 +43,5 @@ ENV/
 *_SUMMARY.txt
 *_SUMMARY.json
 *_REPORT.html
+!tests/fixtures/*.conf
+*_policy_analysis.json

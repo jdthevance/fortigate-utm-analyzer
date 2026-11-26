@@ -18,6 +18,21 @@
 
 ---
 
+## What's new: policy analysis engine (`-pa`)
+
+A second-generation, VDOM-aware policy engine now ships in the `policyaudit/` folder. It resolves every address, group, VIP, service and zone to real IP ranges and ports, then works out how policies relate to each other:
+
+```bash
+python3 utm.py -c firewall.conf -pa                       # policy analysis only
+python3 utm.py -c firewall.conf -pa --hitcounts hits.csv --hit-window-days 90
+python3 utm.py -c firewall.conf --all --html              # --all includes -pa
+python3 -m policyaudit -c firewall.conf --fail-on high    # standalone, CI-friendly exit codes
+```
+
+It reports exact shadowing separately from partial overlap, duplicates and near-duplicates, redundant rules, inappropriate trust relationships (for example Guest Wi-Fi reaching internal networks), overly permissive objects (including names that secretly mean "all"), excessive service exposure, unrestricted internet access, missing UTM inspection, missing logging, unused policies, ordering suggestions and a per-policy exposure score. Removal advice is never given as a bare instruction: it is marked **VALIDATED**, **UNVALIDATED** or **BLOCKED** after checking dependencies (VIPs, IP pools, VPN, identity rules) and imported hit counts. Full guide: [docs/POLICY_ANALYSIS.md](docs/POLICY_ANALYSIS.md).
+
+Fixes in the same release: quoted multi-value fields (`set srcaddr "a" "b"`) no longer make used objects look unused; the shadowed-policy check is linear (5,000 policies in milliseconds instead of ~15 s); a truncated or malformed config now stops with exit code 2 instead of producing a full scored report (use `--allow-incomplete` to audit it anyway, marked INCOMPLETE); multi-VDOM backups print a warning that legacy domains only read the first VDOM; a missing config file gives a one-line error instead of a traceback.
+
 ## What's new in 4.1.0
 
 Generate a self-contained, entirely offline HTML security assessment alongside existing reports:
@@ -32,7 +47,7 @@ Open `<input-basename>_REPORT.html` directly in a current browser. It includes r
 
 New BGP, RADIUS, LDAP and SAML checks use explicit VDOM scopes. Administrator MFA distinguishes potentially delegated external authentication from missing local MFA, and explicit modern SSH/TLS settings have additional checks. **Legacy audit domains still have incomplete multi-VDOM coverage.** Version-dependent omitted values remain unknown in new checks. A report with no findings is not a passing security certification.
 
-Existing flags and TXT/JSON schemas remain available. `--all` includes the new domains, so it adds report files/domain keys. The original sample remains **310 findings, score 876.5**. Configured credential values are redacted from HTML; arbitrary free text and legacy TXT/JSON still require confidentiality review.
+Existing flags and TXT/JSON schemas remain available. `--all` includes the new domains, so it adds report files/domain keys. With `-pa` included, the sample gives **324 findings, score 920.0** (310 / 876.5 without `-pa`). Configured credential values are redacted from HTML; arbitrary free text and legacy TXT/JSON still require confidentiality review.
 
 See [dashboard usage, complete new check inventory, limitations, compatibility and syntax references](docs/HTML_AND_AUDITS.md). Run tests with `python3 -m unittest discover -s tests -v`. Python 3.8/3.11/3.14 CI is configured; real-browser visual/interaction validation remains outstanding.
 
@@ -414,6 +429,11 @@ python3 utm.py -c <config_file> [flags]
 | `-intel` | Policy intelligence (shadowed/duplicate/stats) | `_policy_intelligence_report.txt` |
 | `-unused` | Unused objects audit | `_unused_objects_report.txt` |
 | `-vip` | VIP/port-forward security | `_vip_security_report.txt` |
+| `-pa` | Policy analysis engine (relationships, trust, exposure, usage; VDOM-aware) | `_policy_analysis_report.txt`, `_policy_analysis.json` |
+| `--hitcounts FILE` | Policy hit counts for `-pa` (FortiGate REST JSON or CSV) | — |
+| `--hit-window-days N` | Days the hit counters cover (needed for VALIDATED removal advice) | — |
+| `--trust-map FILE` | JSON overriding interface/zone trust levels for `-pa` | — |
+| `--allow-incomplete` | Audit a truncated/malformed config anyway (marked INCOMPLETE) | — |
 | **VPN** | | |
 | `-vpn` | IPsec Phase1+Phase2 | `_vpn_report.txt` |
 | `-sslvpn` | SSL-VPN + portals | `_sslvpn_report.txt` |
