@@ -18,6 +18,18 @@
 
 ---
 
+## What's new: FortiWeb analyzer and FortiGate cross-check (`fwb.py`)
+
+A separate tool for **FortiWeb 8.0** now lives in `fwbaudit/`. It audits a FortiWeb backup across system and admin access, server policies and pools, TLS and certificates, attack signatures, every protection feature (bot, DoS, API, ML, input rules and the rest), real client IP handling and logging. Given the FortiGate backup as well, it checks how the two appliances are connected: traffic that skips the WAF, FortiGate NAT hiding client addresses, spoofable X-Forwarded-For, the FortiWeb admin login exposed through a VIP, TLS gaps, and logging and time that don't line up.
+
+```bash
+python3 fwb.py -c fortiweb.conf                              # FortiWeb audit
+python3 fwb.py -c fortiweb.conf -fg fortigate.conf --all     # + cross-check + scored summary
+python3 -m fwbaudit -c fortiweb.conf --fail-on high          # CI-friendly exit codes
+```
+
+Full guide, rule reference and the list of what is inferred rather than documented: [docs/FORTIWEB_AUDIT.md](docs/FORTIWEB_AUDIT.md).
+
 ## What's new: policy analysis engine (`-pa`)
 
 A second-generation, VDOM-aware policy engine now ships in the `policyaudit/` folder. It resolves every address, group, VIP, service and zone to real IP ranges and ports, then works out how policies relate to each other:
