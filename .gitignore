@@ -45,3 +45,6 @@ ENV/
 *_REPORT.html
 !tests/fixtures/*.conf
 *_policy_analysis.json
+
+# Hand-written sample configs used by the tests (not real backups)
+!tests/fixtures/**/*.conf
