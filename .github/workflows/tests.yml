@@ -27,4 +27,6 @@ jobs:
       - run: python -m py_compile utm.py
       - run: python utm.py --help
       - run: python -m policyaudit --help
+      - run: python fwb.py --help
+      - run: python -m fwbaudit --help
       - run: python -m unittest discover -s tests -v
