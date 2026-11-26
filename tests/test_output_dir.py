@@ -36,7 +36,7 @@ class OutputDirectoryTests(unittest.TestCase):
             self.assertIn(BASE + "_firewall_policy_report.txt", produced)
             self.assertFalse([p for p in root.iterdir() if p.is_file()])
             summary = json.loads((destination / (BASE + "_SUMMARY.json")).read_text())
-            self.assertEqual(summary["summary"]["total"], 310)
+            self.assertEqual(summary["summary"]["total"], 324)
 
     def test_alias_accepts_relative_output_directory(self):
         with tempfile.TemporaryDirectory() as temp:

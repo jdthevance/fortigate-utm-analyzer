@@ -28,6 +28,7 @@ All findings tagged CRITICAL / HIGH / MEDIUM / INFO.
 
 import argparse
 import json
+import sys
 import re
 import hashlib
 import html
@@ -36,6 +37,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 __version__ = "4.1.0"
+
+try:  # second-generation policy engine (folder next to this file)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from policyaudit import cli as _policyaudit_cli
+except ImportError:  # utm.py copied on its own: -pa is unavailable
+    _policyaudit_cli = None
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Generic Helpers
@@ -52,6 +59,25 @@ def nv(v: Any) -> str:
     if len(s) >= 2 and s[0] == '"' and s[-1] == '"':
         s = s[1:-1]
     return s
+
+def nv_list(v: Any) -> List[str]:
+    """Split a multi-value config field into names, honouring quotes.
+
+    FortiGate writes lists as ``"addr1" "Web Servers"``. Plain ``split()``
+    turned that into ``addr1"`` and ``"Web`` and made used objects look unused.
+    """
+    import shlex
+    if v is None:
+        return []
+    s = str(v).strip()
+    if not s:
+        return []
+    if '"' not in s and "'" not in s and "\\" not in s:
+        return s.split()
+    try:
+        return shlex.split(s)
+    except ValueError:
+        return [t.strip('"') for t in s.split() if t.strip('"')]
 
 def parse_set_line(line: str) -> Tuple[str, str]:
     m = re.match(r"set\s+(\S+)\s+(.+)", line.strip())
@@ -2259,14 +2285,21 @@ def generate_dos_report(policies, out_path):
     write_report(out_path, "FortiGate DoS Policy Audit", sections)
 
 
-def generate_summary(all_findings: Dict[str, List[str]], config_path: str, out_path: Path):
+def generate_summary(all_findings: Dict[str, List[str]], config_path: str, out_path: Path,
+                     notes: List[str] = None):
     summary = compute_summary(all_findings)
+    if notes:
+        summary["coverage_notes"] = list(notes)
     counts  = summary["counts"]
     W = 80
     lines = []
     lines.append("=" * W)
     lines.append(" FORTIGATE SECURITY AUDIT — EXECUTIVE SUMMARY ".center(W, "="))
     lines.append("=" * W)
+    for note in notes or []:
+        lines.append(f"  !! {note}")
+    if notes:
+        lines.append("=" * W)
     lines.append(f"  Config file  : {config_path}")
     lines.append(f"  Risk Rating  : {summary['risk']}")
     lines.append(f"  Risk Score   : {summary['score']}  "
@@ -3257,8 +3290,8 @@ def _svc_is_any(svc: str) -> bool:
     return svc.upper() in ("ALL", "ANY", "")
 
 def _addr_set(addr_str: str) -> set:
-    """Split multi-value address field into a frozenset for comparison."""
-    return frozenset(a.strip() for a in addr_str.split() if a.strip())
+    """Split a raw multi-value field (``"a" "b"``) into a frozenset for comparison."""
+    return frozenset(a.strip() for a in nv_list(addr_str) if a.strip())
 
 def _policy_tuple(p: Dict) -> tuple:
     """Canonical key for duplicate detection."""
@@ -3266,9 +3299,9 @@ def _policy_tuple(p: Dict) -> tuple:
         nv(p.get("srcintf", "")),
         nv(p.get("dstintf", "")),
         nv(p.get("action", "")),
-        _addr_set(nv(p.get("srcaddr", ""))),
-        _addr_set(nv(p.get("dstaddr", ""))),
-        _addr_set(nv(p.get("service", ""))),
+        _addr_set(p.get("srcaddr", "")),
+        _addr_set(p.get("dstaddr", "")),
+        _addr_set(p.get("service", "")),
     )
 
 
@@ -3283,61 +3316,43 @@ def check_shadowed_policies(policies: List[Dict]) -> List[str]:
       - A's dstaddr is 'all' (covers B's more specific dstaddr)
       - A's service is 'ALL' (covers B's more specific service)
       - A's action == B's action (same permit/deny)
+
+    Only any-any-any rules can shadow under these rules, so each policy is
+    compared with the (short) list of earlier any-any-any rules instead of
+    with every earlier policy. Output is identical to the original quadratic
+    version; 5,000 policies now take milliseconds instead of ~15 seconds.
+    For object-aware shadowing and partial overlap, use -pa.
     """
     findings = []
-
-    enabled = [p for p in policies if nv(p.get("status", "enable")) != "disable"]
-
-    for i, p_b in enumerate(enabled):
-        pid_b    = nv(p_b.get("policyid", p_b.get("_id", "")))
-        name_b   = nv(p_b.get("name", ""))
-        srcintf_b = nv(p_b.get("srcintf", ""))
-        dstintf_b = nv(p_b.get("dstintf", ""))
-        srcaddr_b = nv(p_b.get("srcaddr", ""))
-        dstaddr_b = nv(p_b.get("dstaddr", ""))
-        service_b = nv(p_b.get("service", ""))
-        action_b  = nv(p_b.get("action", ""))
-
-        # Skip if B itself is already any-any
-        if (_addr_is_any(srcaddr_b) and _addr_is_any(dstaddr_b)
-                and _svc_is_any(service_b)):
+    shadowers = []   # earlier enabled any-any-any rules, in order
+    for p in policies:
+        if nv(p.get("status", "enable")) == "disable":
             continue
-
-        for p_a in enabled[:i]:
-            pid_a    = nv(p_a.get("policyid", p_a.get("_id", "")))
-            name_a   = nv(p_a.get("name", ""))
-            srcintf_a = nv(p_a.get("srcintf", ""))
-            dstintf_a = nv(p_a.get("dstintf", ""))
-            srcaddr_a = nv(p_a.get("srcaddr", ""))
-            dstaddr_a = nv(p_a.get("dstaddr", ""))
-            service_a = nv(p_a.get("service", ""))
-            action_a  = nv(p_a.get("action", ""))
-
-            if action_a != action_b:
+        pid      = nv(p.get("policyid", p.get("_id", "")))
+        name     = nv(p.get("name", ""))
+        srcintf  = nv(p.get("srcintf", ""))
+        dstintf  = nv(p.get("dstintf", ""))
+        action   = nv(p.get("action", ""))
+        any_any = (_addr_is_any(nv(p.get("srcaddr", ""))) and _addr_is_any(nv(p.get("dstaddr", "")))
+                   and _svc_is_any(nv(p.get("service", ""))))
+        if any_any:
+            shadowers.append((pid, name, srcintf, dstintf, action))
+            continue
+        for pid_a, name_a, srcintf_a, dstintf_a, action_a in shadowers:
+            if action_a != action:
                 continue
-
-            # Interface must match exactly or A must be any
-            if srcintf_a and srcintf_b and srcintf_a != srcintf_b:
+            if srcintf_a and srcintf and srcintf_a != srcintf:
                 continue
-            if dstintf_a and dstintf_b and dstintf_a != dstintf_b:
+            if dstintf_a and dstintf and dstintf_a != dstintf:
                 continue
-
-            # A shadows B if A's addresses are superset of B's
-            src_shadows = _addr_is_any(srcaddr_a)
-            dst_shadows = _addr_is_any(dstaddr_a)
-            svc_shadows = _svc_is_any(service_a)
-
-            # Also check exact match — fully identical is duplicate, not shadow
-            if src_shadows and dst_shadows and svc_shadows:
-                findings.append(
-                    f(H, f"Shadowed Policy: Policy #{pid_b} ('{name_b}') is COMPLETELY SHADOWED "
-                         f"by Policy #{pid_a} ('{name_a}'). "
-                         f"Policy #{pid_a} has action={action_a} with any-any-any src/dst/service "
-                         f"on the same interface pair — Policy #{pid_b} will NEVER be evaluated. "
-                         f"Review policy ordering or merge rules.")
-                )
-                break  # No need to check further shadowers for B
-
+            findings.append(
+                f(H, f"Shadowed Policy: Policy #{pid} ('{name}') is COMPLETELY SHADOWED "
+                     f"by Policy #{pid_a} ('{name_a}'). "
+                     f"Policy #{pid_a} has action={action_a} with any-any-any src/dst/service "
+                     f"on the same interface pair — Policy #{pid} will NEVER be evaluated. "
+                     f"Review policy ordering or merge rules.")
+            )
+            break
     return findings
 
 
@@ -3628,10 +3643,10 @@ def build_object_reference_map(
         pid = nv(p.get("policyid", p.get("_id", "")))
         for fld in ("srcaddr","dstaddr","srcaddr6","dstaddr6",
                     "poolname","internet-service-name","internet-service-id"):
-            for token in nv(p.get(fld,"")).split():
+            for token in nv_list(p.get(fld,"")):
                 add_ref(token, f"{prefix}#{pid}")
         for fld in ("service",):
-            for token in nv(p.get(fld,"")).split():
+            for token in nv_list(p.get(fld,"")):
                 add_ref(token, f"{prefix}#{pid}")
         for fld in ("schedule",):
             add_ref(nv(p.get(fld,"")), f"{prefix}#{pid}")
@@ -3648,19 +3663,19 @@ def build_object_reference_map(
     # VIP groups reference VIPs
     for g in vip_groups:
         gname = nv(g.get("name", g.get("_id","")))
-        for token in nv(g.get("member","")).split():
+        for token in nv_list(g.get("member","")):
             add_ref(token, f"vipgrp:{gname}")
 
     # Address groups reference addresses
     for g in addr_groups:
         gname = nv(g.get("name", g.get("_id","")))
-        for token in nv(g.get("member","")).split():
+        for token in nv_list(g.get("member","")):
             add_ref(token, f"addrgrp:{gname}")
 
     # Service groups reference services
     for g in svc_groups:
         gname = nv(g.get("name", g.get("_id","")))
-        for token in nv(g.get("member","")).split():
+        for token in nv_list(g.get("member","")):
             add_ref(token, f"svcgrp:{gname}")
 
     return refs
@@ -3896,7 +3911,7 @@ def vip_weaknesses(vip: Dict, policies: List[Dict]) -> List[str]:
     arp_reply = nv(vip.get("arp-reply",""))
 
     # Is this VIP used in any policy?
-    name_in_policy = any(name in nv(p.get("dstaddr","")) for p in policies)
+    name_in_policy = any(name in nv_list(p.get("dstaddr","")) for p in policies)
 
     if not name_in_policy:
         findings.append(f(M, f"VIP '{name}': not referenced in any firewall policy — "
@@ -4120,8 +4135,7 @@ def sdwan_weaknesses(cfg: Dict) -> List[str]:
     # Member-level checks
     monitored_intfs = set()
     for hc in hc_list:
-        members_str = nv(hc.get("members",""))
-        for m in members_str.split():
+        for m in nv_list(hc.get("members","")):
             monitored_intfs.add(m)
 
     for m in members:
@@ -5343,7 +5357,7 @@ AUDIT_DOMAINS = (
     'Security Fabric', 'FIPS-CC', 'FortiGuard', 'Policy Intelligence',
     'Unused Objects', 'VIP Security', 'SD-WAN', 'Interface Exposure',
     'Certificates', 'Fabric Connectors', 'AI/LLM Security', 'Enhanced Local-in',
-    'BGP Security', 'RADIUS', 'LDAP', 'SAML', 'Admin MFA',
+    'BGP Security', 'RADIUS', 'LDAP', 'SAML', 'Admin MFA', 'Policy Analysis',
 )
 
 
@@ -5441,6 +5455,19 @@ class ReportRedactor:
             return [self.clean(v) for v in value]
         return self.text(value) if isinstance(value, str) else value
 
+
+def vdom_coverage_note(cfg_text: str) -> str:
+    """Warn when legacy (first-block-only) audits will skip VDOMs."""
+    legacy_blocks = ("firewall policy", "firewall address", "system admin", "firewall vip",
+                     "firewall ssl-ssh-profile", "antivirus profile", "ips sensor")
+    repeated = [b for b in legacy_blocks
+                if len(re.findall(r'^\s*config ' + re.escape(b) + r'\s*$', cfg_text, re.M)) > 1]
+    if not repeated and not re.search(r'^\s*config vdom\s*$', cfg_text, re.M):
+        return ""
+    msg = "Multi-VDOM config: legacy audit domains read only the first VDOM's blocks"
+    if repeated:
+        msg += " (repeated: " + ", ".join(repeated) + ")"
+    return msg + ". Use -pa for VDOM-aware policy analysis; -bgp/-auth are VDOM-aware too."
 
 def detect_metadata(config_text, config_path):
     version = re.search(r'^#config-version=\S*?-(\d+\.\d+\.\d+)-', config_text, re.M)
@@ -6392,6 +6419,14 @@ Examples:
     parser.add_argument("--html", action="store_true", help="Additional self-contained offline HTML report (explicit opt-in)")
     parser.add_argument("--out-dir", "--output-dir", default=None, metavar="DIRECTORY",
                         help="Write reports to DIRECTORY (default: input filename without extension)")
+    parser.add_argument("-pa", "--policy-analysis", dest="pa", action="store_true",
+                        help="Policy analysis engine: object-aware shadowing and partial overlap, "
+                             "duplicates, redundancy, trust relationships, permissive objects, service "
+                             "exposure, internet access, inspection, logging, usage, ordering, exposure risk")
+    parser.add_argument("--allow-incomplete", action="store_true",
+                        help="Audit a truncated or malformed config anyway (reports are marked INCOMPLETE)")
+    if _policyaudit_cli is not None:
+        _policyaudit_cli.add_arguments(parser, standalone=False)
     parser.add_argument("--all",   action="store_true", help="Run all audit modules")
 
     args = parser.parse_args()
@@ -6400,11 +6435,37 @@ Examples:
         for attr in ["f","i","av","ips","wf","app","dns","waf","email","video","file",
                      "vpatch","llm","utm","vpn","sslvpn","ha","log","dos","antidos",
                      "intel","unused","vip","sdwan","iface","cert","fabric","ai",
-                     "s","summary","bgp","auth"]:
+                     "s","summary","bgp","auth","pa"]:
             setattr(args, attr, True)
 
-    cfg_text = read_config(args.config)
+    try:
+        cfg_text = read_config(args.config)
+    except OSError as exc:
+        print(f"error: cannot read config '{args.config}': {exc.strerror or exc}", file=sys.stderr)
+        sys.exit(2)
     base = Path(args.config).name
+
+    # A truncated backup must not get a full scored report: missing blocks would
+    # look like "feature disabled" findings. Structural errors only; stray lines
+    # such as a pasted CLI prompt are tolerated.
+    _, tree_errors = parse_config_tree(cfg_text)
+    structural = [e for e in tree_errors if "unsupported configuration statement" not in e
+                  and "assignment outside block" not in e]
+    run_notes = []
+    if structural:
+        if not args.allow_incomplete:
+            print("error: the configuration is incomplete or malformed, so it was not audited:", file=sys.stderr)
+            for e in structural[:10]:
+                print("  " + e, file=sys.stderr)
+            print("Use --allow-incomplete to audit it anyway (reports will be marked INCOMPLETE).", file=sys.stderr)
+            sys.exit(2)
+        run_notes.append("INCOMPLETE CONFIGURATION: " + "; ".join(structural[:5]) +
+                         ". Findings may be wrong or missing.")
+        print("WARNING: " + run_notes[-1], file=sys.stderr)
+    legacy_vdom = vdom_coverage_note(cfg_text)
+    if legacy_vdom:
+        run_notes.append(legacy_vdom)
+        print("WARNING: " + legacy_vdom, file=sys.stderr)
 
     out_dir = (Path(args.out_dir).expanduser() if args.out_dir is not None
                else Path(base).with_suffix(""))
@@ -6715,7 +6776,34 @@ Examples:
         write_report(p, 'FortiGate ' + domain + ' Audit', [(safe.text(h), safe.text(c)) for h, c in sections])
         print(f"[+] {domain:27} -> {p}")
     if re.search(r'^\s*config vdom\s*$', cfg_text, re.M) and not coverage_notes:
-        coverage_notes.append('Legacy audit domains use the first matching block. Complete multi-VDOM coverage is unavailable; new BGP/authentication checks support explicit VDOM scopes.')
+        coverage_notes.append('Legacy audit domains use the first matching block. Complete multi-VDOM coverage is unavailable; new BGP/authentication and policy-analysis (-pa) checks support explicit VDOM scopes.')
+
+    if args.pa:
+        if _policyaudit_cli is None:
+            print("[!] -pa needs the 'policyaudit' folder next to utm.py; skipped.", file=sys.stderr)
+        else:
+            from policyaudit import engine as _pa_engine, report as _pa_report
+            try:
+                pa_hits = _policyaudit_cli.load_hits(args)
+                pa_opts = _policyaudit_cli.options_from(args)
+            except (OSError, ValueError) as exc:
+                print(f"error: {exc}", file=sys.stderr)
+                sys.exit(2)
+            pa_result = _pa_engine.run(cfg_text, pa_opts, pa_hits)
+            p = out("_policy_analysis_report.txt")
+            p.write_text(_pa_report.render_text(pa_result, args.config))
+            pj = out_dir / f"{base}_policy_analysis.json"
+            _pa_report.write_json(pa_result, args.config, pj)
+            print(f"[+] Policy analysis report     -> {p}")
+            print(f"[+] Policy analysis JSON       -> {pj}")
+            all_findings["Policy Analysis"] = [
+                Finding(fd.severity, fd.legacy_text().split(": ", 1)[1], rule_id=fd.rule_id,
+                        object=", ".join(fd.policies[:3]), vdom=fd.vdom,
+                        evidence={"policies": fd.policies[:10], "validation": fd.validation},
+                        description=fd.title, impact=fd.detail, recommendation=fd.recommendation,
+                        cli=fd.cli)
+                for fd in pa_result.findings]
+    coverage_notes = run_notes + coverage_notes
 
     if args.html:
         p = out_dir / f"{base}_REPORT.html"
@@ -6724,7 +6812,7 @@ Examples:
 
     if args.summary and all_findings:
         p = out("_SUMMARY.txt")
-        summary = generate_summary(all_findings, args.config, p)
+        summary = generate_summary(all_findings, args.config, p, run_notes)
         print(f"[+] Executive summary          -> {p}")
         print(f"[+] Summary JSON               -> {p.with_suffix('.json')}")
         print(f"\n    Risk Rating : {summary['risk']}   Score : {summary['score']}")
@@ -6737,7 +6825,8 @@ Examples:
                 args.waf, args.email, args.video, args.file, args.vpatch, args.llm,
                 args.vpn, args.sslvpn, args.ha, args.log, args.dos, args.antidos,
                 args.intel, args.unused, args.vip, args.sdwan, args.iface, args.cert,
-                args.fabric, args.ai, args.s, args.bgp, args.auth, args.radius, args.ldap, args.saml, args.mfa]):
+                args.fabric, args.ai, args.s, args.bgp, args.auth, args.radius, args.ldap, args.saml, args.mfa,
+                args.pa]):
         print("[!] No audit flags specified. Use --all for everything, or --help for options.")
 
 

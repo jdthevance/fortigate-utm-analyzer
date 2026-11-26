@@ -141,7 +141,7 @@ class CLITests(unittest.TestCase):
         self.assertEqual(set(data['summary']['by_section']),{'VPN Phase1','VPN Phase2'})
     def test_all_baseline(self):
         _,files=self.run_cli('--all');data=json.loads(files['sample_config.conf_SUMMARY.json'])
-        self.assertEqual(data['summary']['score'],876.5);self.assertEqual(data['summary']['total'],310)
+        self.assertEqual(data['summary']['score'],920.0);self.assertEqual(data['summary']['total'],324)
         self.assertNotIn('sample_config.conf_REPORT.html',files)
 
 if __name__=='__main__':unittest.main()
